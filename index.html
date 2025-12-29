@@ -1,666 +1,1315 @@
 <!DOCTYPE html>
-<!--
-  David Laurence Aviado — Cyber-Military Single-Page Portfolio
-  Style: Cyberpunk + Techno-Military
-  Single file: HTML + CSS + JS
-  Features:
-    - Hero with tagline + CTAs
-    - Projects (5 showcased) with links to live demos & GitHub
-    - "Recent GitHub Activity" panel (uses public GitHub events API fallback)
-    - Click counter (localStorage)
-    - "Book a chat" -> email modal
-    - Bottom timer + subtle scanline/glitch effects
-    - Responsive single-page scrolling layout
--->
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>David Laurence Aviado — Full‑Stack Developer</title>
-    <meta
-      name="description"
-      content="David Laurence Aviado — Full-Stack developer. Cyber-military themed portfolio showcasing projects, GitHub activity, and interactive UX."
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;400;600;700;900&display=swap"
-      rel="stylesheet"
-    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EXXEED | Full-Stack Developer</title>
     <style>
-      :root {
-        --bg: #07060a;
-        --panel: #0b0c10;
-        --neon: #00e6ff;
-        --accent: #ff2d95;
-        --muted: #9aa3b2;
-        --glass: rgba(255, 255, 255, 0.03);
-        --glow: 0 8px 30px rgba(0, 230, 255, 0.06);
-        --radius: 14px;
-      }
+      @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap");
+
       * {
+        margin: 0;
+        padding: 0;
         box-sizing: border-box;
       }
-      html,
-      body {
-        height: 100%;
+
+      :root {
+        --cyber-cyan: #00ffff;
+        --cyber-magenta: #ff00ff;
+        --cyber-yellow: #ffff00;
+        --military-green: #00ff41;
+        --danger-red: #ff0048;
+        --dark-bg: #0a0e27;
+        --darker-bg: #050811;
+        --panel-bg: rgba(15, 20, 40, 0.8);
+        --border-color: rgba(0, 255, 255, 0.3);
+        --text-primary: #e0e0e0;
+        --text-secondary: #a0a0a0;
       }
+
       body {
-        margin: 0;
-        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
-          "Helvetica Neue", Arial;
-        background: radial-gradient(
-            ellipse at 10% 10%,
-            rgba(0, 230, 255, 0.03),
-            transparent 10%
-          ),
-          linear-gradient(180deg, #050406 0%, #07060a 100%);
-        color: #e6eef6;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
+        font-family: "Rajdhani", sans-serif;
+        background: var(--dark-bg);
+        color: var(--text-primary);
         overflow-x: hidden;
+        line-height: 1.6;
       }
-      /* subtle scanning overlay */
-      .scanlines:before {
-        content: "";
+
+      /* Animated Background */
+      .bg-grid {
         position: fixed;
-        inset: 0;
-        pointer-events: none;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         background-image: linear-gradient(
-          rgba(255, 255, 255, 0.01) 1px,
-          transparent 1px
-        );
-        background-size: 100% 4px;
-        mix-blend-mode: overlay;
-        opacity: 0.6;
-      }
-      header {
-        position: sticky;
-        top: 12px;
-        z-index: 60;
-        padding: 12px 24px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .logo {
-        display: flex;
-        gap: 12px;
-        align-items: center;
-      }
-      .logo .mark {
-        font-family: "Share Tech Mono", monospace;
-        font-weight: 700;
-        letter-spacing: 1px;
-        font-size: 18px;
-        color: var(--neon);
-        text-shadow: 0 0 8px rgba(0, 230, 255, 0.15);
-      }
-      .nav {
-        display: flex;
-        gap: 12px;
-        align-items: center;
-      }
-      .nav a {
-        color: var(--muted);
-        text-decoration: none;
-        font-weight: 600;
-      }
-      .nav a:hover {
-        color: var(--neon);
+            rgba(0, 255, 255, 0.03) 1px,
+            transparent 1px
+          ),
+          linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 50px 50px;
+        animation: gridMove 20s linear infinite;
+        pointer-events: none;
+        z-index: 0;
       }
 
-      main {
-        max-width: 1100px;
-        margin: 28px auto;
-        padding: 28px;
-      }
-      .hero {
-        display: grid;
-        grid-template-columns: 1fr 360px;
-        gap: 28px;
-        align-items: center;
-      }
-      .hero-card {
-        background: linear-gradient(
-          180deg,
-          rgba(255, 255, 255, 0.02),
-          rgba(255, 255, 255, 0.01)
-        );
-        border-radius: var(--radius);
-        padding: 28px;
-        box-shadow: var(--glow);
-        border: 1px solid rgba(0, 230, 255, 0.06);
-      }
-      .hero h1 {
-        font-size: 40px;
-        margin: 0 0 8px;
-        letter-spacing: 0.6px;
-      }
-      .hero .subtitle {
-        color: var(--muted);
-        margin-bottom: 18px;
-      }
-      .cta {
-        display: flex;
-        gap: 12px;
-      }
-      .btn {
-        background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.06);
-        padding: 10px 14px;
-        border-radius: 10px;
-        color: var(--neon);
-        font-weight: 700;
-        cursor: pointer;
-      }
-      .btn.secondary {
-        color: var(--accent);
-        border-color: rgba(255, 45, 149, 0.12);
-      }
-      .hero-right {
-        position: relative;
-      }
-      .profile-box {
-        padding: 18px;
-        border-radius: 12px;
-        background: linear-gradient(
-          90deg,
-          rgba(0, 0, 0, 0.3),
-          rgba(255, 255, 255, 0.02)
-        );
-        border: 1px solid rgba(255, 255, 255, 0.03);
-      }
-      .role {
-        font-family: "Share Tech Mono", monospace;
-        color: var(--muted);
-        font-size: 12px;
-      }
-      .bio {
-        margin-top: 10px;
-        color: #dfe9f6;
-      }
-
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 18px;
-        margin-top: 22px;
-      }
-      .card {
-        background: var(--panel);
-        padding: 18px;
-        border-radius: 12px;
-        border: 1px solid rgba(255, 255, 255, 0.03);
-      }
-      .project {
-        display: flex;
-        gap: 12px;
-        align-items: flex-start;
-      }
-      .proj-meta {
-        flex: 1;
-      }
-      .proj-meta h3 {
-        margin: 0 0 6px;
-      }
-      .proj-meta p {
-        margin: 0 0 8px;
-        color: var(--muted);
-        font-size: 14px;
-      }
-      .tags {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-      .tag {
-        font-size: 12px;
-        padding: 6px 8px;
-        border-radius: 8px;
-        background: rgba(255, 255, 255, 0.02);
-        color: var(--muted);
-      }
-
-      .side-col {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      footer {
-        margin-top: 28px;
-        padding: 18px;
-        border-radius: 12px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .timer {
-        font-family: "Share Tech Mono", monospace;
-        color: var(--muted);
-      }
-
-      /* GitHub activity list */
-      .commits {
-        max-height: 220px;
-        overflow: auto;
-        padding: 8px;
-      }
-      .commit {
-        padding: 8px;
-        border-radius: 8px;
-        margin-bottom: 8px;
-        background: linear-gradient(
-          180deg,
-          rgba(255, 255, 255, 0.01),
-          transparent
-        );
-      }
-      .commit small {
-        display: block;
-        color: var(--muted);
-      }
-
-      /* mobile */
-      @media (max-width: 900px) {
-        .hero {
-          grid-template-columns: 1fr;
+      @keyframes gridMove {
+        0% {
+          transform: translate(0, 0);
         }
-        .grid {
-          grid-template-columns: 1fr;
-        }
-        header {
-          padding: 8px;
+        100% {
+          transform: translate(50px, 50px);
         }
       }
 
-      /* little sci-fi accent */
-      .accent-line {
+      .scanline {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
         height: 2px;
         background: linear-gradient(
-          90deg,
-          var(--neon),
+          to right,
           transparent,
-          var(--accent)
+          var(--cyber-cyan),
+          transparent
         );
-        border-radius: 2px;
-        margin: 12px 0;
+        animation: scan 4s linear infinite;
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0.3;
       }
 
-      /* utilities */
-      .muted {
-        color: var(--muted);
-      }
-      .center {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+      @keyframes scan {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(100vh);
+        }
       }
 
-      /* modal */
-      .modal {
+      /* Navigation */
+      nav {
         position: fixed;
-        inset: 0;
-        display: none;
-        background: rgba(0, 0, 0, 0.6);
-        justify-content: center;
+        top: 0;
+        width: 100%;
+        background: rgba(10, 14, 39, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 2px solid var(--cyber-cyan);
+        padding: 1rem 2rem;
+        z-index: 1000;
+        display: flex;
+        justify-content: space-between;
         align-items: center;
       }
-      .modal.open {
-        display: flex;
-      }
-      .modal .box {
-        background: linear-gradient(180deg, #0b0c10, #0f1115);
-        padding: 18px;
-        border-radius: 10px;
-        width: min(520px, 94%);
-        border: 1px solid rgba(0, 230, 255, 0.06);
-      }
-      .close {
-        background: none;
-        border: 0;
-        color: var(--muted);
-        cursor: pointer;
+
+      .logo {
+        font-family: "Orbitron", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: var(--cyber-cyan);
+        text-shadow: 0 0 10px var(--cyber-cyan);
+        letter-spacing: 3px;
       }
 
-      a.inline {
-        color: var(--neon);
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: var(--text-primary);
+        text-decoration: none;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s;
+        position: relative;
+        font-size: 0.9rem;
+      }
+
+      .nav-links a::before {
+        content: "> ";
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: var(--cyber-cyan);
+        text-shadow: 0 0 10px var(--cyber-cyan);
+      }
+
+      .nav-links a:hover::before {
+        opacity: 1;
+      }
+
+      /* Main Container */
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      section {
+        min-height: 100vh;
+        padding: 6rem 0;
+        display: flex;
+        align-items: center;
+      }
+
+      /* Hero Section */
+      .hero {
+        position: relative;
+      }
+
+      .hero-content {
+        max-width: 800px;
+      }
+
+      .status-badge {
+        display: inline-block;
+        background: rgba(0, 255, 65, 0.1);
+        border: 1px solid var(--military-green);
+        color: var(--military-green);
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.6;
+        }
+      }
+
+      h1 {
+        font-family: "Orbitron", sans-serif;
+        font-size: 4rem;
+        font-weight: 900;
+        line-height: 1.1;
+        margin-bottom: 1rem;
+        background: linear-gradient(
+          135deg,
+          var(--cyber-cyan),
+          var(--cyber-magenta)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .rank {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 1.2rem;
+        color: var(--cyber-yellow);
+        margin-bottom: 1.5rem;
+        letter-spacing: 2px;
+      }
+
+      .bio {
+        font-size: 1.2rem;
+        line-height: 1.8;
+        margin-bottom: 2rem;
+        color: var(--text-secondary);
+      }
+
+      .bio-highlight {
+        color: var(--cyber-cyan);
+        font-weight: 600;
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 1rem 2rem;
+        font-family: "Rajdhani", sans-serif;
+        font-size: 1rem;
         font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border: 2px solid;
+        background: transparent;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-primary {
+        border-color: var(--cyber-cyan);
+        color: var(--cyber-cyan);
+      }
+
+      .btn-primary:hover {
+        background: var(--cyber-cyan);
+        color: var(--dark-bg);
+        box-shadow: 0 0 20px var(--cyber-cyan);
+      }
+
+      .btn-secondary {
+        border-color: var(--military-green);
+        color: var(--military-green);
+      }
+
+      .btn-secondary:hover {
+        background: var(--military-green);
+        color: var(--dark-bg);
+        box-shadow: 0 0 20px var(--military-green);
+      }
+
+      /* Projects Section */
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 2rem;
+        width: 100%;
+      }
+
+      .project-card {
+        background: var(--panel-bg);
+        border: 1px solid var(--border-color);
+        padding: 2rem;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .project-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--cyber-cyan),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .project-card:hover::before {
+        left: 100%;
+      }
+
+      .project-card:hover {
+        border-color: var(--cyber-cyan);
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+        transform: translateY(-5px);
+      }
+
+      .project-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 1rem;
+      }
+
+      .project-title {
+        font-family: "Orbitron", sans-serif;
+        font-size: 1.5rem;
+        color: var(--cyber-cyan);
+        margin-bottom: 0.5rem;
+      }
+
+      .project-type {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.75rem;
+        color: var(--military-green);
+        background: rgba(0, 255, 65, 0.1);
+        padding: 0.25rem 0.5rem;
+        border: 1px solid var(--military-green);
+      }
+
+      .project-description {
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+        line-height: 1.6;
+      }
+
+      .tech-stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .tech-tag {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.75rem;
+        color: var(--cyber-magenta);
+        border: 1px solid var(--cyber-magenta);
+        padding: 0.25rem 0.75rem;
+        background: rgba(255, 0, 255, 0.05);
+      }
+
+      .project-links {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .project-links a {
+        color: var(--text-primary);
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .project-links a:hover {
+        color: var(--cyber-cyan);
+      }
+
+      /* Skills Section */
+      .skills-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        width: 100%;
+      }
+
+      .skill-category {
+        background: var(--panel-bg);
+        border: 1px solid var(--border-color);
+        padding: 2rem;
+      }
+
+      .skill-category h3 {
+        font-family: "Orbitron", sans-serif;
+        color: var(--cyber-cyan);
+        margin-bottom: 1.5rem;
+        font-size: 1.3rem;
+      }
+
+      .skill-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .skill-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .skill-name {
+        font-weight: 600;
+      }
+
+      .skill-bar {
+        width: 100%;
+        height: 6px;
+        background: rgba(0, 255, 255, 0.1);
+        margin-top: 0.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .skill-progress {
+        height: 100%;
+        background: linear-gradient(
+          to right,
+          var(--cyber-cyan),
+          var(--cyber-magenta)
+        );
+        box-shadow: 0 0 10px var(--cyber-cyan);
+        transition: width 1s ease;
+      }
+
+      /* Dashboard Section */
+      .dashboard {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        width: 100%;
+      }
+
+      .dashboard-widget {
+        background: var(--panel-bg);
+        border: 1px solid var(--border-color);
+        padding: 1.5rem;
+        position: relative;
+      }
+
+      .widget-header {
+        font-family: "Orbitron", sans-serif;
+        color: var(--cyber-cyan);
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .widget-indicator {
+        width: 8px;
+        height: 8px;
+        background: var(--military-green);
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+
+      .counter-display {
+        font-family: "Orbitron", sans-serif;
+        font-size: 3rem;
+        color: var(--cyber-cyan);
+        text-align: center;
+        margin: 1rem 0;
+        text-shadow: 0 0 20px var(--cyber-cyan);
+      }
+
+      .counter-btn {
+        width: 100%;
+        padding: 1rem;
+        font-family: "Orbitron", sans-serif;
+        font-size: 1.2rem;
+        font-weight: 700;
+        background: transparent;
+        border: 2px solid var(--cyber-cyan);
+        color: var(--cyber-cyan);
+        cursor: pointer;
+        transition: all 0.3s;
+        text-transform: uppercase;
+      }
+
+      .counter-btn:hover {
+        background: var(--cyber-cyan);
+        color: var(--dark-bg);
+        box-shadow: 0 0 20px var(--cyber-cyan);
+      }
+
+      .counter-btn:active {
+        transform: scale(0.95);
+      }
+
+      .commit-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .commit-item {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.85rem;
+        padding: 0.75rem;
+        background: rgba(0, 255, 255, 0.05);
+        border-left: 2px solid var(--cyber-cyan);
+      }
+
+      .commit-hash {
+        color: var(--cyber-yellow);
+      }
+
+      .commit-message {
+        color: var(--text-secondary);
+      }
+
+      .timer-display {
+        font-family: "Orbitron", sans-serif;
+        font-size: 2rem;
+        color: var(--military-green);
+        text-align: center;
+        margin: 1rem 0;
+        text-shadow: 0 0 15px var(--military-green);
+      }
+
+      /* Contact Section */
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        width: 100%;
+      }
+
+      .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        background: var(--panel-bg);
+        border: 1px solid var(--border-color);
+        transition: all 0.3s;
+      }
+
+      .contact-item:hover {
+        border-color: var(--cyber-cyan);
+        transform: translateX(10px);
+      }
+
+      .contact-icon {
+        font-size: 1.5rem;
+        color: var(--cyber-cyan);
+      }
+
+      .contact-link {
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .contact-link:hover {
+        color: var(--cyber-cyan);
+      }
+
+      .social-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .social-btn {
+        padding: 1rem 1.5rem;
+        background: var(--panel-bg);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+      }
+
+      .social-btn:hover {
+        border-color: var(--cyber-cyan);
+        background: rgba(0, 255, 255, 0.1);
+        transform: translateY(-3px);
+      }
+
+      /* Section Headers */
+      .section-header {
+        margin-bottom: 3rem;
+      }
+
+      .section-title {
+        font-family: "Orbitron", sans-serif;
+        font-size: 2.5rem;
+        color: var(--cyber-cyan);
+        margin-bottom: 0.5rem;
+        text-shadow: 0 0 10px var(--cyber-cyan);
+      }
+
+      .section-subtitle {
+        font-family: "Share Tech Mono", monospace;
+        color: var(--text-secondary);
+        font-size: 1rem;
+      }
+
+      /* Footer */
+      footer {
+        background: var(--darker-bg);
+        border-top: 2px solid var(--cyber-cyan);
+        padding: 2rem;
+        text-align: center;
+        font-family: "Share Tech Mono", monospace;
+        color: var(--text-secondary);
+      }
+
+      .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1400px;
+        margin: 0 auto;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2.5rem;
+        }
+
+        .nav-links {
+          gap: 1rem;
+        }
+
+        .projects-grid,
+        .skills-container,
+        .dashboard {
+          grid-template-columns: 1fr;
+        }
+
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
+
+        section {
+          padding: 4rem 0;
+        }
+      }
+
+      /* Glitch Effect */
+      .glitch {
+        position: relative;
+      }
+
+      .glitch::before,
+      .glitch::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .glitch::before {
+        animation: glitch 0.3s infinite;
+        color: var(--cyber-cyan);
+        z-index: -1;
+      }
+
+      .glitch::after {
+        animation: glitch 0.3s infinite reverse;
+        color: var(--cyber-magenta);
+        z-index: -2;
+      }
+
+      @keyframes glitch {
+        0% {
+          transform: translate(0);
+        }
+        20% {
+          transform: translate(-2px, 2px);
+        }
+        40% {
+          transform: translate(-2px, -2px);
+        }
+        60% {
+          transform: translate(2px, 2px);
+        }
+        80% {
+          transform: translate(2px, -2px);
+        }
+        100% {
+          transform: translate(0);
+        }
       }
     </style>
   </head>
-  <body class="scanlines">
-    <header>
-      <div class="logo">
-        <div class="mark">EXXEED</div>
-        <div style="font-size: 13px; color: var(--muted)">
-          David L. Aviado — Full‑Stack
-        </div>
-      </div>
-      <nav class="nav">
-        <a href="#projects">Projects</a>
-        <a href="#activity">Activity</a>
-        <a href="#contact">Contact</a>
-        <button class="btn" id="bookBtn">Book a chat</button>
-      </nav>
-    </header>
+  <body>
+    <div class="bg-grid"></div>
+    <div class="scanline"></div>
 
-    <main>
-      <section class="hero-card hero" aria-labelledby="intro">
-        <div>
-          <h1 id="intro">David Laurence Aviado</h1>
-          <div class="role">
-            Full‑Stack Developer — Cyber‑Military Aesthetic
-          </div>
-          <p class="subtitle">
-            I was a Philippine Military Academy Cadet who traded a rifle for a
-            keyboard. I bring discipline, clarity, and a taste for playful,
-            creative UIs. I build fast, delightful web tools and experimental
-            interfaces.
+    <nav>
+      <div class="logo">EXXEED</div>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#dashboard">Dashboard</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="container">
+      <section id="home" class="hero">
+        <div class="hero-content">
+          <div class="status-badge">◉ OPERATIONAL | PHILIPPINES</div>
+          <h1 class="glitch" data-text="DAVID LAURENCE AVIADO">
+            DAVID LAURENCE AVIADO
+          </h1>
+          <div class="rank">FULL-STACK DEVELOPER [IN TRAINING]</div>
+          <p class="bio">
+            Former
+            <span class="bio-highlight">Philippine Military Academy Cadet</span>
+            who traded the rifle for a keyboard but kept the discipline. I
+            transform boring apps into
+            <span class="bio-highlight">fun, creative, and beautiful</span>
+            experiences. Currently learning through
+            <span class="bio-highlight">The Odin Project</span>,
+            <span class="bio-highlight">Scrimba</span>, and
+            <span class="bio-highlight">Frontend Mentor</span>. <br /><br />
+            I code for Joy, Hero, Aiah, and Aria 🦴💙
           </p>
-          <div class="cta">
-            <button
-              class="btn"
-              onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})"
+          <div class="cta-buttons">
+            <a href="#projects" class="btn btn-primary">View Projects</a>
+            <a href="mailto:davidaviado.dla@gmail.com" class="btn btn-secondary"
+              >Contact Me</a
             >
-              View projects
-            </button>
-            <button class="btn secondary" id="contactBtn">Email me</button>
-            <button class="btn" id="clicker">
-              Click me <span id="clickCount">0</span>
-            </button>
-          </div>
-
-          <div class="accent-line" aria-hidden="true"></div>
-
-          <div class="muted">
-            <strong>Location:</strong> Philippines —
-            <strong>Status:</strong> Learning & showcasing work
           </div>
         </div>
-
-        <aside class="hero-right">
-          <div class="profile-box">
-            <div class="role">About</div>
-            <div class="bio">
-              I transform boring apps into fun, creative and beautiful
-              experiences. I code for Joy, Hero, Aiah, and Aria 🦴💙
-            </div>
-            <div style="margin-top: 12px">
-              <div class="tags">
-                <span class="tag">HTML</span>
-                <span class="tag">CSS</span>
-                <span class="tag">JavaScript</span>
-                <span class="tag">Python (basic)</span>
-              </div>
-            </div>
-          </div>
-
-          <div style="height: 12px"></div>
-
-          <div class="card">
-            <div
-              style="
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-              "
-            >
-              <div>
-                <strong>Recent GitHub</strong>
-                <div class="muted" style="font-size: 12px">public activity</div>
-              </div>
-              <button class="close" onclick="fetchGitHubActivity()">
-                Refresh
-              </button>
-            </div>
-            <div id="commits" class="commits" aria-live="polite">
-              Loading...
-            </div>
-          </div>
-        </aside>
       </section>
 
-      <section id="projects" style="margin-top: 18px">
-        <h2>Projects</h2>
-        <p class="muted">
-          A selection of my work — click each card to visit a live demo or the
-          repository.
-        </p>
-
-        <div class="grid" role="list">
-          <!-- Project 1 -->
-          <article class="card project" role="listitem">
-            <div class="proj-meta">
-              <h3>Awesome grade calculator</h3>
-              <p class="muted">
-                Gamified project evaluation system with MOBA-style ranking and
-                stats. Built during a 100-project coding journey.
-              </p>
-              <div class="tags">
-                <span class="tag">HTML</span>
-                <span class="tag">CSS</span>
-                <span class="tag">JavaScript</span>
+      <section id="projects">
+        <div style="width: 100%">
+          <div class="section-header">
+            <h2 class="section-title">DEPLOYED MISSIONS</h2>
+            <p class="section-subtitle">// SHOWCASE OF COMPLETED OPERATIONS</p>
+          </div>
+          <div class="projects-grid">
+            <div class="project-card">
+              <div class="project-header">
+                <div>
+                  <h3 class="project-title">EXXEED | The Mission Log</h3>
+                  <div class="project-type">SERVERLESS CMS</div>
+                </div>
               </div>
-              <div style="margin-top: 10px">
+              <p class="project-description">
+                Lightweight, high-performance blogging platform built on
+                Cloudflare Workers. Features Military/Cyberpunk aesthetic,
+                built-in CMS, dual-theme engine, and dynamic timeline
+                visualization—all in a single JavaScript file.
+              </p>
+              <div class="tech-stack">
+                <span class="tech-tag">Cloudflare Workers</span>
+                <span class="tech-tag">KV Storage</span>
+                <span class="tech-tag">Vanilla JS</span>
+                <span class="tech-tag">CSS3</span>
+              </div>
+              <div class="project-links">
+                <a href="https://iexceed.xyz/" target="_blank">→ Live Demo</a>
+                <a href="https://github.com/Exc1D/exxeed-blog" target="_blank"
+                  >→ GitHub</a
+                >
+              </div>
+            </div>
+
+            <div class="project-card">
+              <div class="project-header">
+                <div>
+                  <h3 class="project-title">Awesome Grade Calculator</h3>
+                  <div class="project-type">GAMIFIED SYSTEM</div>
+                </div>
+              </div>
+              <p class="project-description">
+                Gamified project evaluation system with MOBA-style ranking
+                progression, sound effects, and comprehensive statistics
+                tracking. Built for my 100 projects coding journey with an
+                engaging, game-like interface.
+              </p>
+              <div class="tech-stack">
+                <span class="tech-tag">HTML5</span>
+                <span class="tech-tag">CSS3</span>
+                <span class="tech-tag">Vanilla JavaScript</span>
+              </div>
+              <div class="project-links">
                 <a
-                  class="inline"
                   href="https://exc1d.github.io/day-04-epic-grade-calculator/"
                   target="_blank"
-                  rel="noopener"
-                  >Live demo</a
+                  >→ Live Demo</a
                 >
-                &nbsp;•&nbsp;
                 <a
-                  class="inline"
                   href="https://github.com/Exc1D/day-04-epic-grade-calculator"
                   target="_blank"
-                  rel="noopener"
-                  >GitHub</a
+                  >→ GitHub</a
                 >
               </div>
             </div>
-          </article>
 
-          <!-- Project 2 -->
-          <article class="card project">
-            <div class="proj-meta">
-              <h3>Etch‑a‑Sketch</h3>
-              <p class="muted">
-                Interactive sketch pad with pen modes, grid sizes, and mobile
-                touch support. Odin Project output.
-              </p>
-              <div class="tags">
-                <span class="tag">Vanilla JS</span><span class="tag">HTML</span
-                ><span class="tag">CSS</span>
+            <div class="project-card">
+              <div class="project-header">
+                <div>
+                  <h3 class="project-title">Etch-a-Sketch</h3>
+                  <div class="project-type">INTERACTIVE TOOL</div>
+                </div>
               </div>
-              <div style="margin-top: 10px">
+              <p class="project-description">
+                Fully interactive browser-based sketching pad with multiple pen
+                modes, adjustable grid sizes, and mobile touch support. Created
+                as part of The Odin Project curriculum with a focus on DOM
+                manipulation.
+              </p>
+              <div class="tech-stack">
+                <span class="tech-tag">HTML5</span>
+                <span class="tech-tag">CSS3</span>
+                <span class="tech-tag">Vanilla JavaScript</span>
+                <span class="tech-tag">DOM API</span>
+              </div>
+              <div class="project-links">
                 <a
-                  class="inline"
                   href="https://exc1d.github.io/odin-etch-a-sketch/"
                   target="_blank"
-                  rel="noopener"
-                  >Live demo</a
+                  >→ Live Demo</a
                 >
-                &nbsp;•&nbsp;
                 <a
-                  class="inline"
                   href="https://github.com/Exc1D/odin-etch-a-sketch"
                   target="_blank"
-                  rel="noopener"
-                  >GitHub</a
+                  >→ GitHub</a
                 >
               </div>
             </div>
-          </article>
 
-          <!-- Project 3 -->
-          <article class="card project">
-            <div class="proj-meta">
-              <h3>PX‑to‑REM Converter</h3>
-              <p class="muted">
-                A polished unit converter with live updates, presets, dark mode,
-                and clipboard features — ergonomic for designers.
-              </p>
-              <div class="tags">
-                <span class="tag">Vanilla JS</span><span class="tag">Tool</span>
+            <div class="project-card">
+              <div class="project-header">
+                <div>
+                  <h3 class="project-title">PX-to-REM Converter</h3>
+                  <div class="project-type">DEV UTILITY</div>
+                </div>
               </div>
-              <div style="margin-top: 10px">
-                <a
-                  class="inline"
-                  href="https://exc1d.github.io/px-to-rem/"
-                  target="_blank"
-                  rel="noopener"
-                  >Live demo</a
+              <p class="project-description">
+                Polished unit converter for responsive design workflows.
+                Features smart rounding, live updates, batch processing,
+                presets, dark mode, and automatic clipboard copying. Essential
+                tool for modern CSS development.
+              </p>
+              <div class="tech-stack">
+                <span class="tech-tag">HTML5</span>
+                <span class="tech-tag">CSS3</span>
+                <span class="tech-tag">Vanilla JavaScript</span>
+                <span class="tech-tag">Clipboard API</span>
+              </div>
+              <div class="project-links">
+                <a href="https://exc1d.github.io/px-to-rem/" target="_blank"
+                  >→ Live Demo</a
                 >
-                &nbsp;•&nbsp;
-                <a
-                  class="inline"
-                  href="https://github.com/Exc1D/px-to-rem"
-                  target="_blank"
-                  rel="noopener"
-                  >GitHub</a
+                <a href="https://github.com/Exc1D/px-to-rem" target="_blank"
+                  >→ GitHub</a
                 >
               </div>
             </div>
-          </article>
 
-          <!-- Project 4 -->
-          <article class="card project">
-            <div class="proj-meta">
-              <h3>EXXEED | The Mission Log</h3>
-              <p class="muted">
-                Serverless single-file CMS and portfolio built on Cloudflare
-                Workers with a dual-theme engine and timeline visualization.
-              </p>
-              <div class="tags">
-                <span class="tag">Cloudflare Workers</span
-                ><span class="tag">KV</span><span class="tag">Vanilla JS</span>
-              </div>
-              <div style="margin-top: 10px">
-                <a
-                  class="inline"
-                  href="https://iexceed.xyz/"
-                  target="_blank"
-                  rel="noopener"
-                  >Live demo</a
-                >
-                &nbsp;•&nbsp;
-                <a
-                  class="inline"
-                  href="https://github.com/Exc1D/exxeed-blog"
-                  target="_blank"
-                  rel="noopener"
-                  >GitHub</a
-                >
+            <div class="skill-category">
+              <h3>Specializations</h3>
+              <div class="skill-list">
+                <div>
+                  <div class="skill-item">
+                    <span class="skill-name">Responsive Design</span>
+                  </div>
+                  <div class="skill-bar">
+                    <div class="skill-progress" style="width: 80%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="skill-item">
+                    <span class="skill-name">DOM Manipulation</span>
+                  </div>
+                  <div class="skill-bar">
+                    <div class="skill-progress" style="width: 75%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="skill-item">
+                    <span class="skill-name">UI/UX Design</span>
+                  </div>
+                  <div class="skill-bar">
+                    <div class="skill-progress" style="width: 70%"></div>
+                  </div>
+                </div>
               </div>
             </div>
-          </article>
+          </div>
+        </div>
+      </section>
 
-          <!-- Project 5 -->
-          <article class="card project">
-            <div class="proj-meta">
-              <h3>Misc Utilities & Experiments</h3>
-              <p class="muted">
-                Small tools, toys, and learning exercises — filters, converters,
-                and micro-interactions.
-              </p>
-              <div class="tags">
-                <span class="tag">HTML</span><span class="tag">CSS</span
-                ><span class="tag">JS</span>
+      <section id="dashboard">
+        <div style="width: 100%">
+          <div class="section-header">
+            <h2 class="section-title">COMMAND CENTER</h2>
+            <p class="section-subtitle">// LIVE SYSTEM STATUS & METRICS</p>
+          </div>
+          <div class="dashboard">
+            <div class="dashboard-widget">
+              <div class="widget-header">
+                <span class="widget-indicator"></span>
+                INTERACTION COUNTER
               </div>
-              <div style="margin-top: 10px">
+              <div class="counter-display" id="clickCount">0</div>
+              <p
+                style="
+                  text-align: center;
+                  color: var(--text-secondary);
+                  margin-bottom: 1rem;
+                  font-size: 0.9rem;
+                "
+              >
+                Total clicks from all visitors
+              </p>
+              <button class="counter-btn" onclick="incrementCounter()">
+                CLICK ME
+              </button>
+            </div>
+
+            <div class="dashboard-widget">
+              <div class="widget-header">
+                <span class="widget-indicator"></span>
+                RECENT COMMITS
+              </div>
+              <div class="commit-list" id="commitList">
+                <div class="commit-item">
+                  <div class="commit-hash">[Loading...]</div>
+                  <div class="commit-message">
+                    Fetching latest commits from GitHub...
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="dashboard-widget">
+              <div class="widget-header">
+                <span class="widget-indicator"></span>
+                SYSTEM UPTIME
+              </div>
+              <div class="timer-display" id="uptime">00:00:00</div>
+              <p
+                style="
+                  text-align: center;
+                  color: var(--text-secondary);
+                  margin-top: 1rem;
+                  font-size: 0.9rem;
+                "
+              >
+                Time since page load
+              </p>
+            </div>
+
+            <div class="dashboard-widget">
+              <div class="widget-header">
+                <span class="widget-indicator"></span>
+                MISSION BRIEFING
+              </div>
+              <a
+                href="https://cal.com"
+                target="_blank"
+                class="btn btn-primary"
+                style="width: 100%; text-align: center; margin-top: 1rem"
+              >
+                📅 BOOK A CHAT
+              </a>
+              <p
+                style="
+                  text-align: center;
+                  color: var(--text-secondary);
+                  margin-top: 1rem;
+                  font-size: 0.9rem;
+                "
+              >
+                Always open to interesting projects and conversations
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div style="width: 100%">
+          <div class="section-header">
+            <h2 class="section-title">ESTABLISH CONTACT</h2>
+            <p class="section-subtitle">// AVAILABLE COMMUNICATION CHANNELS</p>
+          </div>
+          <div class="contact-grid">
+            <div class="contact-info">
+              <div class="contact-item">
+                <div class="contact-icon">📧</div>
+                <div>
+                  <div style="font-weight: 600; margin-bottom: 0.25rem">
+                    Email
+                  </div>
+                  <a
+                    href="mailto:davidaviado.dla@gmail.com"
+                    class="contact-link"
+                    >davidaviado.dla@gmail.com</a
+                  >
+                </div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-icon">📍</div>
+                <div>
+                  <div style="font-weight: 600; margin-bottom: 0.25rem">
+                    Location
+                  </div>
+                  <span class="contact-link">Philippines</span>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-icon">💼</div>
+                <div>
+                  <div style="font-weight: 600; margin-bottom: 0.25rem">
+                    Status
+                  </div>
+                  <span class="contact-link">Open to Opportunities</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h3
+                style="
+                  font-family: 'Orbitron', sans-serif;
+                  color: var(--cyber-cyan);
+                  margin-bottom: 1.5rem;
+                "
+              >
+                Connect With Me
+              </h3>
+              <div class="social-links">
                 <a
-                  class="inline"
                   href="https://github.com/Exc1D"
                   target="_blank"
-                  rel="noopener"
-                  >GitHub</a
+                  class="social-btn"
                 >
+                  <span>→</span> GitHub
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/david-laurence-aviado-b1aaa8272"
+                  target="_blank"
+                  class="social-btn"
+                >
+                  <span>→</span> LinkedIn
+                </a>
+                <a
+                  href="https://www.frontendmentor.io/profile/Exc1D"
+                  target="_blank"
+                  class="social-btn"
+                >
+                  <span>→</span> Frontend Mentor
+                </a>
               </div>
             </div>
-          </article>
-        </div>
-      </section>
-
-      <section
-        id="activity"
-        style="margin-top: 22px; display: flex; gap: 18px; flex-wrap: wrap"
-      >
-        <div class="card" style="flex: 1; min-width: 280px">
-          <h3>Recent GitHub Activity</h3>
-          <div class="muted" style="font-size: 13px">
-            Shows recent public pushes and commits (refreshable)
-          </div>
-          <div id="activityList" class="commits" aria-live="polite">
-            Loading activity...
-          </div>
-        </div>
-
-        <div class="card">
-          <h3 id="contact">Contact</h3>
-          <p class="muted">Email me or connect on platforms:</p>
-          <div>
-            <div>
-              <strong>Email:</strong>
-              <a class="inline" href="mailto:davidaviado.dla@gmail.com"
-                >davidaviado.dla@gmail.com</a
-              >
-            </div>
-            <div>
-              <strong>GitHub:</strong>
-              <a class="inline" href="https://github.com/Exc1D" target="_blank"
-                >@Exc1D</a
-              >
-            </div>
-            <div>
-              <strong>LinkedIn:</strong>
-              <a
-                class="inline"
-                href="https://www.linkedin.com/in/david-laurence-aviado-b1aaa8272"
-                target="_blank"
-                >David Laurence Aviado</a
-              >
-            </div>
-          </div>
-          <div style="margin-top: 12px">
-            <button class="btn" id="bookChat">Book a 15‑min chat</button>
           </div>
         </div>
       </section>
-
-      <footer class="card">
-        <div>Built with HTML • CSS • JavaScript — Cyber‑Military theme</div>
-        <div class="timer" id="timer">00:00:00</div>
-      </footer>
-    </main>
-
-    <!-- Email / Booking modal -->
-    <div id="modal" class="modal" role="dialog" aria-modal="true">
-      <div class="box">
-        <div>
-          <div>
-            <strong>Book a chat</strong>
-            <div class="muted" style="font-size: 12px">
-              Send a quick note and proposed time
-            </div>
-          </div>
-          <button class="close" id="closeModal">✕</button>
-        </div>
-        <form id="bookingForm" style="margin-top: 12px">
-          <label class="muted">Your name</label>
-          <input name="name" required />
-          <label class="muted" style="margin-top: 8px; display: block"
-            >Message</label
-          >
-          <textarea name="message" required></textarea>
-          <div>
-            <button type="button" class="btn" id="cancelBooking">Cancel</button>
-            <button type="submit" class="btn">Send email</button>
-          </div>
-        </form>
-      </div>
     </div>
 
-    <script src="script.js"></script>
+    <footer>
+      <div class="footer-content">
+        <div>© 2025 EXXEED | David Laurence Aviado</div>
+        <div>ALL SYSTEMS OPERATIONAL</div>
+        <div id="footerTime">00:00:00</div>
+      </div>
+    </footer>
+
+    <script>
+      // Click Counter (simulated global counter)
+      let clickCount = 0;
+
+      // Load counter from storage
+      async function loadCounter() {
+        try {
+          const result = await window.storage.get("global_click_count", true);
+          if (result && result.value) {
+            clickCount = parseInt(result.value);
+            document.getElementById("clickCount").textContent =
+              clickCount.toLocaleString();
+          }
+        } catch (error) {
+          // Key doesn't exist yet, start from 0
+          clickCount = 0;
+        }
+      }
+
+      async function incrementCounter() {
+        clickCount++;
+        document.getElementById("clickCount").textContent =
+          clickCount.toLocaleString();
+
+        // Save to persistent storage
+        try {
+          await window.storage.set(
+            "global_click_count",
+            clickCount.toString(),
+            true
+          );
+        } catch (error) {
+          console.error("Failed to save counter:", error);
+        }
+
+        // Add animation
+        const counterEl = document.getElementById("clickCount");
+        counterEl.style.transform = "scale(1.2)";
+        setTimeout(() => {
+          counterEl.style.transform = "scale(1)";
+        }, 200);
+      }
+
+      // Load counter on page load
+      loadCounter();
+
+      // Uptime Timer
+      let startTime = Date.now();
+
+      function updateUptime() {
+        const elapsed = Date.now() - startTime;
+        const hours = Math.floor(elapsed / 3600000);
+        const minutes = Math.floor((elapsed % 3600000) / 60000);
+        const seconds = Math.floor((elapsed % 60000) / 1000);
+
+        const timeString = `${String(hours).padStart(2, "0")}:${String(
+          minutes
+        ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+        document.getElementById("uptime").textContent = timeString;
+        document.getElementById("footerTime").textContent = timeString;
+      }
+
+      setInterval(updateUptime, 1000);
+
+      // Fetch Recent GitHub Commits
+      async function fetchCommits() {
+        try {
+          const response = await fetch(
+            "https://api.github.com/users/Exc1D/events/public?per_page=3"
+          );
+          const events = await response.json();
+
+          const commitList = document.getElementById("commitList");
+          commitList.innerHTML = "";
+
+          const pushEvents = events
+            .filter((e) => e.type === "PushEvent")
+            .slice(0, 3);
+
+          if (pushEvents.length === 0) {
+            commitList.innerHTML =
+              '<div class="commit-item"><div class="commit-message">No recent commits found</div></div>';
+            return;
+          }
+
+          pushEvents.forEach((event) => {
+            const commit = event.payload.commits[0];
+            const repo = event.repo.name;
+            const hash = commit.sha.substring(0, 7);
+            const message =
+              commit.message.substring(0, 60) +
+              (commit.message.length > 60 ? "..." : "");
+
+            const commitItem = document.createElement("div");
+            commitItem.className = "commit-item";
+            commitItem.innerHTML = `
+                        <div class="commit-hash">[${hash}] ${repo}</div>
+                        <div class="commit-message">${message}</div>
+                    `;
+            commitList.appendChild(commitItem);
+          });
+        } catch (error) {
+          const commitList = document.getElementById("commitList");
+          commitList.innerHTML =
+            '<div class="commit-item"><div class="commit-message">Unable to fetch commits</div></div>';
+        }
+      }
+
+      fetchCommits();
+
+      // Smooth Scrolling
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // Skill bars animation on scroll
+      const observerOptions = {
+        threshold: 0.5,
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.width = entry.target
+              .getAttribute("style")
+              .match(/width:\s*(\d+%)/)[1];
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll(".skill-progress").forEach((bar) => {
+        observer.observe(bar);
+      });
+    </script>
   </body>
 </html>
+
+<section id="skills">
+  <div style="width: 100%">
+    <div class="section-header">
+      <h2 class="section-title">ARSENAL & CAPABILITIES</h2>
+      <p class="section-subtitle">// CURRENT TECH STACK & PROFICIENCIES</p>
+    </div>
+    <div class="skills-container">
+      <div class="skill-category">
+        <h3>Frontend Development</h3>
+        <div class="skill-list">
+          <div>
+            <div class="skill-item">
+              <span class="skill-name">HTML5</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-progress" style="width: 85%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="skill-item">
+              <span class="skill-name">CSS3</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-progress" style="width: 80%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="skill-item">
+              <span class="skill-name">JavaScript</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-progress" style="width: 75%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <h3>Backend & Tools</h3>
+        <div class="skill-list">
+          <div>
+            <div class="skill-item">
+              <span class="skill-name">Python</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-progress" style="width: 50%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="skill-item">
+              <span class="skill-name">Git & GitHub</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-progress" style="width: 70%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="skill-item">
+              <span class="skill-name">Cloudflare Workers</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-progress" style="width: 60%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
