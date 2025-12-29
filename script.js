@@ -1,35 +1,81 @@
-// 1. Click Counter Logic
-let count = localStorage.getItem("clickCount") || 0;
-const counterDisplay = document.getElementById("click-counter");
-const clickBtn = document.getElementById("click-me");
-
-counterDisplay.innerText = count;
-
-clickBtn.addEventListener("click", () => {
-  count++;
-  localStorage.setItem("clickCount", count);
-  counterDisplay.innerText = count;
-  // Add a little sound or haptic feedback feel here if desired
+// Click counter
+const clickBtn = document.getElementById("clicker");
+const clickCount = document.getElementById("clickCount");
+let clicks = Number(localStorage.getItem("clicks") || 0);
+if (clickCount) clickCount.textContent = clicks;
+clickBtn?.addEventListener("click", () => {
+  clicks++;
+  localStorage.setItem("clicks", clicks);
+  clickCount.textContent = clicks;
 });
 
-// 2. Session Timer Logic
-let seconds = 0;
-let minutes = 0;
-const timerDisplay = document.getElementById("timer");
+// Smooth scroll
+[...document.querySelectorAll("[data-scroll]")].forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document
+      .querySelector(btn.dataset.scroll)
+      ?.scrollIntoView({ behavior: "smooth" });
+  });
+});
 
-setInterval(() => {
-  seconds++;
-  if (seconds >= 60) {
-    minutes++;
-    seconds = 0;
+// Modal
+const modal = document.getElementById("modal");
+["bookBtn", "bookChat"].forEach((id) => {
+  document
+    .getElementById(id)
+    ?.addEventListener("click", () => modal.classList.add("open"));
+});
+document
+  .getElementById("closeModal")
+  ?.addEventListener("click", () => modal.classList.remove("open"));
+document
+  .getElementById("cancelBooking")
+  ?.addEventListener("click", () => modal.classList.remove("open"));
+
+document.getElementById("bookingForm")?.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  location.href = `mailto:davidaviado.dla@gmail.com?subject=Chat with ${fd.get(
+    "name"
+  )}&body=${fd.get("message")}`;
+});
+
+// Timer
+function tick() {
+  const d = new Date();
+  const t = [d.getHours(), d.getMinutes(), d.getSeconds()]
+    .map((n) => String(n).padStart(2, "0"))
+    .join(":");
+  document.getElementById("timer").textContent = t;
+}
+setInterval(tick, 1000);
+tick();
+
+// GitHub activity
+async function loadGitHub() {
+  const user = "Exc1D";
+  const targets = [
+    document.getElementById("commits"),
+    document.getElementById("activityList"),
+  ];
+  try {
+    const res = await fetch(
+      `https://api.github.com/users/${user}/events/public`
+    );
+    const data = await res.json();
+    const pushes = data.filter((e) => e.type === "PushEvent").slice(0, 6);
+    targets.forEach((t) => (t.innerHTML = ""));
+    pushes.forEach((p) =>
+      p.payload.commits.slice(0, 2).forEach((c) => {
+        targets.forEach((t) => {
+          const div = document.createElement("div");
+          div.textContent = `${c.message} (${p.repo.name})`;
+          t.appendChild(div);
+        });
+      })
+    );
+  } catch {
+    targets.forEach((t) => (t.textContent = "Unable to load GitHub activity"));
   }
-  const m = minutes < 10 ? "0" + minutes : minutes;
-  const s = seconds < 10 ? "0" + seconds : seconds;
-  timerDisplay.innerText = `${m}:${s}`;
-}, 1000);
-
-// 3. Simple Console Greeting
-console.log(
-  "%c TACTICAL_OS LOADED: Welcome Operator Aviado",
-  "color: #00f3ff; font-weight: bold; font-size: 1.2rem;"
-);
+}
+loadGitHub();
