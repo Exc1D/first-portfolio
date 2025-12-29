@@ -1,156 +1,671 @@
 <!DOCTYPE html>
+<!--
+  David Laurence Aviado — Cyber-Military Single-Page Portfolio
+  Style: Cyberpunk + Techno-Military
+  Single file: HTML + CSS + JS
+  Features:
+    - Hero with tagline + CTAs
+    - Projects (5 showcased) with links to live demos & GitHub
+    - "Recent GitHub Activity" panel (uses public GitHub events API fallback)
+    - Click counter (localStorage)
+    - "Book a chat" -> email modal
+    - Bottom timer + subtle scanline/glitch effects
+    - Responsive single-page scrolling layout
+-->
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DAVID_AVIADO // OPERATOR_PORTFOLIO</title>
-    <link rel="stylesheet" href="style.css" />
-    <!-- Google Font for that Tech look -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>David Laurence Aviado — Full‑Stack Developer</title>
+    <meta
+      name="description"
+      content="David Laurence Aviado — Full-Stack developer. Cyber-military themed portfolio showcasing projects, GitHub activity, and interactive UX."
+    />
     <link
-      href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;400;600;700;900&display=swap"
       rel="stylesheet"
     />
+    <style>
+      :root {
+        --bg: #07060a;
+        --panel: #0b0c10;
+        --neon: #00e6ff;
+        --accent: #ff2d95;
+        --muted: #9aa3b2;
+        --glass: rgba(255, 255, 255, 0.03);
+        --glow: 0 8px 30px rgba(0, 230, 255, 0.06);
+        --radius: 14px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+        background: radial-gradient(
+            ellipse at 10% 10%,
+            rgba(0, 230, 255, 0.03),
+            transparent 10%
+          ),
+          linear-gradient(180deg, #050406 0%, #07060a 100%);
+        color: #e6eef6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
+      }
+      /* subtle scanning overlay */
+      .scanlines:before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image: linear-gradient(
+          rgba(255, 255, 255, 0.01) 1px,
+          transparent 1px
+        );
+        background-size: 100% 4px;
+        mix-blend-mode: overlay;
+        opacity: 0.6;
+      }
+      header {
+        position: sticky;
+        top: 12px;
+        z-index: 60;
+        padding: 12px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .logo {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .logo .mark {
+        font-family: "Share Tech Mono", monospace;
+        font-weight: 700;
+        letter-spacing: 1px;
+        font-size: 18px;
+        color: var(--neon);
+        text-shadow: 0 0 8px rgba(0, 230, 255, 0.15);
+      }
+      .nav {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .nav a {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .nav a:hover {
+        color: var(--neon);
+      }
+
+      main {
+        max-width: 1100px;
+        margin: 28px auto;
+        padding: 28px;
+      }
+      .hero {
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 28px;
+        align-items: center;
+      }
+      .hero-card {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        border-radius: var(--radius);
+        padding: 28px;
+        box-shadow: var(--glow);
+        border: 1px solid rgba(0, 230, 255, 0.06);
+      }
+      .hero h1 {
+        font-size: 40px;
+        margin: 0 0 8px;
+        letter-spacing: 0.6px;
+      }
+      .hero .subtitle {
+        color: var(--muted);
+        margin-bottom: 18px;
+      }
+      .cta {
+        display: flex;
+        gap: 12px;
+      }
+      .btn {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 10px 14px;
+        border-radius: 10px;
+        color: var(--neon);
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .btn.secondary {
+        color: var(--accent);
+        border-color: rgba(255, 45, 149, 0.12);
+      }
+      .hero-right {
+        position: relative;
+      }
+      .profile-box {
+        padding: 18px;
+        border-radius: 12px;
+        background: linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.3),
+          rgba(255, 255, 255, 0.02)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .role {
+        font-family: "Share Tech Mono", monospace;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .bio {
+        margin-top: 10px;
+        color: #dfe9f6;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+        margin-top: 22px;
+      }
+      .card {
+        background: var(--panel);
+        padding: 18px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .project {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      .proj-meta {
+        flex: 1;
+      }
+      .proj-meta h3 {
+        margin: 0 0 6px;
+      }
+      .proj-meta p {
+        margin: 0 0 8px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .tags {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .tag {
+        font-size: 12px;
+        padding: 6px 8px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.02);
+        color: var(--muted);
+      }
+
+      .side-col {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      footer {
+        margin-top: 28px;
+        padding: 18px;
+        border-radius: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .timer {
+        font-family: "Share Tech Mono", monospace;
+        color: var(--muted);
+      }
+
+      /* GitHub activity list */
+      .commits {
+        max-height: 220px;
+        overflow: auto;
+        padding: 8px;
+      }
+      .commit {
+        padding: 8px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.01),
+          transparent
+        );
+      }
+      .commit small {
+        display: block;
+        color: var(--muted);
+      }
+
+      /* mobile */
+      @media (max-width: 900px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        header {
+          padding: 8px;
+        }
+      }
+
+      /* little sci-fi accent */
+      .accent-line {
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          var(--neon),
+          transparent,
+          var(--accent)
+        );
+        border-radius: 2px;
+        margin: 12px 0;
+      }
+
+      /* utilities */
+      .muted {
+        color: var(--muted);
+      }
+      .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* modal */
+      .modal {
+        position: fixed;
+        inset: 0;
+        display: none;
+        background: rgba(0, 0, 0, 0.6);
+        justify-content: center;
+        align-items: center;
+      }
+      .modal.open {
+        display: flex;
+      }
+      .modal .box {
+        background: linear-gradient(180deg, #0b0c10, #0f1115);
+        padding: 18px;
+        border-radius: 10px;
+        width: min(520px, 94%);
+        border: 1px solid rgba(0, 230, 255, 0.06);
+      }
+      .close {
+        background: none;
+        border: 0;
+        color: var(--muted);
+        cursor: pointer;
+      }
+
+      a.inline {
+        color: var(--neon);
+        font-weight: 700;
+      }
+    </style>
   </head>
-  <body class="cyber-theme">
-    <div class="scanlines"></div>
-
-    <nav class="hud-nav">
-      <div class="logo">OPERATOR_AVIADO</div>
-      <div class="nav-links">
-        <a href="#about">ABOUT</a>
-        <a href="#projects">OPERATIONS</a>
-        <a href="#contact">COMMS</a>
+  <body class="scanlines">
+    <header>
+      <div class="logo">
+        <div class="mark">EXXEED</div>
+        <div style="font-size: 13px; color: var(--muted)">
+          David L. Aviado — Full‑Stack
+        </div>
       </div>
-    </nav>
-
-    <header class="hero">
-      <div class="glitch-wrapper">
-        <h1 class="glitch" data-text="DAVID LAURENCE">DAVID LAURENCE</h1>
-      </div>
-      <p class="role-tag">> FULL-STACK_DEVELOPER_IN_TRAINING</p>
-      <div class="status-bar">
-        <span>STATUS: [LEARNING_MODE]</span>
-        <span>LOCATION: [PHILIPPINES]</span>
-      </div>
+      <nav class="nav">
+        <a href="#projects">Projects</a>
+        <a href="#activity">Activity</a>
+        <a href="#contact">Contact</a>
+        <button class="btn" id="bookBtn">Book a chat</button>
+      </nav>
     </header>
 
-    <section id="about" class="container">
-      <h2 class="section-title">01_THE_MISSION</h2>
-      <div class="about-card">
-        <p>
-          Former PMA Cadet. Traded the rifle for a keyboard, kept the
-          discipline. I transform boring apps into fun, creative, and tactical
-          digital experiences.
+    <main>
+      <section class="hero-card hero" aria-labelledby="intro">
+        <div>
+          <h1 id="intro">David Laurence Aviado</h1>
+          <div class="role">
+            Full‑Stack Developer — Cyber‑Military Aesthetic
+          </div>
+          <p class="subtitle">
+            I was a Philippine Military Academy Cadet who traded a rifle for a
+            keyboard. I bring discipline, clarity, and a taste for playful,
+            creative UIs. I build fast, delightful web tools and experimental
+            interfaces.
+          </p>
+          <div class="cta">
+            <button
+              class="btn"
+              onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})"
+            >
+              View projects
+            </button>
+            <button class="btn secondary" id="contactBtn">Email me</button>
+            <button class="btn" id="clicker">
+              Click me <span id="clickCount">0</span>
+            </button>
+          </div>
+
+          <div class="accent-line" aria-hidden="true"></div>
+
+          <div class="muted">
+            <strong>Location:</strong> Philippines —
+            <strong>Status:</strong> Learning & showcasing work
+          </div>
+        </div>
+
+        <aside class="hero-right">
+          <div class="profile-box">
+            <div class="role">About</div>
+            <div class="bio">
+              I transform boring apps into fun, creative and beautiful
+              experiences. I code for Joy, Hero, Aiah, and Aria 🦴💙
+            </div>
+            <div style="margin-top: 12px">
+              <div class="tags">
+                <span class="tag">HTML</span>
+                <span class="tag">CSS</span>
+                <span class="tag">JavaScript</span>
+                <span class="tag">Python (basic)</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="height: 12px"></div>
+
+          <div class="card">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <div>
+                <strong>Recent GitHub</strong>
+                <div class="muted" style="font-size: 12px">public activity</div>
+              </div>
+              <button class="close" onclick="fetchGitHubActivity()">
+                Refresh
+              </button>
+            </div>
+            <div id="commits" class="commits" aria-live="polite">
+              Loading...
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section id="projects" style="margin-top: 18px">
+        <h2>Projects</h2>
+        <p class="muted">
+          A selection of my work — click each card to visit a live demo or the
+          repository.
         </p>
-        <p class="dedication">CODE_FOR: JOY // HERO // AIAH // ARIA 🦴💙</p>
-      </div>
-    </section>
 
-    <section id="projects" class="container">
-      <h2 class="section-title">02_ACTIVE_OPERATIONS</h2>
-      <div class="project-grid">
-        <!-- Project 1 -->
-        <div class="project-card">
-          <h3>AWESOME_GRADE_CALCULATOR</h3>
-          <p>Gamified evaluation system with MOBA-style ranking logic.</p>
-          <div class="tags">HTML CSS JS</div>
-          <div class="links">
-            <a
-              href="https://github.com/Exc1D/day-04-epic-grade-calculator"
-              target="_blank"
-              >[REPO]</a
-            >
-            <a
-              href="https://exc1d.github.io/day-04-epic-grade-calculator/"
-              target="_blank"
-              >[LIVE_DEMO]</a
-            >
+        <div class="grid" role="list">
+          <!-- Project 1 -->
+          <article class="card project" role="listitem">
+            <div class="proj-meta">
+              <h3>Awesome grade calculator</h3>
+              <p class="muted">
+                Gamified project evaluation system with MOBA-style ranking and
+                stats. Built during a 100-project coding journey.
+              </p>
+              <div class="tags">
+                <span class="tag">HTML</span>
+                <span class="tag">CSS</span>
+                <span class="tag">JavaScript</span>
+              </div>
+              <div style="margin-top: 10px">
+                <a
+                  class="inline"
+                  href="https://exc1d.github.io/day-04-epic-grade-calculator/"
+                  target="_blank"
+                  rel="noopener"
+                  >Live demo</a
+                >
+                &nbsp;•&nbsp;
+                <a
+                  class="inline"
+                  href="https://github.com/Exc1D/day-04-epic-grade-calculator"
+                  target="_blank"
+                  rel="noopener"
+                  >GitHub</a
+                >
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 2 -->
+          <article class="card project">
+            <div class="proj-meta">
+              <h3>Etch‑a‑Sketch</h3>
+              <p class="muted">
+                Interactive sketch pad with pen modes, grid sizes, and mobile
+                touch support. Odin Project output.
+              </p>
+              <div class="tags">
+                <span class="tag">Vanilla JS</span><span class="tag">HTML</span
+                ><span class="tag">CSS</span>
+              </div>
+              <div style="margin-top: 10px">
+                <a
+                  class="inline"
+                  href="https://exc1d.github.io/odin-etch-a-sketch/"
+                  target="_blank"
+                  rel="noopener"
+                  >Live demo</a
+                >
+                &nbsp;•&nbsp;
+                <a
+                  class="inline"
+                  href="https://github.com/Exc1D/odin-etch-a-sketch"
+                  target="_blank"
+                  rel="noopener"
+                  >GitHub</a
+                >
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3 -->
+          <article class="card project">
+            <div class="proj-meta">
+              <h3>PX‑to‑REM Converter</h3>
+              <p class="muted">
+                A polished unit converter with live updates, presets, dark mode,
+                and clipboard features — ergonomic for designers.
+              </p>
+              <div class="tags">
+                <span class="tag">Vanilla JS</span><span class="tag">Tool</span>
+              </div>
+              <div style="margin-top: 10px">
+                <a
+                  class="inline"
+                  href="https://exc1d.github.io/px-to-rem/"
+                  target="_blank"
+                  rel="noopener"
+                  >Live demo</a
+                >
+                &nbsp;•&nbsp;
+                <a
+                  class="inline"
+                  href="https://github.com/Exc1D/px-to-rem"
+                  target="_blank"
+                  rel="noopener"
+                  >GitHub</a
+                >
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 4 -->
+          <article class="card project">
+            <div class="proj-meta">
+              <h3>EXXEED | The Mission Log</h3>
+              <p class="muted">
+                Serverless single-file CMS and portfolio built on Cloudflare
+                Workers with a dual-theme engine and timeline visualization.
+              </p>
+              <div class="tags">
+                <span class="tag">Cloudflare Workers</span
+                ><span class="tag">KV</span><span class="tag">Vanilla JS</span>
+              </div>
+              <div style="margin-top: 10px">
+                <a
+                  class="inline"
+                  href="https://iexceed.xyz/"
+                  target="_blank"
+                  rel="noopener"
+                  >Live demo</a
+                >
+                &nbsp;•&nbsp;
+                <a
+                  class="inline"
+                  href="https://github.com/Exc1D/exxeed-blog"
+                  target="_blank"
+                  rel="noopener"
+                  >GitHub</a
+                >
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 5 -->
+          <article class="card project">
+            <div class="proj-meta">
+              <h3>Misc Utilities & Experiments</h3>
+              <p class="muted">
+                Small tools, toys, and learning exercises — filters, converters,
+                and micro-interactions.
+              </p>
+              <div class="tags">
+                <span class="tag">HTML</span><span class="tag">CSS</span
+                ><span class="tag">JS</span>
+              </div>
+              <div style="margin-top: 10px">
+                <a
+                  class="inline"
+                  href="https://github.com/Exc1D"
+                  target="_blank"
+                  rel="noopener"
+                  >GitHub</a
+                >
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section
+        id="activity"
+        style="margin-top: 22px; display: flex; gap: 18px; flex-wrap: wrap"
+      >
+        <div class="card" style="flex: 1; min-width: 280px">
+          <h3>Recent GitHub Activity</h3>
+          <div class="muted" style="font-size: 13px">
+            Shows recent public pushes and commits (refreshable)
+          </div>
+          <div id="activityList" class="commits" aria-live="polite">
+            Loading activity...
           </div>
         </div>
 
-        <!-- Project 2 -->
-        <div class="project-card">
-          <h3>EXXEED_MISSION_LOG</h3>
-          <p>Serverless CMS/Portfolio built on Cloudflare Workers.</p>
-          <div class="tags">WORKERS KV JS</div>
-          <div class="links">
-            <a href="https://github.com/Exc1D/exxeed-blog" target="_blank"
-              >[REPO]</a
-            >
-            <a href="https://iexceed.xyz/" target="_blank">[LIVE_DEMO]</a>
+        <div class="card" style="width: 320px">
+          <h3 id="contact">Contact</h3>
+          <p class="muted">Email me or connect on platforms:</p>
+          <div style="margin-top: 8px">
+            <div>
+              <strong>Email:</strong>
+              <a class="inline" href="mailto:davidaviado.dla@gmail.com"
+                >davidaviado.dla@gmail.com</a
+              >
+            </div>
+            <div style="margin-top: 8px">
+              <strong>GitHub:</strong>
+              <a class="inline" href="https://github.com/Exc1D" target="_blank"
+                >@Exc1D</a
+              >
+            </div>
+            <div style="margin-top: 8px">
+              <strong>LinkedIn:</strong>
+              <a
+                class="inline"
+                href="https://www.linkedin.com/in/david-laurence-aviado-b1aaa8272"
+                target="_blank"
+                >David Laurence Aviado</a
+              >
+            </div>
+          </div>
+          <div style="margin-top: 12px">
+            <button class="btn" id="bookChat">Book a 15‑min chat</button>
           </div>
         </div>
+      </section>
 
-        <!-- Project 3 -->
-        <div class="project-card">
-          <h3>PX_TO_REM_CONVERTER</h3>
-          <p>Ergonomic unit converter for responsive design workflows.</p>
-          <div class="tags">JS CSS UTILITY</div>
-          <div class="links">
-            <a href="https://github.com/Exc1D/px-to-rem" target="_blank"
-              >[REPO]</a
-            >
-            <a href="https://exc1d.github.io/px-to-rem/" target="_blank"
-              >[LIVE_DEMO]</a
-            >
-          </div>
-        </div>
+      <footer class="card">
+        <div>Built with HTML • CSS • JavaScript — Cyber‑Military theme</div>
+        <div class="timer" id="timer">00:00:00</div>
+      </footer>
+    </main>
 
-        <!-- Project 4 -->
-        <div class="project-card">
-          <h3>ETCH_A_SKETCH</h3>
-          <p>Interactive sketching pad with mobile touch support.</p>
-          <div class="tags">VANILLA_JS ODIN_PROJECT</div>
-          <div class="links">
-            <a
-              href="https://github.com/Exc1D/odin-etch-a-sketch"
-              target="_blank"
-              >[REPO]</a
-            >
-            <a
-              href="https://exc1d.github.io/odin-etch-a-sketch/"
-              target="_blank"
-              >[LIVE_DEMO]</a
-            >
-          </div>
-        </div>
-
-        <!-- Project 5 placeholder -->
-        <div class="project-card classified">
-          <h3>[CLASSIFIED_PROJECT]</h3>
-          <p>New Operation currently in development phase...</p>
-          <div class="loading-bar"></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="stats" class="container">
-      <div class="stats-box">
-        <div class="stat">
-          <span class="label">INTERACTIONS_REGISTERED</span>
-          <span id="click-counter" class="value">0</span>
-          <button id="click-me" class="btn-tactical">ENGAGE</button>
-        </div>
-        <div class="stat">
-          <span class="label">GITHUB_ACTIVITY</span>
-          <a href="https://github.com/Exc1D" class="value">@Exc1D</a>
-        </div>
-      </div>
-    </section>
-
-    <footer class="hud-footer">
-      <div class="footer-left">
-        <span>SESSION_TIME: <span id="timer">00:00</span></span>
-      </div>
-      <div class="footer-center">
-        <a href="mailto:davidaviado.dla@gmail.com">SEND_COMMUNICATION</a>
-      </div>
-      <div class="footer-right">
-        <a href="https://www.linkedin.com/in/david-laurence-aviado-b1aaa8272"
-          >LINKEDIN</a
+    <!-- Email / Booking modal -->
+    <div id="modal" class="modal" role="dialog" aria-modal="true">
+      <div class="box">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
         >
+          <div>
+            <strong>Book a chat</strong>
+            <div class="muted" style="font-size: 12px">
+              Send a quick note and proposed time
+            </div>
+          </div>
+          <button class="close" id="closeModal">✕</button>
+        </div>
+        <form id="bookingForm" style="margin-top: 12px">
+          <label class="muted">Your name</label>
+          <input name="name" required />
+          <label class="muted" style="margin-top: 8px; display: block"
+            >Message</label
+          >
+          <textarea name="message" required></textarea>
+          <div>
+            <button type="button" class="btn" id="cancelBooking">Cancel</button>
+            <button type="submit" class="btn">Send email</button>
+          </div>
+        </form>
       </div>
-    </footer>
+    </div>
 
     <script src="script.js"></script>
   </body>
