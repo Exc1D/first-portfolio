@@ -1082,6 +1082,10 @@
     </footer>
 
     <script>
+      const GITHUB_TOKEN =
+        "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";
+      const GITHUB_USERNAME = "Exc1D";
+
       // Projects data
       const projects = [
         {
@@ -1211,43 +1215,46 @@
         grid.innerHTML = filteredProjects
           .map(
             (project, index) => `
-              <div class="project-card fade-in" style="animation-delay: ${
-                index * 0.1
-              }s">
-                  <div class="project-content">
-                      <div class="project-header">
-                          <div>
-                              <h3 class="project-title">${project.title}</h3>
-                          </div>
-                          <span class="project-category-tag">${
-                            project.category
-                          }</span>
-                      </div>
-                      <p class="project-description">${project.description}</p>
-                      <div class="project-tech">
-                          ${project.tech
-                            .map(
-                              (tech) => `<span class="tech-tag">${tech}</span>`
-                            )
-                            .join("")}
-                      </div>
-                      <div class="project-links">
-                          <a href="${
-                            project.demo
-                          }" target="_blank" class="btn btn-primary">
-                              <i class="fas fa-external-link-alt"></i>
-                              Live Demo
-                          </a>
-                          <a href="${
-                            project.github
-                          }" target="_blank" class="btn btn-secondary">
-                              <i class="fab fa-github"></i>
-                              Code
-                          </a>
-                      </div>
-                  </div>
-              </div>
-          `
+                <div class="project-card fade-in" style="animation-delay: ${
+                  index * 0.1
+                }s">
+                    <div class="project-content">
+                        <div class="project-header">
+                            <div>
+                                <h3 class="project-title">${project.title}</h3>
+                            </div>
+                            <span class="project-category-tag">${
+                              project.category
+                            }</span>
+                        </div>
+                        <p class="project-description">${
+                          project.description
+                        }</p>
+                        <div class="project-tech">
+                            ${project.tech
+                              .map(
+                                (tech) =>
+                                  `<span class="tech-tag">${tech}</span>`
+                              )
+                              .join("")}
+                        </div>
+                        <div class="project-links">
+                            <a href="${
+                              project.demo
+                            }" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i>
+                                Live Demo
+                            </a>
+                            <a href="${
+                              project.github
+                            }" target="_blank" class="btn btn-secondary">
+                                <i class="fab fa-github"></i>
+                                Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `
           )
           .join("");
 
@@ -1304,6 +1311,125 @@
           minutes
         ).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
       }, 1000);
+
+      // Fetch GitHub stats
+      async function fetchGitHubStats() {
+        try {
+          const headers = {
+            Authorization: `Bearer ${GITHUB_TOKEN}`,
+            Accept: "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+          };
+
+          const userResponse = await fetch(
+            `https://api.github.com/users/${GITHUB_USERNAME}`,
+            { headers }
+          );
+
+          if (!userResponse.ok) {
+            throw new Error(`GitHub API error: ${userResponse.status}`);
+          }
+
+          const userData = await userResponse.json();
+
+          const reposResponse = await fetch(
+            `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100`,
+            { headers }
+          );
+
+          if (!reposResponse.ok) {
+            throw new Error(`GitHub API error: ${reposResponse.status}`);
+          }
+
+          const reposData = await reposResponse.json();
+
+          const totalStars = reposData.reduce(
+            (sum, repo) => sum + repo.stargazers_count,
+            0
+          );
+          const totalForks = reposData.reduce(
+            (sum, repo) => sum + repo.forks_count,
+            0
+          );
+
+          document.getElementById("totalRepos").textContent =
+            userData.public_repos || 0;
+          document.getElementById("totalStars").textContent = totalStars;
+          document.getElementById("totalForks").textContent = totalForks;
+          document.getElementById("totalFollowers").textContent =
+            userData.followers || 0;
+        } catch (error) {
+          console.error("Error fetching GitHub stats:", error);
+          // Fallback to manual counts
+          document.getElementById("totalRepos").textContent = "20+";
+          document.getElementById("totalStars").textContent = "--";
+          document.getElementById("totalForks").textContent = "--";
+          document.getElementById("totalFollowers").textContent = "--";
+        }
+      }
+
+      // Fetch GitHub commits
+      async function fetchGitHubCommits() {
+        try {
+          const headers = {
+            Authorization: `Bearer ${GITHUB_TOKEN}`,
+            Accept: "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+          };
+
+          const response = await fetch(
+            `https://api.github.com/users/${GITHUB_USERNAME}/events/public`,
+            { headers }
+          );
+
+          if (!response.ok) {
+            throw new Error(`GitHub API error: ${response.status}`);
+          }
+
+          const events = await response.json();
+
+          const commits = events
+            .filter((event) => event.type === "PushEvent")
+            .slice(0, 5)
+            .map((event) => ({
+              message: event.payload.commits[0]?.message || "Commit",
+              repo: event.repo.name,
+              time: new Date(event.created_at).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+              }),
+            }));
+
+          const commitList = document.getElementById("commitList");
+          if (commits.length > 0) {
+            commitList.innerHTML = commits
+              .map(
+                (commit) => `
+                        <li class="commit-item">
+                            <div class="commit-dot"></div>
+                            <span class="commit-message">${commit.message.substring(
+                              0,
+                              60
+                            )}${commit.message.length > 60 ? "..." : ""}</span>
+                            <span class="commit-time">${commit.time}</span>
+                        </li>
+                    `
+              )
+              .join("");
+          } else {
+            commitList.innerHTML =
+              '<li class="commit-item"><div class="commit-dot"></div><span class="commit-message">No recent activity</span></li>';
+          }
+        } catch (error) {
+          console.error("Error fetching GitHub commits:", error);
+          document.getElementById("commitList").innerHTML = `
+                    <li class="commit-item">
+                        <div class="commit-dot"></div>
+                        <span class="commit-message">Could not load recent activity</span>
+                    </li>
+                `;
+        }
+      }
 
       // Smooth scroll
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
