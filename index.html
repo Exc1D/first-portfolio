@@ -3,157 +3,1470 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>David Aviado | Full-Stack Developer</title>
-    <link rel="stylesheet" href="style.css" />
-    <!-- Inter Font (Apple Alternative) -->
+    <title>David Aviado - Full-Stack Developer</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap"
       rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-    <script
-      src="https://kit.fontawesome.com/your-code.js"
-      crossorigin="anonymous"
-    ></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg-primary: #000000;
+        --bg-secondary: #0a0a0a;
+        --bg-card: #1a1a1a;
+        --text-primary: #ffffff;
+        --text-secondary: #a0a0a0;
+        --accent: #0071e3;
+        --accent-hover: #0077ed;
+        --border: #2a2a2a;
+        --success: #30d158;
+        --warning: #ff9f0a;
+        --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      .nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(20px);
+        z-index: 1000;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .nav-logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--accent), var(--success));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: 1px;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 0.95rem;
+        transition: color 0.3s ease;
+        position: relative;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--accent);
+        transition: width 0.3s ease;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      .nav-links a:hover {
+        color: var(--text-primary);
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      section {
+        min-height: 100vh;
+        padding: 8rem 0 4rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .hero {
+        text-align: center;
+        position: relative;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(0, 113, 227, 0.1) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.2rem;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+        color: var(--text-secondary);
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        background: var(--success);
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      .hero h1 {
+        font-size: clamp(3rem, 8vw, 6rem);
+        font-weight: 800;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #ffffff, var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -2px;
+      }
+
+      .hero .subtitle {
+        font-size: clamp(1.3rem, 3vw, 2rem);
+        color: var(--text-secondary);
+        margin-bottom: 1.5rem;
+        font-weight: 500;
+      }
+
+      .hero .bio {
+        max-width: 700px;
+        margin: 2rem auto;
+        font-size: 1.15rem;
+        color: var(--text-secondary);
+        line-height: 1.8;
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        margin: 3rem 0;
+      }
+
+      .btn-cta {
+        padding: 1rem 2.5rem;
+        border-radius: 12px;
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .btn-cta-primary {
+        background: var(--accent);
+        color: white;
+        border: none;
+      }
+
+      .btn-cta-primary:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
+      }
+
+      .btn-cta-secondary {
+        background: transparent;
+        color: var(--text-primary);
+        border: 2px solid var(--border);
+      }
+
+      .btn-cta-secondary:hover {
+        border-color: var(--accent);
+        background: rgba(0, 113, 227, 0.1);
+      }
+
+      .github-stats-section {
+        background: var(--bg-secondary);
+        padding: 6rem 0;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .github-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .stat-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 2.5rem;
+        text-align: center;
+        transition: transform 0.3s ease, border-color 0.3s ease,
+          box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: var(--gradient-1);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--accent);
+        box-shadow: 0 20px 40px rgba(0, 113, 227, 0.2);
+      }
+
+      .stat-card:hover::before {
+        opacity: 1;
+      }
+
+      .stat-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        filter: grayscale(100%);
+        transition: filter 0.3s ease;
+      }
+
+      .stat-card:hover .stat-icon {
+        filter: grayscale(0%);
+      }
+
+      .stat-value {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--accent);
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-label {
+        color: var(--text-secondary);
+        font-size: 1rem;
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 4rem;
+      }
+
+      .section-header h2 {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        margin-bottom: 1rem;
+        font-weight: 800;
+        letter-spacing: -1px;
+      }
+
+      .section-header p {
+        color: var(--text-secondary);
+        font-size: 1.2rem;
+      }
+
+      .project-categories {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 3rem;
+        flex-wrap: wrap;
+      }
+
+      .category-btn {
+        padding: 0.8rem 1.8rem;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.95rem;
+        font-weight: 500;
+      }
+
+      .category-btn:hover {
+        border-color: var(--accent);
+        color: var(--text-primary);
+        transform: translateY(-2px);
+      }
+
+      .category-btn.active {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: white;
+      }
+
+      .projects-container {
+        height: 800px;
+        overflow-y: auto;
+        position: relative;
+        scroll-behavior: smooth;
+      }
+
+      .projects-container::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .projects-container::-webkit-scrollbar-track {
+        background: var(--bg-secondary);
+        border-radius: 10px;
+      }
+
+      .projects-container::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 10px;
+      }
+
+      .projects-container::-webkit-scrollbar-thumb:hover {
+        background: var(--accent);
+      }
+
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+        gap: 2rem;
+        padding: 1rem;
+      }
+
+      .project-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 2.5rem;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .project-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--gradient-1);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 0;
+      }
+
+      .project-card:hover::before {
+        opacity: 0.05;
+      }
+
+      .project-card:hover {
+        transform: translateY(-12px) scale(1.02);
+        border-color: var(--accent);
+        box-shadow: 0 25px 50px rgba(0, 113, 227, 0.25);
+      }
+
+      .project-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .project-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 1.5rem;
+      }
+
+      .project-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .project-category-tag {
+        font-size: 0.75rem;
+        padding: 0.4rem 1rem;
+        background: var(--bg-secondary);
+        border-radius: 16px;
+        color: var(--accent);
+        border: 1px solid var(--border);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+      }
+
+      .project-description {
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        font-size: 1rem;
+        line-height: 1.7;
+      }
+
+      .project-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+      }
+
+      .tech-tag {
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
+        background: var(--bg-secondary);
+        border-radius: 12px;
+        color: var(--text-secondary);
+        border: 1px solid var(--border);
+        transition: all 0.3s ease;
+      }
+
+      .project-card:hover .tech-tag {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .project-links {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .btn {
+        padding: 0.7rem 1.5rem;
+        border-radius: 12px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: white;
+        border: none;
+      }
+
+      .btn-primary:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--text-secondary);
+        border: 1px solid var(--border);
+      }
+
+      .btn-secondary:hover {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        border-color: var(--accent);
+      }
+
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 2rem;
+      }
+
+      .skill-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 2.5rem 2rem;
+        text-align: center;
+        transition: transform 0.3s ease, border-color 0.3s ease,
+          box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .skill-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: var(--gradient-2);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .skill-card:hover::before {
+        transform: scaleX(1);
+      }
+
+      .skill-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--accent);
+        box-shadow: 0 15px 35px rgba(0, 113, 227, 0.2);
+      }
+
+      .skill-icon {
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+        transition: transform 0.3s ease;
+      }
+
+      .skill-card:hover .skill-icon {
+        transform: scale(1.1) rotateY(180deg);
+      }
+
+      .skill-name {
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+      }
+
+      .skill-level {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+
+      .contact-content {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .contact-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        margin: 3rem 0;
+      }
+
+      .contact-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 2rem;
+        text-decoration: none;
+        color: var(--text-primary);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .contact-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--accent);
+        box-shadow: 0 15px 35px rgba(0, 113, 227, 0.2);
+      }
+
+      .contact-icon {
+        font-size: 2.5rem;
+        color: var(--accent);
+      }
+
+      .contact-label {
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+
+      .contact-value {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+
+      .interactive-section {
+        background: var(--bg-secondary);
+        padding: 6rem 0;
+        border-top: 1px solid var(--border);
+      }
+
+      .interactive-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .interactive-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 2.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .interactive-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--accent);
+        box-shadow: 0 15px 35px rgba(0, 113, 227, 0.2);
+      }
+
+      .interactive-counter {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .interactive-counter:active {
+        transform: scale(0.95);
+      }
+
+      .counter-icon {
+        font-size: 3rem;
+      }
+
+      .github-activity {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 2rem;
+      }
+
+      .activity-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .activity-title {
+        font-weight: 700;
+        font-size: 1.2rem;
+      }
+
+      .commit-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .commit-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        background: var(--bg-secondary);
+        border-radius: 12px;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+      }
+
+      .commit-item:hover {
+        background: var(--bg-primary);
+        transform: translateX(5px);
+      }
+
+      .commit-dot {
+        width: 10px;
+        height: 10px;
+        background: var(--success);
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+
+      .commit-message {
+        flex: 1;
+        color: var(--text-secondary);
+      }
+
+      .commit-time {
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+      }
+
+      .footer {
+        background: var(--bg-primary);
+        padding: 4rem 0 2rem;
+        text-align: center;
+        border-top: 1px solid var(--border);
+      }
+
+      .footer-content {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          gap: 1rem;
+          font-size: 0.85rem;
+        }
+
+        section {
+          padding: 6rem 0 3rem;
+        }
+
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .cta-buttons {
+          flex-direction: column;
+        }
+
+        .projects-container {
+          height: 600px;
+        }
+      }
+
+      .fade-in {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+      }
+
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .loading {
+        text-align: center;
+        padding: 2rem;
+        color: var(--text-secondary);
+      }
+
+      .spinner {
+        border: 3px solid var(--border);
+        border-top: 3px solid var(--accent);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 1rem;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
   </head>
   <body>
-    <!-- Subtle Background Gradient -->
-    <div class="bg-blur"></div>
-
-    <nav class="glass-nav">
+    <nav class="nav">
       <div class="nav-content">
-        <span class="logo">EXCEEED</span>
-        <div class="nav-links">
-          <a href="#about">About</a>
-          <a href="#projects">Work</a>
-          <a href="#contact">Contact</a>
-        </div>
+        <div class="nav-logo">EXXEED</div>
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#github-stats">Stats</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
       </div>
     </nav>
 
-    <main class="container">
-      <!-- Hero Section -->
-      <section id="hero" class="hero-section">
-        <div class="badge">Philippine Military Academy → Keyboard</div>
-        <h1 class="reveal-text">
-          Transforming boring code into <span>beautiful experiences.</span>
-        </h1>
-        <p class="hero-subtext">
-          I'm David Laurence Aviado, a Philippine-based developer blending
-          military discipline with creative full-stack development.
-        </p>
-        <div class="hero-cta">
-          <a href="#projects" class="btn-primary">View Missions</a>
-          <a href="mailto:davidaviado.dla@gmail.com" class="btn-secondary"
-            >Get in touch</a
-          >
-        </div>
-      </section>
+    <section id="about" class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <div class="status-badge fade-in">
+            <span class="status-dot"></span>
+            <span>Open to opportunities</span>
+          </div>
+          <h1 class="fade-in">David Aviado</h1>
+          <p class="subtitle fade-in">Full-Stack Developer in Training</p>
+          <p class="bio fade-in">
+            Former Philippine Military Academy Cadet who traded my rifle for a
+            keyboard but kept the discipline. I transform boring apps into fun,
+            creative, and beautiful experiences.
+          </p>
 
-      <!-- Stats/Dashboard Section (The Widgets) -->
-      <section class="dashboard-grid">
-        <div class="glass-card widget">
-          <h3>Click Counter</h3>
-          <p>Interactive satisfying feedback</p>
-          <div class="counter-box">
-            <span id="click-count">0</span>
-            <button id="click-me" class="btn-apple">Click Me</button>
+          <div class="cta-buttons fade-in">
+            <a href="#contact" class="btn-cta btn-cta-primary">
+              <i class="fas fa-envelope"></i>
+              Get In Touch
+            </a>
+            <a
+              href="https://github.com/Exc1D"
+              target="_blank"
+              class="btn-cta btn-cta-secondary"
+            >
+              <i class="fab fa-github"></i>
+              View GitHub
+            </a>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div class="glass-card widget">
-          <h3>Live Status</h3>
-          <p id="current-time">00:00:00 AM</p>
-          <span class="status-indicator">● Available for Work</span>
+    <section id="github-stats" class="github-stats-section">
+      <div class="container">
+        <div class="section-header fade-in">
+          <h2>GitHub Analytics</h2>
+          <p>Real-time stats from my coding journey</p>
         </div>
 
-        <div class="glass-card widget github-widget">
-          <h3>Recent Activity</h3>
-          <div id="github-commits">Loading latest mission...</div>
-          <a href="https://github.com/Exc1D" target="_blank" class="small-link"
-            >View GitHub →</a
-          >
+        <div class="github-stats-grid fade-in">
+          <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <span class="stat-value" id="totalRepos">--</span>
+            <span class="stat-label">Total Repositories</span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⭐</div>
+            <span class="stat-value" id="totalStars">--</span>
+            <span class="stat-label">Stars Earned</span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🔱</div>
+            <span class="stat-value" id="totalForks">--</span>
+            <span class="stat-label">Forks</span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <span class="stat-value" id="totalFollowers">--</span>
+            <span class="stat-label">Followers</span>
+          </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Projects Section -->
-      <section id="projects">
-        <h2 class="section-title">The Mission Log</h2>
+    <section id="projects">
+      <div class="container">
+        <div class="section-header fade-in">
+          <h2>Featured Projects</h2>
+          <p>Building with passion, one commit at a time</p>
+        </div>
 
-        <div class="project-categories">
-          <!-- Personal Projects -->
-          <div class="category-group">
-            <h3 class="cat-name">Personal Projects</h3>
-            <div class="project-grid">
-              <div class="project-card glass-card">
-                <div class="project-info">
-                  <h4>EXXEED | Mission Log</h4>
-                  <p>
-                    Serverless CMS built on Cloudflare Workers with a Cyberpunk
-                    aesthetic.
-                  </p>
-                  <div class="tech-stack">
-                    <span>Workers</span> <span>KV</span> <span>JS</span>
-                  </div>
-                  <div class="project-links">
-                    <a href="https://iexceed.xyz/">Live Demo</a>
-                    <a href="https://github.com/Exc1D/exxeed-blog">Repo</a>
-                  </div>
-                </div>
-              </div>
-              <!-- Repeat for Grade Calculator and PX-to-REM -->
+        <div class="project-categories fade-in">
+          <button class="category-btn active" data-category="all">
+            All Projects
+          </button>
+          <button class="category-btn" data-category="personal">
+            Personal
+          </button>
+          <button class="category-btn" data-category="odin">
+            The Odin Project
+          </button>
+          <button class="category-btn" data-category="scrimba">Scrimba</button>
+          <button class="category-btn" data-category="frontend-mentor">
+            Frontend Mentor
+          </button>
+        </div>
+
+        <div class="projects-container">
+          <div class="projects-grid" id="projectsGrid"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="container">
+        <div class="section-header fade-in">
+          <h2>Skills & Technologies</h2>
+          <p>Currently mastering the fundamentals</p>
+        </div>
+
+        <div class="skills-grid fade-in">
+          <div class="skill-card">
+            <div class="skill-icon">
+              <i class="fab fa-html5" style="color: #e34f26"></i>
+            </div>
+            <div class="skill-name">HTML5</div>
+            <div class="skill-level">Advanced</div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">
+              <i class="fab fa-css3-alt" style="color: #1572b6"></i>
+            </div>
+            <div class="skill-name">CSS3</div>
+            <div class="skill-level">Advanced</div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">
+              <i class="fab fa-js" style="color: #f7df1e"></i>
+            </div>
+            <div class="skill-name">JavaScript</div>
+            <div class="skill-level">Intermediate</div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">
+              <i class="fab fa-python" style="color: #3776ab"></i>
+            </div>
+            <div class="skill-name">Python</div>
+            <div class="skill-level">Beginner</div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">
+              <i class="fab fa-git-alt" style="color: #f05032"></i>
+            </div>
+            <div class="skill-name">Git</div>
+            <div class="skill-level">Intermediate</div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">
+              <i class="fas fa-mobile-alt" style="color: #0071e3"></i>
+            </div>
+            <div class="skill-name">Responsive Design</div>
+            <div class="skill-level">Advanced</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="contact-content fade-in">
+          <div class="section-header">
+            <h2>Let's Build Something</h2>
+            <p>Always excited to collaborate on interesting projects</p>
+          </div>
+
+          <div class="contact-grid">
+            <a href="mailto:davidaviado.dla@gmail.com" class="contact-card">
+              <i class="fas fa-envelope contact-icon"></i>
+              <span class="contact-label">Email</span>
+              <span class="contact-value">davidaviado.dla@gmail.com</span>
+            </a>
+            <a
+              href="https://github.com/Exc1D"
+              target="_blank"
+              class="contact-card"
+            >
+              <i class="fab fa-github contact-icon"></i>
+              <span class="contact-label">GitHub</span>
+              <span class="contact-value">@Exc1D</span>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/david-laurence-aviado-b1aaa8272/"
+              target="_blank"
+              class="contact-card"
+            >
+              <i class="fab fa-linkedin contact-icon"></i>
+              <span class="contact-label">LinkedIn</span>
+              <span class="contact-value">David Laurence Aviado</span>
+            </a>
+            <a
+              href="https://discord.com/users/1389180077752975360"
+              target="_blank"
+              class="contact-card"
+            >
+              <i class="fab fa-discord contact-icon"></i>
+              <span class="contact-label">Discord</span>
+              <span class="contact-value">Connect with me</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="interactive-section">
+      <div class="container">
+        <div class="section-header fade-in">
+          <h2>Interactive Stats</h2>
+          <p>Some fun metrics from this site</p>
+        </div>
+
+        <div class="interactive-grid fade-in">
+          <div class="interactive-card interactive-counter" id="clickCounter">
+            <div class="counter-icon">👆</div>
+            <div>
+              <span class="stat-value" id="clickCount">0</span>
+              <span class="stat-label">Clicks on This Button</span>
             </div>
           </div>
 
-          <!-- The Odin Project -->
-          <div class="category-group">
-            <h3 class="cat-name">The Odin Project</h3>
-            <div class="project-grid">
-              <div class="project-card glass-card">
-                <div class="project-info">
-                  <h4>Almost Boring Calculator</h4>
-                  <p>
-                    Pure JS logic. No shortcuts, just algorithmic discipline.
-                  </p>
-                  <div class="tech-stack">
-                    <span>Vanilla JS</span> <span>CSS3</span>
-                  </div>
-                  <div class="project-links">
-                    <a href="https://exc1d.github.io/odin-calculator/">Live</a>
-                  </div>
-                </div>
-              </div>
-              <!-- Add others: Etch-a-Sketch, RPS -->
+          <div class="interactive-card">
+            <div class="counter-icon">⏱️</div>
+            <div>
+              <span class="stat-value" id="liveTimer">00:00:00</span>
+              <span class="stat-label">Time Spent on Site</span>
+            </div>
+          </div>
+
+          <div class="interactive-card">
+            <div class="counter-icon">🌍</div>
+            <div>
+              <span class="stat-value">🇵🇭</span>
+              <span class="stat-label">Based in Philippines</span>
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- Contact Section -->
-      <section id="contact" class="contact-section">
-        <div class="glass-card contact-card">
-          <h2>Ready to collaborate?</h2>
-          <p>Let's build something fun and mathematically sound.</p>
-          <div class="social-links">
-            <a href="https://github.com/Exc1D" class="btn-apple">GitHub</a>
-            <a
-              href="https://www.linkedin.com/in/david-laurence-aviado-b1aaa8272"
-              class="btn-apple"
-              >LinkedIn</a
-            >
-            <a
-              href="mailto:davidaviado.dla@gmail.com"
-              class="btn-apple highlight"
-              >Book a Chat</a
-            >
+        <div class="github-activity fade-in" style="margin-top: 3rem">
+          <div class="activity-header">
+            <span class="activity-title">Recent GitHub Activity</span>
+            <span style="color: var(--success)">●</span>
           </div>
+          <ul class="commit-list" id="commitList">
+            <li class="commit-item">
+              <div class="spinner"></div>
+              <span class="commit-message">Loading recent commits...</span>
+            </li>
+          </ul>
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
 
     <footer class="footer">
-      <p>&copy; 2024 David Laurence Aviado. Built with 8pt grid discipline.</p>
+      <div class="container">
+        <div class="footer-content">
+          <p style="margin-bottom: 1rem">
+            Built with HTML, CSS & Vanilla JavaScript
+          </p>
+          <p>© 2026 David Aviado. Designed with discipline and creativity.</p>
+        </div>
+      </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+      const GITHUB_TOKEN =
+        "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";
+      const GITHUB_USERNAME = "Exc1D";
+
+      // Projects data
+      const projects = [
+        {
+          title: "Awesome Grade Calculator",
+          category: "personal",
+          description:
+            "A gamified project evaluation system with MOBA-style ranking progression, sound effects, and comprehensive statistics tracking.",
+          tech: ["HTML", "CSS", "JavaScript"],
+          github: "https://github.com/Exc1D/day-04-epic-grade-calculator",
+          demo: "https://exc1d.github.io/day-04-epic-grade-calculator/",
+        },
+        {
+          title: "PX-to-REM Converter",
+          category: "personal",
+          description:
+            "A polished, fully interactive converter with smart rounding, live updates, batch processing, and dark mode.",
+          tech: ["HTML", "CSS", "JavaScript"],
+          github: "https://github.com/Exc1D/px-to-rem",
+          demo: "https://exc1d.github.io/px-to-rem/",
+        },
+        {
+          title: "EXXEED | The Mission Log",
+          category: "personal",
+          description:
+            "Serverless blogging platform built on Cloudflare Workers with Military/Cyberpunk aesthetic and built-in CMS.",
+          tech: ["Cloudflare Workers", "KV Storage", "JavaScript"],
+          github: "https://github.com/Exc1D/exxeed-blog",
+          demo: "https://iexceed.xyz/",
+        },
+        {
+          title: "Etch-a-Sketch",
+          category: "odin",
+          description:
+            "Interactive browser-based sketching pad with multiple pen modes, adjustable grid sizes, and mobile touch support.",
+          tech: ["HTML", "CSS", "JavaScript"],
+          github: "https://github.com/Exc1D/odin-etch-a-sketch",
+          demo: "https://exc1d.github.io/odin-etch-a-sketch/",
+        },
+        {
+          title: "Almost Boring Calculator",
+          category: "odin",
+          description:
+            "Fully functional web calculator built with vanilla JavaScript. No advanced methods, just pure functions.",
+          tech: ["HTML", "CSS", "JavaScript"],
+          github: "https://github.com/Exc1D/odin-calculator",
+          demo: "https://exc1d.github.io/odin-calculator/",
+        },
+        {
+          title: "Kawaii Rock, Paper, Scissors",
+          category: "odin",
+          description:
+            "Web-based mini-game with dynamic scoring, responsive design, and sound effects.",
+          tech: ["HTML", "CSS", "JavaScript"],
+          github: "https://github.com/Exc1D/odin-kawaii-rps",
+          demo: "https://exc1d.github.io/odin-kawaii-rps/",
+        },
+        {
+          title: "Oldagram",
+          category: "scrimba",
+          description:
+            "Instagram clone with dynamic feed rendering and interactive like functionality with animations.",
+          tech: ["HTML", "CSS", "JavaScript"],
+          github: "https://github.com/Exc1D/scrimba-oldagram",
+          demo: "https://exc1d.github.io/scrimba-oldagram/",
+        },
+        {
+          title: "Random Passwordinator",
+          category: "scrimba",
+          description:
+            "Dr. Doofenshmirtz-inspired password generator with fun animations and customizable parameters.",
+          tech: ["HTML", "CSS", "JavaScript"],
+          github: "https://github.com/Exc1D/Passwordinator",
+          demo: "https://exc1d.github.io/Passwordinator/",
+        },
+        {
+          title: "Unit Converter",
+          category: "scrimba",
+          description:
+            "Simple web-based converter for length, volume, and mass. Ready for Chrome extension conversion.",
+          tech: ["HTML", "CSS", "JavaScript"],
+          github:
+            "https://github.com/Exc1D/Unit-Converter-Solo-project-from-Scrimba-",
+          demo: "https://exc1d.github.io/Unit-Converter-Solo-project-from-Scrimba-/",
+        },
+        {
+          title: "Product Preview Page",
+          category: "frontend-mentor",
+          description:
+            "First take on responsive CSS design featuring a clean product layout.",
+          tech: ["HTML", "CSS"],
+          github: "https://github.com/Exc1D/product-preview",
+          demo: "https://exc1d.github.io/product-preview/",
+        },
+        {
+          title: "Age Calculator",
+          category: "frontend-mentor",
+          description:
+            "Elegant age calculator with personality and fun animations.",
+          tech: ["HTML", "CSS", "JavaScript"],
+          github: "https://github.com/Exc1D/day-03-age-calculator",
+          demo: "https://exc1d.github.io/day-03-age-calculator/",
+        },
+        {
+          title: "Blog Card",
+          category: "frontend-mentor",
+          description:
+            "Solution to Frontend Mentor's challenge showcasing CSS specifications with custom hover effects.",
+          tech: ["HTML", "CSS"],
+          github: "https://github.com/Exc1D/blog-card",
+          demo: "https://exc1d.github.io/blog-card/",
+        },
+      ];
+
+      let currentCategory = "all";
+      let virtualScrollOffset = 0;
+      const ITEMS_PER_PAGE = 6;
+
+      // Render projects with virtual scrolling
+      function renderProjects(filter = "all") {
+        currentCategory = filter;
+        const grid = document.getElementById("projectsGrid");
+        const filteredProjects =
+          filter === "all"
+            ? projects
+            : projects.filter((p) => p.category === filter);
+
+        grid.innerHTML = filteredProjects
+          .map(
+            (project, index) => `
+                <div class="project-card fade-in" style="animation-delay: ${
+                  index * 0.1
+                }s">
+                    <div class="project-content">
+                        <div class="project-header">
+                            <div>
+                                <h3 class="project-title">${project.title}</h3>
+                            </div>
+                            <span class="project-category-tag">${
+                              project.category
+                            }</span>
+                        </div>
+                        <p class="project-description">${
+                          project.description
+                        }</p>
+                        <div class="project-tech">
+                            ${project.tech
+                              .map(
+                                (tech) =>
+                                  `<span class="tech-tag">${tech}</span>`
+                              )
+                              .join("")}
+                        </div>
+                        <div class="project-links">
+                            <a href="${
+                              project.demo
+                            }" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i>
+                                Live Demo
+                            </a>
+                            <a href="${
+                              project.github
+                            }" target="_blank" class="btn btn-secondary">
+                                <i class="fab fa-github"></i>
+                                Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `
+          )
+          .join("");
+
+        observeElements();
+      }
+
+      // Category filter
+      document.querySelectorAll(".category-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".category-btn")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          renderProjects(btn.dataset.category);
+        });
+      });
+
+      // Click counter
+      let clickCount = 0;
+      const clickCounter = document.getElementById("clickCounter");
+      const clickCountDisplay = document.getElementById("clickCount");
+
+      clickCounter.addEventListener("click", () => {
+        clickCount++;
+        clickCountDisplay.textContent = clickCount;
+        try {
+          localStorage.setItem("portfolioClicks", clickCount);
+        } catch (e) {
+          console.log("localStorage not available");
+        }
+      });
+
+      // Load saved click count
+      try {
+        const savedClicks = localStorage.getItem("portfolioClicks");
+        if (savedClicks) {
+          clickCount = parseInt(savedClicks);
+          clickCountDisplay.textContent = clickCount;
+        }
+      } catch (e) {
+        console.log("localStorage not available");
+      }
+
+      // Live timer
+      let seconds = 0;
+      const timerDisplay = document.getElementById("liveTimer");
+
+      setInterval(() => {
+        seconds++;
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
+        timerDisplay.textContent = `${String(hours).padStart(2, "0")}:${String(
+          minutes
+        ).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+      }, 1000);
+
+      // Fetch GitHub stats
+      async function fetchGitHubStats() {
+        try {
+          const headers = {
+            Authorization: `Bearer ${GITHUB_TOKEN}`,
+            Accept: "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+          };
+
+          const userResponse = await fetch(
+            `https://api.github.com/users/${GITHUB_USERNAME}`,
+            { headers }
+          );
+
+          if (!userResponse.ok) {
+            throw new Error(`GitHub API error: ${userResponse.status}`);
+          }
+
+          const userData = await userResponse.json();
+
+          const reposResponse = await fetch(
+            `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100`,
+            { headers }
+          );
+
+          if (!reposResponse.ok) {
+            throw new Error(`GitHub API error: ${reposResponse.status}`);
+          }
+
+          const reposData = await reposResponse.json();
+
+          const totalStars = reposData.reduce(
+            (sum, repo) => sum + repo.stargazers_count,
+            0
+          );
+          const totalForks = reposData.reduce(
+            (sum, repo) => sum + repo.forks_count,
+            0
+          );
+
+          document.getElementById("totalRepos").textContent =
+            userData.public_repos || 0;
+          document.getElementById("totalStars").textContent = totalStars;
+          document.getElementById("totalForks").textContent = totalForks;
+          document.getElementById("totalFollowers").textContent =
+            userData.followers || 0;
+        } catch (error) {
+          console.error("Error fetching GitHub stats:", error);
+          // Fallback to manual counts
+          document.getElementById("totalRepos").textContent = "20+";
+          document.getElementById("totalStars").textContent = "--";
+          document.getElementById("totalForks").textContent = "--";
+          document.getElementById("totalFollowers").textContent = "--";
+        }
+      }
+
+      // Fetch GitHub commits
+      async function fetchGitHubCommits() {
+        try {
+          const headers = {
+            Authorization: `Bearer ${GITHUB_TOKEN}`,
+            Accept: "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+          };
+
+          const response = await fetch(
+            `https://api.github.com/users/${GITHUB_USERNAME}/events/public`,
+            { headers }
+          );
+
+          if (!response.ok) {
+            throw new Error(`GitHub API error: ${response.status}`);
+          }
+
+          const events = await response.json();
+
+          const commits = events
+            .filter((event) => event.type === "PushEvent")
+            .slice(0, 5)
+            .map((event) => ({
+              message: event.payload.commits[0]?.message || "Commit",
+              repo: event.repo.name,
+              time: new Date(event.created_at).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+              }),
+            }));
+
+          const commitList = document.getElementById("commitList");
+          if (commits.length > 0) {
+            commitList.innerHTML = commits
+              .map(
+                (commit) => `
+                        <li class="commit-item">
+                            <div class="commit-dot"></div>
+                            <span class="commit-message">${commit.message.substring(
+                              0,
+                              60
+                            )}${commit.message.length > 60 ? "..." : ""}</span>
+                            <span class="commit-time">${commit.time}</span>
+                        </li>
+                    `
+              )
+              .join("");
+          } else {
+            commitList.innerHTML =
+              '<li class="commit-item"><div class="commit-dot"></div><span class="commit-message">No recent activity</span></li>';
+          }
+        } catch (error) {
+          console.error("Error fetching GitHub commits:", error);
+          document.getElementById("commitList").innerHTML = `
+                    <li class="commit-item">
+                        <div class="commit-dot"></div>
+                        <span class="commit-message">Could not load recent activity</span>
+                    </li>
+                `;
+        }
+      }
+
+      // Smooth scroll
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      });
+
+      // Intersection Observer for fade-in animations
+      function observeElements() {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        document
+          .querySelectorAll(".fade-in")
+          .forEach((el) => observer.observe(el));
+      }
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        renderProjects();
+        observeElements();
+        fetchGitHubStats();
+        fetchGitHubCommits();
+      });
+    </script>
   </body>
 </html>
