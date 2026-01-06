@@ -1,0 +1,98 @@
+[
+  {
+    "title": "Awesome Grade Calculator",
+    "category": "personal",
+    "description": "Gamified project evaluation system with MOBA-style ranking progression.",
+    "tech": ["HTML", "CSS", "JavaScript"],
+    "github": "https://github.com/Exc1D/day-04-epic-grade-calculator",
+    "demo": "https://exc1d.github.io/day-04-epic-grade-calculator/"
+  },
+  {
+    "title": "PX-to-REM Converter",
+    "category": "personal",
+    "description": "Interactive converter with live updates, smart rounding, and dark mode.",
+    "tech": ["HTML", "CSS", "JavaScript"],
+    "github": "https://github.com/Exc1D/px-to-rem",
+    "demo": "https://exc1d.github.io/px-to-rem/"
+  },
+  {
+    "title": "EXXEED | The Mission Log",
+    "category": "personal",
+    "description": "Serverless blogging platform with cyber-military aesthetics.",
+    "tech": ["Cloudflare Workers", "KV", "JavaScript"],
+    "github": "https://github.com/Exc1D/exxeed-blog",
+    "demo": "https://iexceed.xyz/"
+  },
+  {
+    "title": "Etch-a-Sketch",
+    "category": "odin",
+    "description": "Browser-based sketching pad with adjustable grids.",
+    "tech": ["HTML", "CSS", "JavaScript"],
+    "github": "https://github.com/Exc1D/odin-etch-a-sketch",
+    "demo": "https://exc1d.github.io/odin-etch-a-sketch/"
+  },
+  {
+    "title": "Almost Boring Calculator",
+    "category": "odin",
+    "description": "Fully functional vanilla JS calculator.",
+    "tech": ["HTML", "CSS", "JavaScript"],
+    "github": "https://github.com/Exc1D/odin-calculator",
+    "demo": "https://exc1d.github.io/odin-calculator/"
+  },
+  {
+    "title": "Kawaii Rock Paper Scissors",
+    "category": "odin",
+    "description": "Mini-game with dynamic scoring and sound effects.",
+    "tech": ["HTML", "CSS", "JavaScript"],
+    "github": "https://github.com/Exc1D/odin-kawaii-rps",
+    "demo": "https://exc1d.github.io/odin-kawaii-rps/"
+  },
+  {
+    "title": "Oldagram",
+    "category": "scrimba",
+    "description": "Instagram clone with interactive likes and animations.",
+    "tech": ["HTML", "CSS", "JavaScript"],
+    "github": "https://github.com/Exc1D/scrimba-oldagram",
+    "demo": "https://exc1d.github.io/scrimba-oldagram/"
+  },
+  {
+    "title": "Random Passwordinator",
+    "category": "scrimba",
+    "description": "Dr. Doofenshmirtz-inspired password generator.",
+    "tech": ["HTML", "CSS", "JavaScript"],
+    "github": "https://github.com/Exc1D/Passwordinator",
+    "demo": "https://exc1d.github.io/Passwordinator/"
+  },
+  {
+    "title": "Unit Converter",
+    "category": "scrimba",
+    "description": "Converter for length, volume, and mass.",
+    "tech": ["HTML", "CSS", "JavaScript"],
+    "github": "https://github.com/Exc1D/Unit-Converter-Solo-project-from-Scrimba-",
+    "demo": "https://exc1d.github.io/Unit-Converter-Solo-project-from-Scrimba-/"
+  },
+  {
+    "title": "Product Preview Page",
+    "category": "frontend-mentor",
+    "description": "Responsive product layout challenge.",
+    "tech": ["HTML", "CSS"],
+    "github": "https://github.com/Exc1D/product-preview",
+    "demo": "https://exc1d.github.io/product-preview/"
+  },
+  {
+    "title": "Age Calculator",
+    "category": "frontend-mentor",
+    "description": "Elegant age calculator with animations.",
+    "tech": ["HTML", "CSS", "JavaScript"],
+    "github": "https://github.com/Exc1D/day-03-age-calculator",
+    "demo": "https://exc1d.github.io/day-03-age-calculator/"
+  },
+  {
+    "title": "Blog Card",
+    "category": "frontend-mentor",
+    "description": "Frontend Mentor blog card challenge.",
+    "tech": ["HTML", "CSS"],
+    "github": "https://github.com/Exc1D/blog-card",
+    "demo": "https://exc1d.github.io/blog-card/"
+  }
+]

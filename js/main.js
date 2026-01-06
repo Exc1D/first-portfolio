@@ -1,24 +1,19 @@
 // ==============================
 // PROJECT DATA
 // ==============================
-const projects = [
-  {
-    title: "Awesome Grade Calculator",
-    category: "personal",
-    description: "Gamified grading system with MOBA-style ranks.",
-    tech: ["HTML", "CSS", "JavaScript"],
-    github: "https://github.com/Exc1D/day-04-epic-grade-calculator",
-    demo: "https://exc1d.github.io/day-04-epic-grade-calculator/",
-  },
-  {
-    title: "PX-to-REM Converter",
-    category: "personal",
-    description: "Interactive converter with dark mode and smart rounding.",
-    tech: ["HTML", "CSS", "JavaScript"],
-    github: "https://github.com/Exc1D/px-to-rem",
-    demo: "https://exc1d.github.io/px-to-rem/",
-  },
-];
+let projects = [];
+
+async function loadProjects() {
+  try {
+    const res = await fetch("projects.json");
+    projects = await res.json();
+    renderProjects(projects);
+  } catch (err) {
+    console.error("Failed to load projects:", err);
+  }
+}
+
+loadProjects();
 
 // ==============================
 // PROJECT RENDERING
@@ -46,10 +41,10 @@ function renderProjects(filter = "all") {
                 <div class="project-links">
                     <a href="${
                       project.demo
-                    }" target="_blank" class="btn btn-primary">Live</a>
+                    }" target="_blank" class="neo-btn"><span>Live</span></a>
                     <a href="${
                       project.github
-                    }" target="_blank" class="btn btn-secondary">Code</a>
+                    }" target="_blank" class="neo-btn"><span>Code</span></a>
                 </div>
             </div>
         </div>

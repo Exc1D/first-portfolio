@@ -194,41 +194,6 @@ section {
   margin: 3rem 0;
 }
 
-.btn-cta {
-  padding: 1rem 2.5rem;
-  border-radius: 12px;
-  text-decoration: none;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.btn-cta-primary {
-  background: var(--accent);
-  color: white;
-  border: none;
-}
-
-.btn-cta-primary:hover {
-  background: var(--accent-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
-}
-
-.btn-cta-secondary {
-  background: transparent;
-  color: var(--text-primary);
-  border: 2px solid var(--border);
-}
-
-.btn-cta-secondary:hover {
-  border-color: var(--accent);
-  background: rgba(0, 113, 227, 0.1);
-}
-
 .github-stats-section {
   background: var(--bg-secondary);
   padding: 6rem 0;
@@ -477,41 +442,6 @@ section {
 .project-links {
   display: flex;
   gap: 1rem;
-}
-
-.btn {
-  padding: 0.7rem 1.5rem;
-  border-radius: 12px;
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 600;
-}
-
-.btn-primary {
-  background: var(--accent);
-  color: white;
-  border: none;
-}
-
-.btn-primary:hover {
-  background: var(--accent-hover);
-  transform: translateY(-2px);
-}
-
-.btn-secondary {
-  background: transparent;
-  color: var(--text-secondary);
-  border: 1px solid var(--border);
-}
-
-.btn-secondary:hover {
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  border-color: var(--accent);
 }
 
 .skills-grid {
@@ -797,5 +727,96 @@ section {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+/* ============================
+   Neon Gradient Outline Button
+   ============================ */
+
+.neo-btn {
+  position: relative;
+  display: inline-flex;
+  padding: 0.85rem 2.4rem;
+  border-radius: 999px;
+  text-decoration: none;
+  background: transparent;
+  cursor: pointer;
+  isolation: isolate;
+  border: none;
+  font-size: 1rem;
+}
+
+/* Inner dark surface */
+.neo-btn span {
+  position: relative;
+  z-index: 2;
+  padding: 0.75rem 2.2rem;
+  border-radius: 999px;
+  background: #0b0b0b;
+  color: white;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Gradient outline */
+.neo-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(
+    90deg,
+    #ff4ecd,
+    #ffa94d,
+    #4dff91,
+    #4dc9ff,
+    #9b5cff
+  );
+  background-size: 200% 200%;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  transition: filter 0.3s ease;
+}
+
+/* Soft glow */
+.neo-btn::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: inherit;
+  background: inherit;
+  filter: blur(20px);
+  opacity: 0.25;
+  z-index: 0;
+}
+
+/* Hover animation */
+.neo-btn:hover::before {
+  animation: neonShift 2.5s linear infinite;
+}
+
+.neo-btn:hover::after {
+  animation: neonShift 2.5s linear infinite;
+  opacity: 0.4;
+}
+
+/* Subtle press */
+.neo-btn:active {
+  transform: scale(0.96);
+}
+
+/* Gradient animation */
+@keyframes neonShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
   }
 }
