@@ -3,460 +3,157 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EXXEED | Full-Stack Developer</title>
+    <title>David Aviado | Full-Stack Developer</title>
     <link rel="stylesheet" href="style.css" />
+    <!-- Inter Font (Apple Alternative) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/your-code.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
-    <div class="bg-grid"></div>
-    <div class="scanline"></div>
+    <!-- Subtle Background Gradient -->
+    <div class="bg-blur"></div>
 
-    <nav>
-      <div class="logo">EXXEED</div>
-      <ul class="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#dashboard">Dashboard</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
+    <nav class="glass-nav">
+      <div class="nav-content">
+        <span class="logo">EXCEEED</span>
+        <div class="nav-links">
+          <a href="#about">About</a>
+          <a href="#projects">Work</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
     </nav>
 
-    <div class="container">
-      <section id="home" class="hero">
-        <div class="hero-content">
-          <div class="status-badge">◉ OPERATIONAL | PHILIPPINES</div>
-          <h1 class="glitch" data-text="DAVID LAURENCE AVIADO">
-            DAVID LAURENCE AVIADO
-          </h1>
-          <div class="rank">FULL-STACK DEVELOPER [IN TRAINING]</div>
-          <p class="bio">
-            Former
-            <span class="bio-highlight">Philippine Military Academy Cadet</span>
-            who traded the rifle for a keyboard but kept the discipline. I
-            transform boring apps into
-            <span class="bio-highlight">fun, creative, and beautiful</span>
-            experiences. Currently learning through
-            <span class="bio-highlight">The Odin Project</span>,
-            <span class="bio-highlight">Scrimba</span>, and
-            <span class="bio-highlight">Frontend Mentor</span>. <br /><br />
-            I code for Joy, Hero, Aiah, and Aria 🦴💙
-          </p>
-          <div class="cta-buttons">
-            <a href="#projects" class="btn btn-primary">View Projects</a>
-            <a href="mailto:davidaviado.dla@gmail.com" class="btn btn-secondary"
-              >Contact Me</a
+    <main class="container">
+      <!-- Hero Section -->
+      <section id="hero" class="hero-section">
+        <div class="badge">Philippine Military Academy → Keyboard</div>
+        <h1 class="reveal-text">
+          Transforming boring code into <span>beautiful experiences.</span>
+        </h1>
+        <p class="hero-subtext">
+          I'm David Laurence Aviado, a Philippine-based developer blending
+          military discipline with creative full-stack development.
+        </p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn-primary">View Missions</a>
+          <a href="mailto:davidaviado.dla@gmail.com" class="btn-secondary"
+            >Get in touch</a
+          >
+        </div>
+      </section>
+
+      <!-- Stats/Dashboard Section (The Widgets) -->
+      <section class="dashboard-grid">
+        <div class="glass-card widget">
+          <h3>Click Counter</h3>
+          <p>Interactive satisfying feedback</p>
+          <div class="counter-box">
+            <span id="click-count">0</span>
+            <button id="click-me" class="btn-apple">Click Me</button>
+          </div>
+        </div>
+
+        <div class="glass-card widget">
+          <h3>Live Status</h3>
+          <p id="current-time">00:00:00 AM</p>
+          <span class="status-indicator">● Available for Work</span>
+        </div>
+
+        <div class="glass-card widget github-widget">
+          <h3>Recent Activity</h3>
+          <div id="github-commits">Loading latest mission...</div>
+          <a href="https://github.com/Exc1D" target="_blank" class="small-link"
+            >View GitHub →</a
+          >
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section id="projects">
+        <h2 class="section-title">The Mission Log</h2>
+
+        <div class="project-categories">
+          <!-- Personal Projects -->
+          <div class="category-group">
+            <h3 class="cat-name">Personal Projects</h3>
+            <div class="project-grid">
+              <div class="project-card glass-card">
+                <div class="project-info">
+                  <h4>EXXEED | Mission Log</h4>
+                  <p>
+                    Serverless CMS built on Cloudflare Workers with a Cyberpunk
+                    aesthetic.
+                  </p>
+                  <div class="tech-stack">
+                    <span>Workers</span> <span>KV</span> <span>JS</span>
+                  </div>
+                  <div class="project-links">
+                    <a href="https://iexceed.xyz/">Live Demo</a>
+                    <a href="https://github.com/Exc1D/exxeed-blog">Repo</a>
+                  </div>
+                </div>
+              </div>
+              <!-- Repeat for Grade Calculator and PX-to-REM -->
+            </div>
+          </div>
+
+          <!-- The Odin Project -->
+          <div class="category-group">
+            <h3 class="cat-name">The Odin Project</h3>
+            <div class="project-grid">
+              <div class="project-card glass-card">
+                <div class="project-info">
+                  <h4>Almost Boring Calculator</h4>
+                  <p>
+                    Pure JS logic. No shortcuts, just algorithmic discipline.
+                  </p>
+                  <div class="tech-stack">
+                    <span>Vanilla JS</span> <span>CSS3</span>
+                  </div>
+                  <div class="project-links">
+                    <a href="https://exc1d.github.io/odin-calculator/">Live</a>
+                  </div>
+                </div>
+              </div>
+              <!-- Add others: Etch-a-Sketch, RPS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="contact-section">
+        <div class="glass-card contact-card">
+          <h2>Ready to collaborate?</h2>
+          <p>Let's build something fun and mathematically sound.</p>
+          <div class="social-links">
+            <a href="https://github.com/Exc1D" class="btn-apple">GitHub</a>
+            <a
+              href="https://www.linkedin.com/in/david-laurence-aviado-b1aaa8272"
+              class="btn-apple"
+              >LinkedIn</a
+            >
+            <a
+              href="mailto:davidaviado.dla@gmail.com"
+              class="btn-apple highlight"
+              >Book a Chat</a
             >
           </div>
         </div>
       </section>
+    </main>
 
-      <section id="projects">
-        <div style="width: 100%">
-          <div class="section-header">
-            <h2 class="section-title">DEPLOYED MISSIONS</h2>
-            <p class="section-subtitle">// SHOWCASE OF COMPLETED OPERATIONS</p>
-          </div>
-          <div class="projects-grid">
-            <div class="project-card">
-              <div class="project-header">
-                <div>
-                  <h3 class="project-title">EXXEED | The Mission Log</h3>
-                  <div class="project-type">SERVERLESS CMS</div>
-                </div>
-              </div>
-              <p class="project-description">
-                Lightweight, high-performance blogging platform built on
-                Cloudflare Workers. Features Military/Cyberpunk aesthetic,
-                built-in CMS, dual-theme engine, and dynamic timeline
-                visualization—all in a single JavaScript file.
-              </p>
-              <div class="tech-stack">
-                <span class="tech-tag">Cloudflare Workers</span>
-                <span class="tech-tag">KV Storage</span>
-                <span class="tech-tag">Vanilla JS</span>
-                <span class="tech-tag">CSS3</span>
-              </div>
-              <div class="project-links">
-                <a href="https://iexceed.xyz/" target="_blank">→ Live Demo</a>
-                <a href="https://github.com/Exc1D/exxeed-blog" target="_blank"
-                  >→ GitHub</a
-                >
-              </div>
-            </div>
-
-            <div class="project-card">
-              <div class="project-header">
-                <div>
-                  <h3 class="project-title">Awesome Grade Calculator</h3>
-                  <div class="project-type">GAMIFIED SYSTEM</div>
-                </div>
-              </div>
-              <p class="project-description">
-                Gamified project evaluation system with MOBA-style ranking
-                progression, sound effects, and comprehensive statistics
-                tracking. Built for my 100 projects coding journey with an
-                engaging, game-like interface.
-              </p>
-              <div class="tech-stack">
-                <span class="tech-tag">HTML5</span>
-                <span class="tech-tag">CSS3</span>
-                <span class="tech-tag">Vanilla JavaScript</span>
-              </div>
-              <div class="project-links">
-                <a
-                  href="https://exc1d.github.io/day-04-epic-grade-calculator/"
-                  target="_blank"
-                  >→ Live Demo</a
-                >
-                <a
-                  href="https://github.com/Exc1D/day-04-epic-grade-calculator"
-                  target="_blank"
-                  >→ GitHub</a
-                >
-              </div>
-            </div>
-
-            <div class="project-card">
-              <div class="project-header">
-                <div>
-                  <h3 class="project-title">Etch-a-Sketch</h3>
-                  <div class="project-type">INTERACTIVE TOOL</div>
-                </div>
-              </div>
-              <p class="project-description">
-                Fully interactive browser-based sketching pad with multiple pen
-                modes, adjustable grid sizes, and mobile touch support. Created
-                as part of The Odin Project curriculum with a focus on DOM
-                manipulation.
-              </p>
-              <div class="tech-stack">
-                <span class="tech-tag">HTML5</span>
-                <span class="tech-tag">CSS3</span>
-                <span class="tech-tag">Vanilla JavaScript</span>
-                <span class="tech-tag">DOM API</span>
-              </div>
-              <div class="project-links">
-                <a
-                  href="https://exc1d.github.io/odin-etch-a-sketch/"
-                  target="_blank"
-                  >→ Live Demo</a
-                >
-                <a
-                  href="https://github.com/Exc1D/odin-etch-a-sketch"
-                  target="_blank"
-                  >→ GitHub</a
-                >
-              </div>
-            </div>
-
-            <div class="project-card">
-              <div class="project-header">
-                <div>
-                  <h3 class="project-title">PX-to-REM Converter</h3>
-                  <div class="project-type">DEV UTILITY</div>
-                </div>
-              </div>
-              <p class="project-description">
-                Polished unit converter for responsive design workflows.
-                Features smart rounding, live updates, batch processing,
-                presets, dark mode, and automatic clipboard copying. Essential
-                tool for modern CSS development.
-              </p>
-              <div class="tech-stack">
-                <span class="tech-tag">HTML5</span>
-                <span class="tech-tag">CSS3</span>
-                <span class="tech-tag">Vanilla JavaScript</span>
-                <span class="tech-tag">Clipboard API</span>
-              </div>
-              <div class="project-links">
-                <a href="https://exc1d.github.io/px-to-rem/" target="_blank"
-                  >→ Live Demo</a
-                >
-                <a href="https://github.com/Exc1D/px-to-rem" target="_blank"
-                  >→ GitHub</a
-                >
-              </div>
-            </div>
-
-            <div class="skill-category">
-              <h3>Specializations</h3>
-              <div class="skill-list">
-                <div>
-                  <div class="skill-item">
-                    <span class="skill-name">Responsive Design</span>
-                  </div>
-                  <div class="skill-bar">
-                    <div class="skill-progress" style="width: 80%"></div>
-                  </div>
-                </div>
-                <div>
-                  <div class="skill-item">
-                    <span class="skill-name">DOM Manipulation</span>
-                  </div>
-                  <div class="skill-bar">
-                    <div class="skill-progress" style="width: 75%"></div>
-                  </div>
-                </div>
-                <div>
-                  <div class="skill-item">
-                    <span class="skill-name">UI/UX Design</span>
-                  </div>
-                  <div class="skill-bar">
-                    <div class="skill-progress" style="width: 70%"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section id="skills">
-        <div style="width: 100%">
-          <div class="section-header">
-            <h2 class="section-title">ARSENAL & CAPABILITIES</h2>
-            <p class="section-subtitle">
-              // CURRENT TECH STACK & PROFICIENCIES
-            </p>
-          </div>
-          <div class="skills-container">
-            <div class="skill-category">
-              <h3>Frontend Development</h3>
-              <div class="skill-list">
-                <div>
-                  <div class="skill-item">
-                    <span class="skill-name">HTML5</span>
-                  </div>
-                  <div class="skill-bar">
-                    <div class="skill-progress" style="width: 85%"></div>
-                  </div>
-                </div>
-                <div>
-                  <div class="skill-item">
-                    <span class="skill-name">CSS3</span>
-                  </div>
-                  <div class="skill-bar">
-                    <div class="skill-progress" style="width: 80%"></div>
-                  </div>
-                </div>
-                <div>
-                  <div class="skill-item">
-                    <span class="skill-name">JavaScript</span>
-                  </div>
-                  <div class="skill-bar">
-                    <div class="skill-progress" style="width: 75%"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="skill-category">
-              <h3>Backend & Tools</h3>
-              <div class="skill-list">
-                <div>
-                  <div class="skill-item">
-                    <span class="skill-name">Python</span>
-                  </div>
-                  <div class="skill-bar">
-                    <div class="skill-progress" style="width: 50%"></div>
-                  </div>
-                </div>
-                <div>
-                  <div class="skill-item">
-                    <span class="skill-name">Git & GitHub</span>
-                  </div>
-                  <div class="skill-bar">
-                    <div class="skill-progress" style="width: 70%"></div>
-                  </div>
-                </div>
-                <div>
-                  <div class="skill-item">
-                    <span class="skill-name">Cloudflare Workers</span>
-                  </div>
-                  <div class="skill-bar">
-                    <div class="skill-progress" style="width: 60%"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="dashboard">
-        <div style="width: 100%">
-          <div class="section-header">
-            <h2 class="section-title">COMMAND CENTER</h2>
-            <p class="section-subtitle">// LIVE SYSTEM STATUS & METRICS</p>
-          </div>
-          <div class="dashboard">
-            <div class="dashboard-widget">
-              <div class="widget-header">
-                <span class="widget-indicator"></span>
-                INTERACTION COUNTER
-              </div>
-              <div class="counter-display" id="clickCount">0</div>
-              <p
-                style="
-                  text-align: center;
-                  color: var(--text-secondary);
-                  margin-bottom: 1rem;
-                  font-size: 0.9rem;
-                "
-              >
-                Total clicks from all visitors
-              </p>
-              <button class="counter-btn" onclick="incrementCounter()">
-                CLICK ME
-              </button>
-            </div>
-
-            <div class="dashboard-widget">
-              <div class="widget-header">
-                <span class="widget-indicator"></span>
-                RECENT COMMITS
-              </div>
-              <div class="commit-list" id="commitList">
-                <div class="commit-item">
-                  <div class="commit-hash">[Loading...]</div>
-                  <div class="commit-message">
-                    Fetching latest commits from GitHub...
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="dashboard-widget">
-              <div class="widget-header">
-                <span class="widget-indicator"></span>
-                SYSTEM UPTIME
-              </div>
-              <div class="timer-display" id="uptime">00:00:00</div>
-              <p
-                style="
-                  text-align: center;
-                  color: var(--text-secondary);
-                  margin-top: 1rem;
-                  font-size: 0.9rem;
-                "
-              >
-                Time since page load
-              </p>
-            </div>
-
-            <div class="dashboard-widget">
-              <div class="widget-header">
-                <span class="widget-indicator"></span>
-                MISSION BRIEFING
-              </div>
-              <a
-                href="https://cal.com"
-                target="_blank"
-                class="btn btn-primary"
-                style="width: 100%; text-align: center; margin-top: 1rem"
-              >
-                📅 BOOK A CHAT
-              </a>
-              <p
-                style="
-                  text-align: center;
-                  color: var(--text-secondary);
-                  margin-top: 1rem;
-                  font-size: 0.9rem;
-                "
-              >
-                Always open to interesting projects and conversations
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="contact">
-        <div style="width: 100%">
-          <div class="section-header">
-            <h2 class="section-title">ESTABLISH CONTACT</h2>
-            <p class="section-subtitle">// AVAILABLE COMMUNICATION CHANNELS</p>
-          </div>
-          <div class="contact-grid">
-            <div class="contact-info">
-              <div class="contact-item">
-                <div class="contact-icon">📧</div>
-                <div>
-                  <div style="font-weight: 600; margin-bottom: 0.25rem">
-                    Email
-                  </div>
-                  <a
-                    href="mailto:davidaviado.dla@gmail.com"
-                    class="contact-link"
-                    >davidaviado.dla@gmail.com</a
-                  >
-                </div>
-              </div>
-              <div class="contact-item">
-                <div class="contact-icon">📍</div>
-                <div>
-                  <div style="font-weight: 600; margin-bottom: 0.25rem">
-                    Location
-                  </div>
-                  <span class="contact-link">Philippines</span>
-                </div>
-              </div>
-              <div class="contact-item">
-                <div class="contact-icon">💼</div>
-                <div>
-                  <div style="font-weight: 600; margin-bottom: 0.25rem">
-                    Status
-                  </div>
-                  <span class="contact-link">Open to Opportunities</span>
-                </div>
-              </div>
-            </div>
-            <div>
-              <h3
-                style="
-                  font-family: 'Orbitron', sans-serif;
-                  color: var(--cyber-cyan);
-                  margin-bottom: 1.5rem;
-                "
-              >
-                Connect With Me
-              </h3>
-              <div class="social-links">
-                <a
-                  href="https://github.com/Exc1D"
-                  target="_blank"
-                  class="social-btn"
-                >
-                  <span>→</span> GitHub
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/david-laurence-aviado-b1aaa8272"
-                  target="_blank"
-                  class="social-btn"
-                >
-                  <span>→</span> LinkedIn
-                </a>
-                <a
-                  href="https://www.frontendmentor.io/profile/Exc1D"
-                  target="_blank"
-                  class="social-btn"
-                >
-                  <span>→</span> Frontend Mentor
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <footer>
-      <div class="footer-content">
-        <div>© 2025 EXXEED | David Laurence Aviado</div>
-        <div>ALL SYSTEMS OPERATIONAL</div>
-        <div id="footerTime">00:00:00</div>
-      </div>
+    <footer class="footer">
+      <p>&copy; 2024 David Laurence Aviado. Built with 8pt grid discipline.</p>
     </footer>
+
     <script src="script.js"></script>
   </body>
 </html>

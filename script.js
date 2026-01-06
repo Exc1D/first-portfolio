@@ -1,135 +1,77 @@
-// Click Counter (simulated global counter)
-let clickCount = 0;
-
-// Load counter from storage
-async function loadCounter() {
-  try {
-    const result = await window.storage.get("global_click_count", true);
-    if (result && result.value) {
-      clickCount = parseInt(result.value);
-      document.getElementById("clickCount").textContent =
-        clickCount.toLocaleString();
-    }
-  } catch (error) {
-    // Key doesn't exist yet, start from 0
-    clickCount = 0;
-  }
-}
-
-async function incrementCounter() {
-  clickCount++;
-  document.getElementById("clickCount").textContent =
-    clickCount.toLocaleString();
-
-  // Save to persistent storage
-  try {
-    await window.storage.set("global_click_count", clickCount.toString(), true);
-  } catch (error) {
-    console.error("Failed to save counter:", error);
-  }
-
-  // Add animation
-  const counterEl = document.getElementById("clickCount");
-  counterEl.style.transform = "scale(1.2)";
-  setTimeout(() => {
-    counterEl.style.transform = "scale(1)";
-  }, 200);
-}
-
-// Load counter on page load
-loadCounter();
-
-// Uptime Timer
-let startTime = Date.now();
-
-function updateUptime() {
-  const elapsed = Date.now() - startTime;
-  const hours = Math.floor(elapsed / 3600000);
-  const minutes = Math.floor((elapsed % 3600000) / 60000);
-  const seconds = Math.floor((elapsed % 60000) / 1000);
-
-  const timeString = `${String(hours).padStart(2, "0")}:${String(
-    minutes
-  ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-  document.getElementById("uptime").textContent = timeString;
-  document.getElementById("footerTime").textContent = timeString;
-}
-
-setInterval(updateUptime, 1000);
-
-// Fetch Recent GitHub Commits
-async function fetchCommits() {
-  try {
-    const response = await fetch(
-      "https://api.github.com/users/Exc1D/events/public?per_page=3"
-    );
-    const events = await response.json();
-
-    const commitList = document.getElementById("commitList");
-    commitList.innerHTML = "";
-
-    const pushEvents = events.filter((e) => e.type === "PushEvent").slice(0, 3);
-
-    if (pushEvents.length === 0) {
-      commitList.innerHTML =
-        '<div class="commit-item"><div class="commit-message">No recent commits found</div></div>';
-      return;
-    }
-
-    pushEvents.forEach((event) => {
-      const commit = event.payload.commits[0];
-      const repo = event.repo.name;
-      const hash = commit.sha.substring(0, 7);
-      const message =
-        commit.message.substring(0, 60) +
-        (commit.message.length > 60 ? "..." : "");
-
-      const commitItem = document.createElement("div");
-      commitItem.className = "commit-item";
-      commitItem.innerHTML = `
-                        <div class="commit-hash">[${hash}] ${repo}</div>
-                        <div class="commit-message">${message}</div>
-                    `;
-      commitList.appendChild(commitItem);
-    });
-  } catch (error) {
-    const commitList = document.getElementById("commitList");
-    commitList.innerHTML =
-      '<div class="commit-item"><div class="commit-message">Unable to fetch commits</div></div>';
-  }
-}
-
-fetchCommits();
-
-// Smooth Scrolling
-document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-  anchor.addEventListener("click", function (e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute("href"));
-    if (target) {
-      target.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
+// 1. Live Timer Widget
+function updateTimer() {
+  const timerElement = document.getElementById("current-time");
+  const now = new Date();
+  timerElement.innerText = now.toLocaleTimeString("en-US", {
+    hour12: true,
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
   });
+}
+setInterval(updateTimer, 1000);
+
+// 2. Click Counter Widget (Persistent via LocalStorage)
+const clickBtn = document.getElementById("click-me");
+const clickDisplay = document.getElementById("click-count");
+let count = localStorage.getItem("portfolio-clicks") || 0;
+clickDisplay.innerText = count;
+
+clickBtn.addEventListener("click", () => {
+  count++;
+  clickDisplay.innerText = count;
+  localStorage.setItem("portfolio-clicks", count);
+
+  // Add a tiny Apple-like haptic animation
+  clickBtn.style.transform = "scale(0.95)";
+  setTimeout(() => (clickBtn.style.transform = "scale(1)"), 100);
 });
 
-// Skill bars animation on scroll
+// 3. GitHub Recent Commits Widget
+async function fetchGithubActivity() {
+  const container = document.getElementById("github-commits");
+  try {
+    const response = await fetch(
+      "https://api.github.com/users/Exc1D/events/public"
+    );
+    const data = await response.json();
+
+    // Find the first PushEvent
+    const lastPush = data.find((event) => event.type === "PushEvent");
+
+    if (lastPush) {
+      const repoName = lastPush.repo.name.split("/")[1];
+      const message = lastPush.payload.commits[0].message;
+      container.innerHTML = `
+                <div style="font-size: 0.85rem;">
+                    <strong>${repoName}</strong><br>
+                    <span style="opacity:0.7">"${message}"</span>
+                </div>
+            `;
+    }
+  } catch (err) {
+    container.innerText = "Check GitHub for latest updates.";
+  }
+}
+fetchGithubActivity();
+
+// 4. Smooth Reveal Animation on Scroll
 const observerOptions = {
-  threshold: 0.5,
+  threshold: 0.1,
 };
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
-      entry.target.style.width = entry.target
-        .getAttribute("style")
-        .match(/width:\s*(\d+%)/)[1];
+      entry.target.style.opacity = "1";
+      entry.target.style.transform = "translateY(0)";
     }
   });
 }, observerOptions);
 
-document.querySelectorAll(".skill-progress").forEach((bar) => {
-  observer.observe(bar);
+document.querySelectorAll(".glass-card").forEach((card) => {
+  card.style.opacity = "0";
+  card.style.transform = "translateY(20px)";
+  card.style.transition = "all 0.6s cubic-bezier(0.22, 1, 0.36, 1)";
+  observer.observe(card);
 });
