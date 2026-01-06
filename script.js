@@ -1,77 +1,98 @@
-// 1. Live Timer Widget
-function updateTimer() {
-  const timerElement = document.getElementById("current-time");
-  const now = new Date();
-  timerElement.innerText = now.toLocaleTimeString("en-US", {
-    hour12: true,
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
+// ==============================
+// PROJECT DATA
+// ==============================
+const projects = [
+  {
+    title: "Awesome Grade Calculator",
+    category: "personal",
+    description: "Gamified grading system with MOBA-style ranks.",
+    tech: ["HTML", "CSS", "JavaScript"],
+    github: "https://github.com/Exc1D/day-04-epic-grade-calculator",
+    demo: "https://exc1d.github.io/day-04-epic-grade-calculator/",
+  },
+  {
+    title: "PX-to-REM Converter",
+    category: "personal",
+    description: "Interactive converter with dark mode and smart rounding.",
+    tech: ["HTML", "CSS", "JavaScript"],
+    github: "https://github.com/Exc1D/px-to-rem",
+    demo: "https://exc1d.github.io/px-to-rem/",
+  },
+];
+
+// ==============================
+// PROJECT RENDERING
+// ==============================
+function renderProjects(filter = "all") {
+  const grid = document.getElementById("projectsGrid");
+
+  const filtered =
+    filter === "all" ? projects : projects.filter((p) => p.category === filter);
+
+  grid.innerHTML = filtered
+    .map(
+      (project) => `
+        <div class="project-card fade-in">
+            <div class="project-content">
+                <h3 class="project-title">${project.title}</h3>
+                <p class="project-description">${project.description}</p>
+
+                <div class="project-tech">
+                    ${project.tech
+                      .map((t) => `<span class="tech-tag">${t}</span>`)
+                      .join("")}
+                </div>
+
+                <div class="project-links">
+                    <a href="${
+                      project.demo
+                    }" target="_blank" class="btn btn-primary">Live</a>
+                    <a href="${
+                      project.github
+                    }" target="_blank" class="btn btn-secondary">Code</a>
+                </div>
+            </div>
+        </div>
+    `
+    )
+    .join("");
+
+  observeElements();
 }
-setInterval(updateTimer, 1000);
 
-// 2. Click Counter Widget (Persistent via LocalStorage)
-const clickBtn = document.getElementById("click-me");
-const clickDisplay = document.getElementById("click-count");
-let count = localStorage.getItem("portfolio-clicks") || 0;
-clickDisplay.innerText = count;
-
-clickBtn.addEventListener("click", () => {
-  count++;
-  clickDisplay.innerText = count;
-  localStorage.setItem("portfolio-clicks", count);
-
-  // Add a tiny Apple-like haptic animation
-  clickBtn.style.transform = "scale(0.95)";
-  setTimeout(() => (clickBtn.style.transform = "scale(1)"), 100);
+// ==============================
+// CATEGORY FILTER
+// ==============================
+document.querySelectorAll(".category-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document
+      .querySelectorAll(".category-btn")
+      .forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+    renderProjects(btn.dataset.category);
+  });
 });
 
-// 3. GitHub Recent Commits Widget
-async function fetchGithubActivity() {
-  const container = document.getElementById("github-commits");
-  try {
-    const response = await fetch(
-      "https://api.github.com/users/Exc1D/events/public"
-    );
-    const data = await response.json();
+// ==============================
+// FADE-IN OBSERVER
+// ==============================
+function observeElements() {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) e.target.classList.add("visible");
+      });
+    },
+    { threshold: 0.1 }
+  );
 
-    // Find the first PushEvent
-    const lastPush = data.find((event) => event.type === "PushEvent");
-
-    if (lastPush) {
-      const repoName = lastPush.repo.name.split("/")[1];
-      const message = lastPush.payload.commits[0].message;
-      container.innerHTML = `
-                <div style="font-size: 0.85rem;">
-                    <strong>${repoName}</strong><br>
-                    <span style="opacity:0.7">"${message}"</span>
-                </div>
-            `;
-    }
-  } catch (err) {
-    container.innerText = "Check GitHub for latest updates.";
-  }
+  document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
 }
-fetchGithubActivity();
 
-// 4. Smooth Reveal Animation on Scroll
-const observerOptions = {
-  threshold: 0.1,
-};
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = "1";
-      entry.target.style.transform = "translateY(0)";
-    }
-  });
-}, observerOptions);
-
-document.querySelectorAll(".glass-card").forEach((card) => {
-  card.style.opacity = "0";
-  card.style.transform = "translateY(20px)";
-  card.style.transition = "all 0.6s cubic-bezier(0.22, 1, 0.36, 1)";
-  observer.observe(card);
+// ==============================
+// INIT
+// ==============================
+document.addEventListener("DOMContentLoaded", () => {
+  renderProjects();
+  observeElements();
 });
