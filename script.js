@@ -1,118 +1,15 @@
-const GITHUB_TOKEN =
-  "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";
-const GITHUB_USERNAME = "Exc1D";
+let projects = [];
 
-// Projects data
-const projects = [
-  {
-    title: "Awesome Grade Calculator",
-    category: "personal",
-    description:
-      "A gamified project evaluation system with MOBA-style ranking progression, sound effects, and comprehensive statistics tracking.",
-    tech: ["HTML", "CSS", "JavaScript"],
-    github: "https://github.com/Exc1D/day-04-epic-grade-calculator",
-    demo: "https://exc1d.github.io/day-04-epic-grade-calculator/",
-  },
-  {
-    title: "PX-to-REM Converter",
-    category: "personal",
-    description:
-      "A polished, fully interactive converter with smart rounding, live updates, batch processing, and dark mode.",
-    tech: ["HTML", "CSS", "JavaScript"],
-    github: "https://github.com/Exc1D/px-to-rem",
-    demo: "https://exc1d.github.io/px-to-rem/",
-  },
-  {
-    title: "EXXEED | The Mission Log",
-    category: "personal",
-    description:
-      "Serverless blogging platform built on Cloudflare Workers with Military/Cyberpunk aesthetic and built-in CMS.",
-    tech: ["Cloudflare Workers", "KV Storage", "JavaScript"],
-    github: "https://github.com/Exc1D/exxeed-blog",
-    demo: "https://iexceed.xyz/",
-  },
-  {
-    title: "Etch-a-Sketch",
-    category: "odin",
-    description:
-      "Interactive browser-based sketching pad with multiple pen modes, adjustable grid sizes, and mobile touch support.",
-    tech: ["HTML", "CSS", "JavaScript"],
-    github: "https://github.com/Exc1D/odin-etch-a-sketch",
-    demo: "https://exc1d.github.io/odin-etch-a-sketch/",
-  },
-  {
-    title: "Almost Boring Calculator",
-    category: "odin",
-    description:
-      "Fully functional web calculator built with vanilla JavaScript. No advanced methods, just pure functions.",
-    tech: ["HTML", "CSS", "JavaScript"],
-    github: "https://github.com/Exc1D/odin-calculator",
-    demo: "https://exc1d.github.io/odin-calculator/",
-  },
-  {
-    title: "Kawaii Rock, Paper, Scissors",
-    category: "odin",
-    description:
-      "Web-based mini-game with dynamic scoring, responsive design, and sound effects.",
-    tech: ["HTML", "CSS", "JavaScript"],
-    github: "https://github.com/Exc1D/odin-kawaii-rps",
-    demo: "https://exc1d.github.io/odin-kawaii-rps/",
-  },
-  {
-    title: "Oldagram",
-    category: "scrimba",
-    description:
-      "Instagram clone with dynamic feed rendering and interactive like functionality with animations.",
-    tech: ["HTML", "CSS", "JavaScript"],
-    github: "https://github.com/Exc1D/scrimba-oldagram",
-    demo: "https://exc1d.github.io/scrimba-oldagram/",
-  },
-  {
-    title: "Random Passwordinator",
-    category: "scrimba",
-    description:
-      "Dr. Doofenshmirtz-inspired password generator with fun animations and customizable parameters.",
-    tech: ["HTML", "CSS", "JavaScript"],
-    github: "https://github.com/Exc1D/Passwordinator",
-    demo: "https://exc1d.github.io/Passwordinator/",
-  },
-  {
-    title: "Unit Converter",
-    category: "scrimba",
-    description:
-      "Simple web-based converter for length, volume, and mass. Ready for Chrome extension conversion.",
-    tech: ["HTML", "CSS", "JavaScript"],
-    github:
-      "https://github.com/Exc1D/Unit-Converter-Solo-project-from-Scrimba-",
-    demo: "https://exc1d.github.io/Unit-Converter-Solo-project-from-Scrimba-/",
-  },
-  {
-    title: "Product Preview Page",
-    category: "frontend-mentor",
-    description:
-      "First take on responsive CSS design featuring a clean product layout.",
-    tech: ["HTML", "CSS"],
-    github: "https://github.com/Exc1D/product-preview",
-    demo: "https://exc1d.github.io/product-preview/",
-  },
-  {
-    title: "Age Calculator",
-    category: "frontend-mentor",
-    description: "Elegant age calculator with personality and fun animations.",
-    tech: ["HTML", "CSS", "JavaScript"],
-    github: "https://github.com/Exc1D/day-03-age-calculator",
-    demo: "https://exc1d.github.io/day-03-age-calculator/",
-  },
-  {
-    title: "Blog Card",
-    category: "frontend-mentor",
-    description:
-      "Solution to Frontend Mentor's challenge showcasing CSS specifications with custom hover effects.",
-    tech: ["HTML", "CSS"],
-    github: "https://github.com/Exc1D/blog-card",
-    demo: "https://exc1d.github.io/blog-card/",
-  },
-];
+// Load projects from JSON
+async function loadProjects() {
+  try {
+    const response = await fetch("projects.json");
+    projects = await response.json();
+    renderProjects();
+  } catch (error) {
+    console.error("Error loading projects:", error);
+  }
+}
 
 let currentCategory = "all";
 let virtualScrollOffset = 0;
@@ -220,65 +117,23 @@ setInterval(() => {
   ).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
 }, 1000);
 
-// Fetch GitHub stats
-async function fetchGitHubStats() {
-  try {
-    const headers = {
-      Authorization: `Bearer ${GITHUB_TOKEN}`,
-      Accept: "application/vnd.github+json",
-      "X-GitHub-Api-Version": "2022-11-28",
-    };
-
-    const userResponse = await fetch(
-      `https://api.github.com/users/${GITHUB_USERNAME}`,
-      { headers }
-    );
-
-    if (!userResponse.ok) {
-      throw new Error(`GitHub API error: ${userResponse.status}`);
-    }
-
-    const userData = await userResponse.json();
-
-    const reposResponse = await fetch(
-      `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100`,
-      { headers }
-    );
-
-    if (!reposResponse.ok) {
-      throw new Error(`GitHub API error: ${reposResponse.status}`);
-    }
-
-    const reposData = await reposResponse.json();
-
-    const totalStars = reposData.reduce(
-      (sum, repo) => sum + repo.stargazers_count,
-      0
-    );
-    const totalForks = reposData.reduce(
-      (sum, repo) => sum + repo.forks_count,
-      0
-    );
-
-    document.getElementById("totalRepos").textContent =
-      userData.public_repos || 0;
-    document.getElementById("totalStars").textContent = totalStars;
-    document.getElementById("totalForks").textContent = totalForks;
-    document.getElementById("totalFollowers").textContent =
-      userData.followers || 0;
-  } catch (error) {
-    console.error("Error fetching GitHub stats:", error);
-    // Fallback to manual counts
-    document.getElementById("totalRepos").textContent = "20+";
-    document.getElementById("totalStars").textContent = "--";
-    document.getElementById("totalForks").textContent = "--";
-    document.getElementById("totalFollowers").textContent = "--";
-  }
-}
-
 // Fetch GitHub commits
 async function fetchGitHubCommits() {
   try {
+    // Load environment variables
+    const envResponse = await fetch(".env");
+    const envText = await envResponse.text();
+    const envVars = {};
+    envText.split("\n").forEach((line) => {
+      const [key, value] = line.split("=");
+      if (key && value) {
+        envVars[key.trim()] = value.trim();
+      }
+    });
+
+    const GITHUB_TOKEN = envVars.GITHUB_TOKEN;
+    const GITHUB_USERNAME = envVars.GITHUB_USERNAME;
+
     const headers = {
       Authorization: `Bearer ${GITHUB_TOKEN}`,
       Accept: "application/vnd.github+json",
@@ -368,8 +223,7 @@ function observeElements() {
 
 // Initialize
 document.addEventListener("DOMContentLoaded", () => {
-  renderProjects();
+  loadProjects();
   observeElements();
-  fetchGitHubStats();
   fetchGitHubCommits();
 });
