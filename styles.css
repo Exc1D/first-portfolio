@@ -268,7 +268,7 @@ section {
 
 .btn-cta-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 0 0 transparent, inset 0 2px 12px rgba(255, 255, 255, 0.15),
+  box-shadow: 0 0 0 transparent, inset 0 2px 12px rgba(255, 255, 255, 0.15),
     0 12px 48px rgba(0, 0, 0, 0.4);
 }
 
@@ -542,10 +542,10 @@ section {
   z-index: -1;
   transition: opacity 0.3s ease;
 }
-.btn-primary:hover {
+/* .btn-primary:hover {
   background: var(--accent-hover);
   transform: translateY(-2px);
-}
+} */
 .btn-primary:hover::after {
   opacity: 0.4;
 }
@@ -568,11 +568,14 @@ section {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 20px;
-  padding: 2.5rem 2rem;
   text-align: center;
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
   overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
 }
 .skill-card::before {
   content: "";
@@ -594,16 +597,14 @@ section {
   box-shadow: 0 15px 35px rgba(0, 113, 227, 0.2);
 }
 .skill-icon {
-  font-size: 3.5rem;
-  margin-bottom: 1.5rem;
+  font-size: 2.5rem;
   transition: transform 0.3s ease;
 }
 .skill-card:hover .skill-icon {
-  transform: scale(1.1) rotateY(180deg);
+  transform: scale(1.1);
 }
 .skill-name {
   font-weight: 700;
-  margin-bottom: 0.5rem;
   font-size: 1.1rem;
 }
 .skill-level {
@@ -651,7 +652,7 @@ section {
 }
 .contact-card:hover {
   transform: translateY(-8px);
-  border-color: var(--accent);
+  border-color: var(--rainbow-gradient);
   box-shadow: 0 15px 35px rgba(0, 113, 227, 0.2);
 }
 .contact-card:hover::after {
@@ -661,13 +662,10 @@ section {
   font-size: 2.5rem;
   color: var(--accent);
 }
-.contact-label {
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-.contact-value {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
+
+.fab,
+.fas {
+  color: white;
 }
 .interactive-section {
   background: var(--bg-secondary);
@@ -812,21 +810,4 @@ section {
   text-align: center;
   padding: 2rem;
   color: var(--text-secondary);
-}
-.spinner {
-  border: 3px solid var(--border);
-  border-top: 3px solid var(--accent);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 1rem;
-}
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
