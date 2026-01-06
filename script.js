@@ -46,7 +46,7 @@ function renderProjects(filter = "all") {
                 <div class="project-links">
                     <a href="${
                       project.demo
-                    }" target="_blank" class="btn btn-primary">
+                    }" target="_blank" class="btn-cta btn-cta-primary">
                         <i class="fas fa-external-link-alt"></i>
                         Live Demo
                     </a>

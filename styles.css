@@ -5,9 +5,9 @@
 }
 
 :root {
-  --bg-primary: #000000;
-  --bg-secondary: #0a0a0a;
-  --bg-card: #1a1a1a;
+  --bg-primary: #161616;
+  --bg-secondary: #202020;
+  --bg-card: #2f2f2f;
   --text-primary: #ffffff;
   --text-secondary: #a0a0a0;
   --accent: #0071e3;
@@ -522,33 +522,7 @@ section {
   font-weight: 600;
   position: relative;
 }
-.btn-primary {
-  background: rgba(0, 113, 227, 0.2);
-  color: white;
-  border: 1px solid var(--accent);
-  backdrop-filter: blur(10px);
-}
-.btn-primary::after {
-  content: "";
-  position: absolute;
-  bottom: -8px;
-  left: -8px;
-  right: -8px;
-  height: 16px;
-  background: var(--rainbow-gradient);
-  filter: blur(10px);
-  opacity: 0;
-  border-radius: 50%;
-  z-index: -1;
-  transition: opacity 0.3s ease;
-}
-/* .btn-primary:hover {
-  background: var(--accent-hover);
-  transform: translateY(-2px);
-} */
-.btn-primary:hover::after {
-  opacity: 0.4;
-}
+
 .btn-secondary {
   background: transparent;
   color: var(--text-secondary);
