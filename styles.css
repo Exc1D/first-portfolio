@@ -564,20 +564,24 @@ section {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 2rem;
 }
-.skill-card {
+.skill-card,
+.contact-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 20px;
   text-align: center;
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   overflow: hidden;
+}
 
+.skill-card {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.75rem;
 }
-.skill-card::before {
+.skill-card::before,
+.contact-card::before {
   content: "";
   position: absolute;
   top: 0;
@@ -588,10 +592,12 @@ section {
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
-.skill-card:hover::before {
+.skill-card:hover::before,
+.contact-card:hover::before {
   transform: scaleX(1);
 }
-.skill-card:hover {
+.skill-card:hover,
+.contact-card:hover {
   transform: translateY(-8px);
   border-color: var(--accent);
   box-shadow: 0 15px 35px rgba(0, 113, 227, 0.2);
@@ -618,55 +624,20 @@ section {
 }
 .contact-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
   gap: 2rem;
   margin: 3rem 0;
 }
+
 .contact-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 2rem;
-  text-decoration: none;
-  color: var(--text-primary);
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  position: relative;
-}
-.contact-card::after {
-  content: "";
-  position: absolute;
-  bottom: -10px;
-  left: -10px;
-  right: -10px;
-  height: 20px;
-  background: var(--rainbow-gradient);
-  filter: blur(15px);
-  opacity: 0;
-  border-radius: 50%;
-  z-index: -1;
-  transition: opacity 0.3s ease;
-}
-.contact-card:hover {
-  transform: translateY(-8px);
-  border-color: var(--rainbow-gradient);
-  box-shadow: 0 15px 35px rgba(0, 113, 227, 0.2);
-}
-.contact-card:hover::after {
-  opacity: 0.4;
+  padding: 1.5rem;
 }
 .contact-icon {
   font-size: 2.5rem;
   color: var(--accent);
-}
-
-.fab,
-.fas {
   color: white;
 }
+
 .interactive-section {
   background: var(--bg-secondary);
   padding: 6rem 0;
