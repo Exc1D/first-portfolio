@@ -7,13 +7,11 @@ async function loadProjects() {
   try {
     const res = await fetch("projects.json");
     projects = await res.json();
-    renderProjects(projects);
+    renderProjects();
   } catch (err) {
     console.error("Failed to load projects:", err);
   }
 }
-
-loadProjects();
 
 // ==============================
 // PROJECT RENDERING
@@ -88,6 +86,6 @@ function observeElements() {
 // INIT
 // ==============================
 document.addEventListener("DOMContentLoaded", () => {
-  renderProjects();
+  loadProjects();
   observeElements();
 });
