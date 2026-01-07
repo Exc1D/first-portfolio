@@ -127,11 +127,31 @@ function setupDebugToggle() {
   const btn = document.getElementById("debugToggle");
   const statusText = document.getElementById("debugStatus");
 
+  // Elements we want to swap text for
+  const heroSubline = document.getElementById("hero-text");
+  const statusTag = document.getElementById("status-text");
+
   btn.addEventListener("click", () => {
+    // 1. Toggle the class on the body
     document.body.classList.toggle("debug-on");
     const isOn = document.body.classList.contains("debug-on");
+
+    // 2. Update the button appearance
     statusText.textContent = isOn ? "ON" : "OFF";
-    btn.style.borderColor = isOn ? "var(--orange)" : "rgba(255,255,255,0.2)";
+    btn.style.backgroundColor = isOn ? "var(--orange)" : "transparent";
+    btn.style.color = isOn ? "black" : "white";
+
+    // 3. THE SWAP: Professional vs Candid Copy
+    if (isOn) {
+      heroSubline.textContent = heroSubline.getAttribute("data-debug");
+      statusTag.textContent = statusTag.getAttribute("data-debug");
+    } else {
+      // Restore original HTML (including spans for colors)
+      heroSubline.innerHTML =
+        'SIMPLE BUT FUN. <span class="highlight">HUMBLE BUT HIGH-VOLTAGE.</span>';
+      statusTag.innerHTML =
+        '[ STATUS: <span class="orange-text">LEARNING_&_FIXING</span> ]';
+    }
   });
 }
 

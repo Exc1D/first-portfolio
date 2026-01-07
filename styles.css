@@ -28,36 +28,55 @@ body {
   font-family: var(--font-mono);
 }
 
-/* --- DEBUG GRID --- */
+/* --- FIXED DEBUG GRID --- */
 .site-grid {
   position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  background-image: linear-gradient(to right, #2d2d2d 1px, transparent 1px),
-    linear-gradient(to bottom, #2d2d2d 1px, transparent 1px);
-  background-size: 40px 40px;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none; /* Allows you to click things through the grid */
+  z-index: 9999; /* Makes sure it is on TOP of everything */
+  background-image: linear-gradient(
+      to right,
+      rgba(255, 95, 0, 0.15) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(255, 95, 0, 0.15) 1px, transparent 1px);
+  background-size: 50px 50px;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
+/* When debug is ON */
 body.debug-on .site-grid {
-  opacity: 0.2;
+  opacity: 1;
 }
 
-/* Hide metadata by default */
+/* Reveal Technical Metadata on Cards */
 .debug-metadata {
   display: none;
   position: absolute;
-  top: -20px;
-  left: 0;
+  top: 5px;
+  right: 15px;
   color: var(--orange);
   font-size: 10px;
-  text-transform: uppercase;
+  font-family: var(--font-mono);
+  letter-spacing: 1px;
+  background: var(--ink);
+  padding: 2px 5px;
+  border: 1px solid var(--orange);
+  z-index: 10;
 }
 
 body.debug-on .debug-metadata {
   display: block;
+}
+
+/* Highlight elements in debug mode */
+body.debug-on .project-card {
+  border-style: dashed;
+  border-color: var(--orange);
 }
 
 /* --- NAVBAR --- */
