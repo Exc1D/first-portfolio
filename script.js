@@ -146,12 +146,12 @@ function setupDebugToggle() {
 
     if (isOn) {
       heroSub.innerHTML =
-        'SYSTEM_READY <span class="highlight">INITIATING_NERD_MODE.</span>';
+        'SYSTEM_READY: <span class="highlight">INITIATING_NERD_MODE.</span>';
       statusT.innerHTML =
         '[ STATUS: <span class="orange-text">SEARCHING_FOR_COFFEE_&_BUGS</span> ]';
     } else {
       heroSub.innerHTML =
-        'WEB DEVELOPER IN TRAINING. <span class="highlight">SIMPLE BUT FUN</span>';
+        'WEB DEVELOPER IN TRAINING. <span class="highlight">MAKE THINGS SIMPLE BUT FUN</span>';
       statusT.innerHTML =
         '[ LOCATION: <span class="orange-text">PHILIPPINES</span> ]';
     }
