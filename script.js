@@ -119,10 +119,10 @@ function renderTracks(projects) {
                         <div class="card-actions font-mono">
                             <a href="${
                               p.demo
-                            }" target="_blank" class="btn-primary">DEPLOY</a>
+                            }" target="_blank" class="btn-primary">LIVE_DEMO</a>
                             <a href="${
                               p.github
-                            }" target="_blank" class="btn-secondary">SOURCE</a>
+                            }" target="_blank" class="btn-secondary">CODE</a>
                         </div>
                     </div>
                 `
