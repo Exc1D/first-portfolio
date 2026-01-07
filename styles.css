@@ -444,6 +444,7 @@ body.debug-on .navbar {
   cursor: pointer;
   text-transform: uppercase;
   text-decoration: none;
+  transition: all 0.3s ease;
 }
 
 .btn-primary {
@@ -456,6 +457,13 @@ body.debug-on .navbar {
   background: transparent;
   color: white;
   border: 1px solid var(--glass-border);
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+  background: var(--glass);
+  color: var(--accent);
+  border: 1px solid var(--accent);
 }
 
 .progress-container {
