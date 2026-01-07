@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Exc1D // Full-Stack Developer</title>
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
@@ -13,14 +12,12 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <!-- The Debug Grid Overlay -->
     <div class="site-grid"></div>
 
     <nav class="navbar">
       <div class="nav-container">
         <div class="logo font-mono">EXC1D<span class="orange-dot">_</span></div>
         <div class="system-controls">
-          <span class="status-label font-mono">System_Status:</span>
           <button id="debugToggle" class="debug-btn font-mono">
             DEBUG: <span id="debugStatus">OFF</span>
           </button>
@@ -32,18 +29,15 @@
       <div class="hero-bg-text font-mono">SYSTEM</div>
       <div class="hero-content">
         <h1 class="main-title glitch" data-text="Exc1D">Exc1D</h1>
-        <!-- In the Hero Section -->
         <p
           class="hero-subline font-mono"
           id="hero-text"
           data-pro="SIMPLE BUT FUN. HUMBLE BUT HIGH-VOLTAGE."
-          data-debug="SYSTEM_READY. OVERCLOCKING_PASSION."
+          data-debug="SYSTEM_READY. OVERCLOCKING_PASSION. [v1.0.4]"
         >
           SIMPLE BUT FUN.
           <span class="highlight">HUMBLE BUT HIGH-VOLTAGE.</span>
         </p>
-
-        <!-- In the Status Tag -->
         <div
           class="status-tag font-mono"
           id="status-text"
@@ -53,53 +47,34 @@
           [ STATUS: <span class="orange-text">LEARNING_&_FIXING</span> ]
         </div>
       </div>
-      <div class="scroll-hint font-mono">SCROLL_TO_INITIALIZE_DATA</div>
     </header>
 
     <main>
-      <!-- 1. Horizontal Project Tracks (Tracks 01-04) -->
-      <section id="project-tracks" class="tracks-section">
-        <!-- JS will inject CORE, ODIN, SCRIMBA, and FRONTEND MENTOR here -->
-      </section>
+      <section id="project-tracks" class="tracks-section"></section>
 
-      <!-- 2. Technologies Used (System Specs) -->
       <section class="tech-stack-section">
         <div class="container">
           <h2 class="module-id font-mono">Module_05 // Tech_Specs</h2>
-          <h3 class="section-title">SYSTEM HARDWARE</h3>
-
+          <h3 class="section-title">TECH STACK</h3>
           <div class="tech-grid">
             <div class="tech-category">
               <h4 class="font-mono category-label">FRONTEND_CORE</h4>
               <ul class="font-mono">
-                <li><span class="status-light"></span> HTML5 / CSS3</li>
-                <li><span class="status-light"></span> Modern JavaScript</li>
-                <li>
-                  <span class="status-light"></span> Responsive Architecture
-                </li>
+                <li><span class="status-light"></span> HTML5 / CSS3 / JS</li>
+                <li><span class="status-light"></span> Responsive Design</li>
               </ul>
             </div>
             <div class="tech-category">
-              <h4 class="font-mono category-label">INTERACTIVE_TOOLS</h4>
+              <h4 class="font-mono category-label">ARCHITECTURE</h4>
               <ul class="font-mono">
+                <li><span class="status-light"></span> Cloudflare Workers</li>
                 <li><span class="status-light"></span> Git / GitHub</li>
-                <li><span class="status-light"></span> Figma to Code</li>
-                <li><span class="status-light"></span> DOM Manipulation</li>
-              </ul>
-            </div>
-            <div class="tech-category">
-              <h4 class="font-mono category-label">LEARNING_PROTOCOLS</h4>
-              <ul class="font-mono">
-                <li><span class="status-light"></span> The Odin Project</li>
-                <li><span class="status-light"></span> Scrimba Interactive</li>
-                <li><span class="status-light"></span> Frontend Mentor</li>
               </ul>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- 3. About Me (Toggleable Container) -->
       <section class="about-section">
         <div class="about-container">
           <div class="about-header">
@@ -113,66 +88,37 @@
               </button>
             </div>
           </div>
-
           <div class="about-content">
-            <!-- Experience View -->
             <div id="experience-view" class="about-pane active">
               <h3 class="pane-title">
                 A Journey of
                 <span class="orange-text">High-Voltage</span> Learning.
               </h3>
               <p class="pane-text">
-                I am a developer who treats every bug as a puzzle and every
-                project as an opportunity to exceed standards. I specialize in
-                turning complex designs into clean, functional code. Currently
-                focused on mastering the full-stack pipeline.
+                I am a developer who treats every bug as a puzzle. I specialize
+                in turning complex designs into clean, functional code.
               </p>
               <div class="experience-item">
                 <span class="v-tag font-mono">2024-PRESENT</span>
-                <div>
-                  <p class="font-mono font-bold">
-                    Independent Developer / Student
-                  </p>
-                  <p class="text-dim">
-                    Building custom web applications and solving 100+ challenges
-                    on Frontend Mentor.
-                  </p>
-                </div>
+                <p class="font-mono">Independent Developer / Self-Starter</p>
               </div>
             </div>
-
-            <!-- Education View -->
             <div id="education-view" class="about-pane">
               <h3 class="pane-title">
                 The <span class="orange-text">Blueprint</span> of Knowledge.
               </h3>
               <div class="edu-grid font-mono">
-                <div class="edu-card">
-                  <p class="orange-text">>> THE ODIN PROJECT</p>
-                  <p class="text-dim text-xs">Full-Stack Foundations</p>
-                </div>
-                <div class="edu-card">
-                  <p class="orange-text">>> SCRIMBA</p>
-                  <p class="text-dim text-xs">Frontend Career Path</p>
-                </div>
-                <div class="edu-card">
-                  <p class="orange-text">>> YOUR UNIVERSITY/CERT</p>
-                  <p class="text-dim text-xs">Degree/Certification Name</p>
-                </div>
+                <div class="edu-card">>> THE ODIN PROJECT</div>
+                <div class="edu-card">>> SCRIMBA CAREER PATH</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- 4. Final CTA (Initiate Protocol) -->
       <section class="cta-section">
         <div class="cta-box">
           <h2 class="font-mono cta-title">INITIATE_COLLABORATION?</h2>
-          <p class="cta-desc">
-            I'm currently looking for new opportunities or exciting open-source
-            projects to join.
-          </p>
           <div class="cta-actions font-mono">
             <a
               href="mailto:davidaviado.dla@gmail.com"
@@ -180,68 +126,31 @@
               >RESUME_INITIATED.EXE</a
             >
             <a href="https://github.com/Exc1D" class="btn-secondary"
-              >VIEW_SOURCE_CODE</a
+              >GITHUB_SOURCE</a
             >
           </div>
         </div>
       </section>
 
-      <!-- Repair Shop -->
-      <section class="repair-shop">
-        <div class="repair-container">
-          <div class="repair-info">
-            <h2 class="module-id font-mono">Module_05 // Maintenance</h2>
-            <h3 class="section-title">THE REPAIR SHOP</h3>
-            <p class="repair-description">
-              Engineering is 10% building and 90% fixing what you broke while
-              building. This is my live tracker of technical friction.
-            </p>
-
-            <div id="bugCounter" class="bug-counter">
-              <span id="clickCount" class="count-number font-mono">0</span>
-              <span class="count-label font-mono"
-                >Bugs Squashed (Live Session)</span
-              >
-            </div>
-          </div>
-
-          <div class="version-log">
-            <div class="log-header font-mono">VERSION_LOG.exe</div>
-            <ul class="log-list font-mono">
-              <li>
-                <span class="v-tag">[v1.0.0]</span>
-                <span
-                  >Native CSS/JS Migration. Clean Architecture applied.</span
-                >
-              </li>
-              <li>
-                <span class="v-tag">[v0.4.2]</span>
-                <span>UI Overhaul to "Exc1D" Blueprint Logic.</span>
-              </li>
-              <li>
-                <span class="v-tag">[v0.3.8]</span>
-                <span>Refined Horizontal Track Logic & Spring Easing.</span>
-              </li>
-            </ul>
-          </div>
+      <section id="bugCounter" class="repair-shop">
+        <div class="container font-mono">
+          <span class="module-id">Module_07 // Maintenance</span>
+          <span id="clickCount" class="count-number">42</span>
+          <span class="count-label">Bugs Squashed this week</span>
         </div>
       </section>
     </main>
 
-    <footer class="footer">
+    <footer class="footer font-mono">
       <div class="footer-container">
-        <div class="footer-links font-mono">
-          <a href="mailto:davidaviado.dla@gmail.com">EMAIL</a>
+        <span>©2026_EXC1D_STUDIO</span>
+        <div class="footer-links">
           <a href="https://github.com/Exc1D">GITHUB</a>
-          <a href="#">LINKEDIN</a>
-        </div>
-        <div class="copyright font-mono">
-          ©2026_EXC1D_STUDIO. Built_to_Exceed.
+          <a href="mailto:davidaviado.dla@gmail.com">EMAIL</a>
         </div>
       </div>
     </footer>
 
-    <!-- Notification Notification -->
     <div id="scanNote" class="notification font-mono">
       SCAN_COMPLETE: HIGH_POTENTIAL_DETECTED
     </div>
