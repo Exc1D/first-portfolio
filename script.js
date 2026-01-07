@@ -1,9 +1,9 @@
 // --- CONFIGURATION ---
 const TRACK_MAP = {
-  personal: { id: "EXT-01", title: "CORE_SYSTEMS" },
-  odin: { id: "FND-02", title: "FOUNDATION_PROTOCOLS" },
-  scrimba: { id: "INT-03", title: "INTERACTIVE_LOGS" },
-  "frontend-mentor": { id: "UXX-04", title: "INTERFACE_STRESS_TESTS" },
+  personal: { id: "EXT-01", title: "PERSONAL_PROJECTS" },
+  odin: { id: "FND-02", title: "THE_ODIN_PROJECT" },
+  scrimba: { id: "INT-03", title: "SCRIMBA" },
+  "frontend-mentor": { id: "UXX-04", title: "FRONTEND_MENTOR" },
 };
 
 // --- CORE APP ---
