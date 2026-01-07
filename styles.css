@@ -504,17 +504,17 @@ body.debug-on .navbar {
   margin-bottom: 0.75rem;
   display: flex;
   align-items: center;
-  font-size: var(--text-sm);
-  color: rgba(255, 255, 255, 0.7);
 }
 
-.status-light {
-  width: 5px;
-  height: 5px;
-  background: var(--accent);
-  border-radius: 50%;
-  margin-right: 12px;
-  display: inline-block;
+.tech-category li i {
+  margin-right: 0.5rem;
+  color: var(--white);
+  font-size: var(--text-base);
+}
+
+.expertise {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: var(--text-xs);
 }
 
 /* --- ABOUT ME TOGGLE --- */
@@ -790,7 +790,6 @@ body.debug-on .navbar {
   display: flex;
   justify-content: space-between;
   font-size: var(--text-xs);
-  color: rgba(255, 255, 255, 0.4);
 }
 
 .footer-links a {
@@ -801,6 +800,10 @@ body.debug-on .navbar {
 
 .footer-links a:hover {
   color: var(--accent);
+}
+
+.muted {
+  color: rgba(255, 255, 255, 0.4);
 }
 
 /* --- NOTIFICATION --- */
