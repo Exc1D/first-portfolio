@@ -1,117 +1,193 @@
-const projects = [
+// --- PROJECT DATA ---
+// You can add more projects here easily!
+const trackData = [
   {
-    title: "EXO_SHELL",
-    category: "personal",
-    file: "sys_01.js",
-    tech: ["Node", "Socket.io"],
+    id: "EXT-01",
+    title: "CORE_SYSTEMS",
+    projects: [
+      {
+        name: "EXO_SHELL",
+        file: "sys_01.js",
+        tech: ["Node.js", "Socket.io"],
+        spark: "Achieved sub-10ms latency.",
+        fix: "Refactored event listeners to prevent memory leaks.",
+        size: "14.2kb",
+      },
+      {
+        name: "PORTFOLIO_V4",
+        file: "main.css",
+        tech: ["Vanilla JS", "CSS3"],
+        spark: "Custom glitch engine built with CSS keys.",
+        fix: "Optimized scroll-snapping for mobile browsers.",
+        size: "8.5kb",
+      },
+    ],
   },
   {
-    title: "PORTFOLIO_V4",
-    category: "personal",
-    file: "main.css",
-    tech: ["Vanilla JS"],
-  },
-  {
-    title: "ODIN_LANDING",
-    category: "odin",
-    file: "index.html",
-    tech: ["HTML", "Flexbox"],
-  },
-  {
-    title: "CALC_MODULE",
-    category: "odin",
-    file: "calc.js",
-    tech: ["JS Logic"],
-  },
-  {
-    title: "NFT_DASHBOARD",
-    category: "frontend-mentor",
-    file: "ui_card.tsx",
-    tech: ["React"],
+    id: "FND-02",
+    title: "FOUNDATION_PROTOCOLS",
+    projects: [
+      {
+        name: "ODIN_LANDING",
+        file: "index.html",
+        tech: ["HTML5", "Flexbox"],
+        spark: "Pixel-perfect layout matching figma design.",
+        fix: "Fixed z-index stacking issues in the navigation.",
+        size: "4.1kb",
+      },
+      {
+        name: "CALC_MODULE",
+        file: "calc.js",
+        tech: ["JS Logic"],
+        spark: "Handles complex floating point arithmetic.",
+        fix: "Implemented defensive checks for division by zero.",
+        size: "12.0kb",
+      },
+    ],
   },
 ];
 
-// 1. Initialize Tracks
-function initTracks() {
-  const tracks = {
-    personal: document.getElementById("personal-track"),
-    odin: document.getElementById("odin-track"),
-    scrimba:
-      document.getElementById("scrimba-track") ||
-      document.getElementById("odin-track"),
-  };
+// --- INITIALIZATION ---
+function init() {
+  renderTracks();
+  setupDebugToggle();
+  setupBugCounter();
+  setupScrollEffects();
+}
 
-  projects.forEach((project) => {
-    const container = tracks[project.category] || tracks["personal"];
-    const card = document.createElement("div");
-    card.className = "project-card";
-    card.setAttribute("data-file", project.file);
+// 1. Render Tracks and Projects
+function renderTracks() {
+  const container = document.getElementById("project-tracks");
 
-    card.innerHTML = `
-            <div class="card-header">
-                <span class="status-light"></span>
-                <span class="code-font">${project.file}</span>
+  trackData.forEach((track) => {
+    const trackSection = document.createElement("div");
+    trackSection.className = "track-group";
+
+    trackSection.innerHTML = `
+            <div class="track-header font-mono">
+                <span class="track-id">${track.id}</span>
+                <span class="track-divider"></span>
+                <h2 class="track-title">${track.title}</h2>
+                <div class="scan-label">SCANNING: 0%</div>
             </div>
-            <h3 style="margin: 20px 0; font-size: 2rem;">${project.title}</h3>
-            <div class="project-tech" style="margin-bottom: 30px;">
-                ${project.tech
-                  .map((t) => `<span class="v-tag">${t}</span>`)
+            
+            <div class="track-scroll-container">
+                ${track.projects
+                  .map(
+                    (p) => `
+                    <div class="project-card">
+                        <div class="debug-metadata font-mono">[SIZE: ${
+                          p.size
+                        } // STATUS: STABLE]</div>
+                        
+                        <div class="card-top">
+                            <div class="status-indicator font-mono">
+                                <div class="dot"></div>
+                                <span>${p.file}</span>
+                            </div>
+                            <div class="tech-tags font-mono">
+                                ${p.tech
+                                  .map((t) => `<span class="tag">${t}</span>`)
+                                  .join("")}
+                            </div>
+                        </div>
+
+                        <h3 class="project-name">${p.name}</h3>
+                        
+                        <div class="project-insight font-mono">
+                            <div class="insight-row"><span class="insight-label">>> SPARK:</span> ${
+                              p.spark
+                            }</div>
+                            <div class="insight-row"><span class="insight-label">>> FIX:</span> ${
+                              p.fix
+                            }</div>
+                        </div>
+
+                        <div class="card-actions font-mono">
+                            <button class="btn-primary">DEPLOY</button>
+                            <button class="btn-secondary">SOURCE</button>
+                        </div>
+                    </div>
+                `
+                  )
                   .join("")}
             </div>
-            <div class="card-actions">
-                <button class="toggle-btn btn-pulse">DEPLOY</button>
-                <button class="toggle-btn" style="background:transparent; border:1px solid var(--slate)">SOURCE</button>
+            
+            <div class="progress-container">
+                <div class="progress-bar"></div>
             </div>
         `;
 
-    card.addEventListener("mouseenter", handleHoverTracking);
-    container.appendChild(card);
+    container.appendChild(trackSection);
   });
 }
 
-// 2. Debug Toggle
-const debugBtn = document.getElementById("debugToggle");
-debugBtn.addEventListener("click", () => {
-  document.body.classList.toggle("debug-on");
-  const isOn = document.body.classList.contains("debug-on");
-  debugBtn.textContent = isOn ? "ON" : "OFF";
-  debugBtn.classList.toggle("active");
-});
+// 2. Debug Toggle Logic
+function setupDebugToggle() {
+  const btn = document.getElementById("debugToggle");
+  const statusText = document.getElementById("debugStatus");
 
-// 3. Fun Logic: Hover Tracking
-let hoverCount = 0;
-function handleHoverTracking() {
-  hoverCount++;
-  if (hoverCount === 5) {
-    const note = document.getElementById("scanNotification");
-    note.classList.add("show");
-    setTimeout(() => note.classList.remove("show"), 4000);
-  }
+  btn.addEventListener("click", () => {
+    document.body.classList.toggle("debug-on");
+    const isOn = document.body.classList.contains("debug-on");
+    statusText.textContent = isOn ? "ON" : "OFF";
+    btn.style.borderColor = isOn ? "var(--orange)" : "rgba(255,255,255,0.2)";
+  });
 }
 
-// 4. Scan Progress Bar Logic
-document.querySelectorAll(".horizontal-scroll").forEach((track) => {
-  track.addEventListener("scroll", (e) => {
-    const scrollWidth = track.scrollWidth - track.clientWidth;
-    const progress = (track.scrollLeft / scrollWidth) * 100;
-    track.parentElement.querySelector(
-      ".scan-progress"
-    ).style.width = `${progress}%`;
+// 3. Scroll & Scanning Logic
+function setupScrollEffects() {
+  const scrollContainers = document.querySelectorAll(".track-scroll-container");
+
+  scrollContainers.forEach((container) => {
+    container.addEventListener("scroll", () => {
+      const parent = container.parentElement;
+      const progressBar = parent.querySelector(".progress-bar");
+      const scanLabel = parent.querySelector(".scan-label");
+
+      // Calculate percentage
+      const scrollWidth = container.scrollWidth - container.clientWidth;
+      const scrollLeft = container.scrollLeft;
+      const percent = Math.round((scrollLeft / scrollWidth) * 100);
+
+      // Update UI
+      progressBar.style.width = `${percent}%`;
+      scanLabel.style.opacity = "1";
+      scanLabel.textContent = `SCANNING: ${percent}%`;
+
+      // Notification Trigger
+      if (percent === 100) {
+        showNotification();
+      }
+    });
   });
-});
+}
 
-// 5. Bug Counter (Squash Logic)
-let bugs = localStorage.getItem("bugs") || 42;
-const bugDisplay = document.getElementById("clickCount");
-bugDisplay.textContent = bugs;
+function showNotification() {
+  const note = document.getElementById("scanNote");
+  note.classList.add("show");
+  setTimeout(() => note.classList.remove("show"), 3000);
+}
 
-document.getElementById("clickCounter").addEventListener("click", () => {
-  bugs++;
-  bugDisplay.textContent = bugs;
-  localStorage.setItem("bugs", bugs);
-  // Visual feedback
-  bugDisplay.style.transform = "scale(1.2)";
-  setTimeout(() => (bugDisplay.style.transform = "scale(1)"), 100);
-});
+// 4. Bug Counter (Maintenance Section)
+function setupBugCounter() {
+  const bugArea = document.getElementById("bugCounter");
+  const display = document.getElementById("clickCount");
 
-document.addEventListener("DOMContentLoaded", initTracks);
+  // Load from memory
+  let count = parseInt(localStorage.getItem("bugs")) || 42;
+  display.textContent = count;
+
+  bugArea.addEventListener("click", () => {
+    count++;
+    display.textContent = count;
+    localStorage.setItem("bugs", count);
+
+    // Simple scale effect on click
+    display.style.transform = "scale(1.1)";
+    setTimeout(() => (display.style.transform = "scale(1)"), 100);
+  });
+}
+
+// Run the app
+document.addEventListener("DOMContentLoaded", init);

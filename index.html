@@ -4,10 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Exc1D // Full-Stack Developer</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
@@ -16,120 +13,100 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <!-- Debug Overlay -->
-    <div class="debug-grid"></div>
+    <!-- The Debug Grid Overlay -->
+    <div class="site-grid"></div>
 
-    <nav class="nav">
-      <div class="nav-content">
-        <div class="nav-logo-small">EXC1D</div>
-        <div class="debug-control">
-          <span class="debug-label">SYSTEM_DEBUG:</span>
-          <button id="debugToggle" class="toggle-btn">OFF</button>
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="logo font-mono">EXC1D<span class="orange-dot">_</span></div>
+        <div class="system-controls">
+          <span class="status-label font-mono">System_Status:</span>
+          <button id="debugToggle" class="debug-btn font-mono">
+            DEBUG: <span id="debugStatus">OFF</span>
+          </button>
         </div>
       </div>
     </nav>
 
     <header class="hero">
-      <div class="hero-container">
-        <div class="glitch-wrapper">
-          <h1 class="main-logo" data-text="EXC1D">EXC1D</h1>
-        </div>
-        <p class="hero-subline">
+      <div class="hero-bg-text font-mono">SYSTEM</div>
+      <div class="hero-content">
+        <h1 class="main-title glitch" data-text="Exc1D">Exc1D</h1>
+        <p class="hero-subline font-mono">
           SIMPLE BUT FUN.
-          <span class="orange-text">HUMBLE BUT HIGH-VOLTAGE.</span>
+          <span class="highlight">HUMBLE BUT HIGH-VOLTAGE.</span>
         </p>
-        <div class="hero-status">
-          <span class="code-font">[ STATUS: LEARNING_AND_FIXING ]</span>
+        <div class="status-tag font-mono">
+          [ STATUS: <span class="orange-text">LEARNING_&_FIXING</span> ]
         </div>
       </div>
+      <div class="scroll-hint font-mono">SCROLL_TO_INITIALIZE_DATA</div>
     </header>
 
     <main>
-      <!-- Project Tracks -->
-      <section class="tracks-section">
-        <div class="track-group" data-label="EXT-01 // CORE_SYSTEMS">
-          <h2 class="track-title">
-            <span class="track-id">EXT-01</span> // CORE_SYSTEMS
-          </h2>
-          <div class="horizontal-scroll" id="personal-track">
-            <!-- Cards injected by JS -->
-          </div>
-          <div class="scan-bar-container">
-            <div class="scan-progress"></div>
-          </div>
-        </div>
-
-        <div class="track-group" data-label="FND-02 // FOUNDATION_PROTOCOLS">
-          <h2 class="track-title">
-            <span class="track-id">FND-02</span> // FOUNDATION_PROTOCOLS
-          </h2>
-          <div class="horizontal-scroll" id="odin-track"></div>
-          <div class="scan-bar-container">
-            <div class="scan-progress"></div>
-          </div>
-        </div>
-
-        <div class="track-group" data-label="INT-03 // INTERACTIVE_LOGS">
-          <h2 class="track-title">
-            <span class="track-id">INT-03</span> // INTERACTIVE_LOGS
-          </h2>
-          <div class="horizontal-scroll" id="scrimba-track"></div>
-          <div class="scan-bar-container">
-            <div class="scan-progress"></div>
-          </div>
-        </div>
+      <!-- Horizontal Project Tracks -->
+      <section id="project-tracks" class="tracks-section">
+        <!-- JavaScript will inject tracks here -->
       </section>
 
-      <!-- The Repair Shop -->
+      <!-- Repair Shop -->
       <section class="repair-shop">
-        <div class="container">
-          <div class="repair-grid">
-            <div class="repair-info">
-              <h2 class="section-title">THE REPAIR SHOP</h2>
-              <p>
-                Documenting the friction of the "Build. Fix. Repeat." cycle.
-              </p>
-              <div class="bug-counter" id="clickCounter">
-                <span class="count-num" id="clickCount">0</span>
-                <span class="count-label">BUGS SQUASHED THIS WEEK</span>
-              </div>
+        <div class="repair-container">
+          <div class="repair-info">
+            <h2 class="module-id font-mono">Module_05 // Maintenance</h2>
+            <h3 class="section-title">THE REPAIR SHOP</h3>
+            <p class="repair-description">
+              Engineering is 10% building and 90% fixing what you broke while
+              building. This is my live tracker of technical friction.
+            </p>
+
+            <div id="bugCounter" class="bug-counter">
+              <span id="clickCount" class="count-number font-mono">0</span>
+              <span class="count-label font-mono"
+                >Bugs Squashed (Live Session)</span
+              >
             </div>
-            <div class="version-history">
-              <div class="history-header">VERSION_LOG.exe</div>
-              <ul class="history-list">
-                <li>
-                  <span class="v-tag">v0.4.2</span> UI Overhaul to "Exc1D"
-                  Blueprint
-                </li>
-                <li>
-                  <span class="v-tag">v0.3.8</span> Refined Horizontal Track
-                  Logic
-                </li>
-                <li>
-                  <span class="v-tag">v0.2.1</span> Initial System Architecture
-                </li>
-              </ul>
-            </div>
+          </div>
+
+          <div class="version-log">
+            <div class="log-header font-mono">VERSION_LOG.exe</div>
+            <ul class="log-list font-mono">
+              <li>
+                <span class="v-tag">[v1.0.0]</span>
+                <span
+                  >Native CSS/JS Migration. Clean Architecture applied.</span
+                >
+              </li>
+              <li>
+                <span class="v-tag">[v0.4.2]</span>
+                <span>UI Overhaul to "Exc1D" Blueprint Logic.</span>
+              </li>
+              <li>
+                <span class="v-tag">[v0.3.8]</span>
+                <span>Refined Horizontal Track Logic & Spring Easing.</span>
+              </li>
+            </ul>
           </div>
         </div>
       </section>
     </main>
 
     <footer class="footer">
-      <div class="container footer-flex">
-        <div class="contact-links">
+      <div class="footer-container">
+        <div class="footer-links font-mono">
           <a href="mailto:davidaviado.dla@gmail.com">EMAIL</a>
           <a href="https://github.com/Exc1D">GITHUB</a>
           <a href="#">LINKEDIN</a>
         </div>
-        <div class="copyright code-font">
-          ©2026_EXC1D_STUDIO. ALL_RIGHTS_RESERVED.
+        <div class="copyright font-mono">
+          ©2026_EXC1D_STUDIO. Built_to_Exceed.
         </div>
       </div>
     </footer>
 
-    <div id="scanNotification" class="notification">
-      SCAN COMPLETE: CREATIVITY DETECTED
+    <!-- Notification Notification -->
+    <div id="scanNote" class="notification font-mono">
+      SCAN_COMPLETE: HIGH_POTENTIAL_DETECTED
     </div>
 
     <script src="script.js"></script>
