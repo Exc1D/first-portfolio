@@ -1,7 +1,7 @@
 /* --- CORE VARIABLES --- */
 :root {
   --ink: #080808;
-  --orange: #ff5f00;
+  --orange: #f4e04d;
   --slate: #2d2d2d;
   --white: #ffffff;
   --font-main: "Inter", sans-serif;
@@ -514,15 +514,65 @@ body.debug-on .project-card {
   font-size: 13px;
 }
 
-.edu-grid {
+/* --- EDUCATION PANE STYLES --- */
+.education-layout {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+.edu-column {
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 }
-.edu-card {
-  background: rgba(255, 255, 255, 0.03);
-  padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+
+.edu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.edu-item {
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+}
+
+/* Ensure the date tag has a fixed width for alignment */
+.edu-item .v-tag {
+  min-width: 100px;
+  text-align: center;
+  font-size: 10px;
+  padding: 2px 5px;
+  border: 1px solid var(--orange);
+  color: var(--orange);
+}
+
+.school-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 2px;
+}
+
+.degree-name {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.4;
+}
+
+/* Responsive adjustment for small screens */
+@media (max-width: 768px) {
+  .education-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .edu-item {
+    flex-direction: column;
+    gap: 8px;
+  }
 }
 
 /* --- CTA SECTION --- */
