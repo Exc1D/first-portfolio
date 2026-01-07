@@ -206,11 +206,54 @@
         </div>
       </section>
 
-      <section id="bugCounter" class="repair-shop">
-        <div class="container font-mono">
-          <span class="module-id">Module_07 // Maintenance</span>
-          <span id="clickCount" class="count-number">42</span>
-          <span class="count-label">Bugs Squashed this week</span>
+      <section id="maintenance" class="repair-shop">
+        <div class="repair-container">
+          <!-- Column 1: Stats & Bugs -->
+          <div class="repair-info">
+            <h2 class="module-id font-mono">Module_07 // Maintenance</h2>
+            <h3 class="section-title">THE REPAIR SHOP</h3>
+            <p class="repair-description">
+              Documenting the friction of the "Build. Fix. Repeat." cycle.
+              Tracking live system updates and technical debt.
+            </p>
+
+            <div id="bugCounter" class="bug-counter">
+              <span id="clickCount" class="count-number font-mono">42</span>
+              <span class="count-label font-mono"
+                >BUGS SQUASHED THIS SESSION</span
+              >
+            </div>
+          </div>
+
+          <!-- Column 2: Data Logs -->
+          <div class="repair-logs">
+            <!-- GitHub Commit Feed -->
+            <div class="log-box glass-panel">
+              <div class="log-header font-mono">GITHUB_LIVE_FEED.api</div>
+              <ul id="commit-list" class="log-list font-mono">
+                <li class="loading-text">INITIALIZING_FEED...</li>
+              </ul>
+            </div>
+
+            <!-- Version Log -->
+            <div class="log-box glass-panel">
+              <div class="log-header font-mono">VERSION_LOG.exe</div>
+              <ul class="log-list font-mono">
+                <li>
+                  <span class="v-tag">v1.0.5</span> Glassmorphism UI & Yellow
+                  Accent Migration
+                </li>
+                <li>
+                  <span class="v-tag">v1.0.4</span> Debug Protocol & Metadata
+                  Integration
+                </li>
+                <li>
+                  <span class="v-tag">v0.8.2</span> System Architecture
+                  Foundation
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </section>
     </main>
