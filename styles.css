@@ -9,17 +9,17 @@
   --font-main: "Inter", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
   --spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  
+
   /* Typography Scale (1.25 ratio) */
-  --text-xs: 0.75rem;    /* 12px */
-  --text-sm: 0.875rem;   /* 14px */
-  --text-base: 1rem;     /* 16px */
-  --text-lg: 1.25rem;    /* 20px */
-  --text-xl: 1.5rem;     /* 24px */
-  --text-2xl: 2rem;      /* 32px */
-  --text-3xl: 2.5rem;    /* 40px */
-  --text-4xl: 3rem;      /* 48px */
-  
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.25rem; /* 20px */
+  --text-xl: 1.5rem; /* 24px */
+  --text-2xl: 2rem; /* 32px */
+  --text-3xl: 2.5rem; /* 40px */
+  --text-4xl: 3rem; /* 48px */
+
   /* Line Heights */
   --leading-tight: 1.25;
   --leading-normal: 1.5;
@@ -160,6 +160,11 @@ body.debug-on .debug-metadata {
   border-color: var(--accent);
 }
 
+.debug-on .debug-btn {
+  background-color: #f4e04d;
+  color: var(--ink);
+}
+
 /* --- HERO --- */
 .hero {
   height: 100vh;
@@ -227,6 +232,7 @@ body.debug-on .glitch:hover {
 }
 
 /* --- SHARED COMPONENT: GLASS PANEL --- */
+.navbar,
 .project-card,
 .about-container,
 .tech-category,
@@ -236,6 +242,7 @@ body.debug-on .glitch:hover {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
+  border-radius: 1rem;
   transition: all 0.5s var(--spring);
 }
 
@@ -276,6 +283,7 @@ body.debug-on .glass-panel::before {
   display: none;
 }
 
+body.debug-on .navbar,
 body.debug-on .project-card,
 body.debug-on .about-container,
 body.debug-on .tech-category,
@@ -285,7 +293,12 @@ body.debug-on .glass-panel {
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   border: 1px dashed var(--accent);
+  border-radius: 0;
   box-shadow: none;
+}
+
+body.debug-on .navbar {
+  border: none;
 }
 
 /* --- PROJECT TRACKS --- */
