@@ -42,6 +42,11 @@ body {
   overflow-x: hidden;
 }
 
+.outer-container {
+  max-width: 750px;
+  margin: 0 auto;
+}
+
 .font-mono {
   font-family: var(--font-mono);
 }
@@ -177,7 +182,7 @@ body.debug-on .debug-metadata {
 }
 
 .main-title {
-  font-size: clamp(4rem, 12vw, 8rem);
+  font-size: clamp(4rem, 6vw, 7rem);
   font-weight: 900;
   letter-spacing: -0.04em;
   line-height: var(--leading-tight);
@@ -436,6 +441,7 @@ body.debug-on .navbar {
   letter-spacing: 0.05em;
   cursor: pointer;
   text-transform: uppercase;
+  text-decoration: none;
 }
 
 .btn-primary {
@@ -528,13 +534,16 @@ body.debug-on .navbar {
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 40px;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .toggle-group {
   display: flex;
   background: #111;
-  padding: 5px;
   border-radius: 4px;
+  flex-wrap: wrap;
+  min-width: fit-content;
 }
 
 .toggle-btn {
@@ -546,6 +555,9 @@ body.debug-on .navbar {
   letter-spacing: 0.05em;
   cursor: pointer;
   transition: 0.3s;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 140px;
 }
 
 .toggle-btn.active {
@@ -871,9 +883,164 @@ body.debug-on .navbar {
 }
 
 @media (max-width: 768px) {
+  .nav-container {
+    padding: 0 20px;
+  }
+
+  .about-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .toggle-group {
+    width: 100%;
+  }
+
+  .toggle-btn {
+    flex: 1;
+    padding: 12px 15px;
+    font-size: var(--text-xs);
+    min-width: auto;
+  }
+
+  .about-container {
+    padding: 30px 20px;
+  }
+
+  .pane-title {
+    font-size: var(--text-xl);
+  }
+
+  .experience-item {
+    gap: 15px;
+  }
+
   .education-layout {
     grid-template-columns: 1fr;
   }
+
+  .edu-item {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .tech-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .track-scroll-container {
+    gap: 20px;
+    padding-right: 20px;
+  }
+
+  .track-header {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .main-title {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+  }
+
+  .hero-subline {
+    font-size: var(--text-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  /* Navbar Responsiveness */
+  .nav-container {
+    padding: 0 20px;
+    height: 60px;
+  }
+
+  .logo {
+    font-size: var(--text-sm);
+  }
+
+  .debug-btn {
+    padding: 5px 10px;
+    font-size: var(--text-xs);
+  }
+
+  /* Hero Section */
+  .hero {
+    padding: 0 20px;
+  }
+
+  .main-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .hero-subline {
+    font-size: var(--text-sm);
+  }
+
+  /* About Section */
+  .about-section {
+    padding: 60px 5%;
+  }
+
+  .about-container {
+    padding: 20px 15px;
+  }
+
+  .toggle-group {
+    flex-direction: column;
+  }
+
+  .toggle-btn {
+    padding: 12px 15px;
+    border-bottom: 1px solid #333;
+  }
+
+  .toggle-btn:last-child {
+    border-bottom: none;
+  }
+
+  .pane-title {
+    font-size: var(--text-lg);
+  }
+
+  .module-id {
+    font-size: var(--text-xs);
+    margin-bottom: 1rem;
+  }
+
+  /* Track Section */
+  .track-group {
+    padding-left: 5%;
+    margin-bottom: 80px;
+  }
+
+  .track-header {
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .scan-label {
+    margin-right: 0;
+  }
+
+  .track-scroll-container {
+    gap: 20px;
+    padding-right: 20px;
+  }
+
+  /* Tech Stack */
+  .tech-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* General */
+  .experience-item {
+    gap: 12px;
+  }
+
+  .education-layout {
+    grid-template-columns: 1fr;
+  }
+
   .edu-item {
     flex-direction: column;
     gap: 8px;
