@@ -83,7 +83,7 @@ function renderTracks(projects) {
     if (catProjects.length === 0) return;
 
     const trackSection = document.createElement("div");
-    trackSection.className = "track-group";
+    trackSection.className = "track-group reveal";
     trackSection.innerHTML = `
             <div class="track-header font-mono">
                 <span class="track-id">${TRACK_MAP[cat].id}</span>
@@ -95,7 +95,7 @@ function renderTracks(projects) {
                 ${catProjects
                   .map(
                     (p) => `
-                    <div class="project-card reveal">
+                    <div class="project-card">
                         <div class="debug-metadata">[FILE_SIZE: ${Math.floor(
                           Math.random() * 20
                         )}kb // TYPE: ${p.tech[0]}]</div>
