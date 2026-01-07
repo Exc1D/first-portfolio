@@ -823,6 +823,39 @@ body.debug-on .navbar {
   }
 }
 
+/* --- SCROLL REVEAL ANIMATION --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s var(--spring);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Optional: Stagger the reveal for a more "High-Tech" feel */
+.reveal-delay-1 {
+  transition-delay: 0.1s;
+}
+.reveal-delay-2 {
+  transition-delay: 0.2s;
+}
+
+/* Keep the simple fadeIn for tab switching in About Me */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* --- RESPONSIVE --- */
 @media (max-width: 900px) {
   .repair-container {
