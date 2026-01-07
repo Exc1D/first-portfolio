@@ -1,7 +1,7 @@
 /* --- CORE VARIABLES --- */
 :root {
   --ink: #080808;
-  --orange: #f4e04d;
+  --orange: #f4e04d; /* Your new Eye-Friendly Yellow */
   --slate: #2d2d2d;
   --white: #ffffff;
   --font-main: "Inter", sans-serif;
@@ -28,21 +28,22 @@ body {
   font-family: var(--font-mono);
 }
 
-/* --- FIXED DEBUG GRID --- */
+/* --- BACKGROUND GRID --- */
 .site-grid {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  pointer-events: none; /* Allows you to click things through the grid */
-  z-index: 9999; /* Makes sure it is on TOP of everything */
+  pointer-events: none;
+  z-index: 9999;
+  /* Updated grid lines to use Yellow (#f4e04d) */
   background-image: linear-gradient(
       to right,
-      rgba(255, 95, 0, 0.15) 1px,
+      rgba(244, 224, 77, 0.1) 1px,
       transparent 1px
     ),
-    linear-gradient(to bottom, rgba(255, 95, 0, 0.15) 1px, transparent 1px);
+    linear-gradient(to bottom, rgba(244, 224, 77, 0.1) 1px, transparent 1px);
   background-size: 50px 50px;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -77,6 +78,32 @@ body.debug-on .debug-metadata {
 body.debug-on .project-card {
   border-style: dashed;
   border-color: var(--orange);
+}
+
+/* --- CENTER SYSTEM ILLUMINATION --- */
+body::after {
+  content: "";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+  /* A very subtle radial gradient using your Cyber Orange */
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.198) 0%,
+    rgba(8, 8, 8, 0) 70%
+  );
+  pointer-events: none; /* Allows you to click through it */
+  z-index: -1; /* Places it behind your text/cards but above the background color */
+  transition: opacity 0.8s ease; /* Smooth transition when toggling debug */
+  opacity: 1;
+}
+
+/* Hide the illumination when Debug is ON to show the grid clearly */
+body.debug-on::after {
+  opacity: 0;
 }
 
 /* --- NAVBAR --- */
