@@ -6,6 +6,52 @@ const TRACK_MAP = {
   "frontend-mentor": { id: "UXX-04", title: "FRONTEND_MENTOR" },
 };
 
+// --- GITHUB CONFIG ---
+const GITHUB_USERNAME = "Exc1D";
+
+async function fetchGitHubCommits() {
+  const commitList = document.getElementById("commit-list");
+  try {
+    // Fetching recent events (pushes) from your public GitHub profile
+    const response = await fetch(
+      `https://api.github.com/users/${GITHUB_USERNAME}/events/public`
+    );
+    const data = await response.json();
+
+    // Filter for PushEvents and get the first 3
+    const pushes = data
+      .filter((event) => event.type === "PushEvent")
+      .slice(0, 3);
+
+    if (pushes.length === 0) {
+      commitList.innerHTML = "<li>NO_RECENT_PUSH_DATA_FOUND</li>";
+      return;
+    }
+
+    commitList.innerHTML = pushes
+      .map((push) => {
+        const { repo, payload, created_at } = push;
+        const repoName = repo.name.split("/")[1];
+        const message = payload.commits[0].message;
+        const date = new Date(created_at).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+        });
+
+        return `
+                <li>
+                    <span class="commit-date">[${date}]</span>
+                    <span><b class="highlight">${repoName}</b>: ${message}</span>
+                </li>
+            `;
+      })
+      .join("");
+  } catch (err) {
+    commitList.innerHTML = "<li>FAILED_TO_CONNECT_TO_GITHUB_API</li>";
+    console.error("GitHub Fetch Error:", err);
+  }
+}
+
 // --- CORE APP ---
 async function init() {
   try {
@@ -16,6 +62,7 @@ async function init() {
     setupScrollEffects();
     setupBugCounter();
     setupAboutToggle();
+    fetchGitHubCommits();
   } catch (err) {
     console.error("System Initialization Failed:", err);
   }
