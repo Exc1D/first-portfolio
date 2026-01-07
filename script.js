@@ -145,13 +145,15 @@ function setupDebugToggle() {
     document.getElementById("debugStatus").textContent = isOn ? "ON" : "OFF";
 
     if (isOn) {
-      heroSub.textContent = heroSub.dataset.debug;
-      statusT.textContent = statusT.dataset.debug;
+      heroSub.innerHTML =
+        'SYSTEM_READY <span class="highlight">INITIATING_NERD_MODE.</span>';
+      statusT.innerHTML =
+        '[ STATUS: <span class="orange-text">SEARCHING_FOR_COFFEE_&_BUGS</span> ]';
     } else {
       heroSub.innerHTML =
-        'SIMPLE BUT FUN. <span class="highlight">HUMBLE BUT HIGH-VOLTAGE.</span>';
+        'WEB DEVELOPER IN TRAINING. <span class="highlight">SIMPLE BUT FUN</span>';
       statusT.innerHTML =
-        '[ STATUS: <span class="orange-text">LEARNING_&_FIXING</span> ]';
+        '[ LOCATION: <span class="orange-text">PHILIPPINES</span> ]';
     }
   });
 }
