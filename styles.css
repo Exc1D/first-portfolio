@@ -208,7 +208,7 @@ body.debug-on .debug-metadata {
 
 body.debug-on .glitch:hover {
   animation: glitch-anim 0.2s infinite;
-  text-shadow: 2px 0 var(--accent), -2px 0 #fff;
+  text-shadow: 0.5rem 0.25rem violet, -2px 0 #fff;
 }
 
 .glitch:hover {
