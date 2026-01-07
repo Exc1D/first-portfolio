@@ -68,6 +68,7 @@ async function init() {
     setupBugCounter();
     setupAboutToggle();
     fetchGitHubCommits();
+    setupScrollReveal();
   } catch (err) {
     console.error("System Initialization Failed:", err);
   }
@@ -94,7 +95,7 @@ function renderTracks(projects) {
                 ${catProjects
                   .map(
                     (p) => `
-                    <div class="project-card">
+                    <div class="project-card reveal">
                         <div class="debug-metadata">[FILE_SIZE: ${Math.floor(
                           Math.random() * 20
                         )}kb // TYPE: ${p.tech[0]}]</div>
@@ -177,6 +178,27 @@ function setupScrollEffects() {
     },
     true
   );
+}
+
+// --- SCROLL REVEAL ENGINE ---
+function setupScrollReveal() {
+  const observerOptions = {
+    threshold: 0.15, // Section must be 15% visible to trigger
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        // Once visible, stop observing to save system resources
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  // Apply to all elements with the 'reveal' class
+  const revealElements = document.querySelectorAll(".reveal");
+  revealElements.forEach((el) => observer.observe(el));
 }
 
 function setupBugCounter() {
