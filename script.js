@@ -1,15 +1,20 @@
-// --- PROJECT DATA ---
-// You can add more projects here easily!
+/**
+ * EXC1D SYSTEM CORE v1.0.0
+ * Logic for: Debug Mode, Horizontal Tracks, Scanning Progress, and UI Toggles
+ */
+
+// --- 1. PROJECT DATABASE ---
+// Organized by Track ID as per Brand Blueprint
 const trackData = [
   {
     id: "EXT-01",
-    title: "CORE_SYSTEMS",
+    title: "CORE_SYSTEMS", // Personal Projects
     projects: [
       {
         name: "EXO_SHELL",
         file: "sys_01.js",
         tech: ["Node.js", "Socket.io"],
-        spark: "Achieved sub-10ms latency.",
+        spark: "Achieved sub-10ms latency in data transfer.",
         fix: "Refactored event listeners to prevent memory leaks.",
         size: "14.2kb",
       },
@@ -17,47 +22,95 @@ const trackData = [
         name: "PORTFOLIO_V4",
         file: "main.css",
         tech: ["Vanilla JS", "CSS3"],
-        spark: "Custom glitch engine built with CSS keys.",
-        fix: "Optimized scroll-snapping for mobile browsers.",
+        spark: "Built a custom glitch engine without external libraries.",
+        fix: "Optimized scroll-snapping for mobile performance.",
         size: "8.5kb",
       },
     ],
   },
   {
     id: "FND-02",
-    title: "FOUNDATION_PROTOCOLS",
+    title: "FOUNDATION_PROTOCOLS", // The Odin Project
     projects: [
       {
         name: "ODIN_LANDING",
         file: "index.html",
         tech: ["HTML5", "Flexbox"],
-        spark: "Pixel-perfect layout matching figma design.",
-        fix: "Fixed z-index stacking issues in the navigation.",
+        spark: "100% responsive layout matching high-fidelity figma.",
+        fix: "Solved z-index stacking context in sticky headers.",
         size: "4.1kb",
       },
       {
         name: "CALC_MODULE",
         file: "calc.js",
         tech: ["JS Logic"],
-        spark: "Handles complex floating point arithmetic.",
+        spark: "Handles complex floating point and negative arithmetic.",
         fix: "Implemented defensive checks for division by zero.",
         size: "12.0kb",
       },
     ],
   },
+  {
+    id: "INT-03",
+    title: "INTERACTIVE_LOGS", // Scrimba
+    projects: [
+      {
+        name: "MOVIE_WATCHLIST",
+        file: "app.js",
+        tech: ["API", "JSON"],
+        spark: "Real-time search with local storage persistence.",
+        fix: "Handled asynchronous API rate-limiting errors.",
+        size: "11.2kb",
+      },
+      {
+        name: "UNIT_CONVERTER",
+        file: "index.js",
+        tech: ["Math JS"],
+        spark: "Instant conversion updates via 'input' event listeners.",
+        fix: "Sanitized input to prevent non-numeric characters.",
+        size: "2.8kb",
+      },
+    ],
+  },
+  {
+    id: "UXX-04",
+    title: "INTERFACE_STRESS_TESTS", // Frontend Mentor
+    projects: [
+      {
+        name: "NFT_CARD",
+        file: "card.css",
+        tech: ["CSS Grid"],
+        spark: "Used CSS filters for a holographic hover effect.",
+        fix: "Normalized image aspect ratios across screen sizes.",
+        size: "5.4kb",
+      },
+      {
+        name: "DASHBOARD_UI",
+        file: "ui.html",
+        tech: ["Accessible HTML"],
+        spark: "Achieved perfect 100/100 Lighthouse accessibility score.",
+        fix: "Fixed contrast ratios for WCAG AA compliance.",
+        size: "18.9kb",
+      },
+    ],
+  },
 ];
 
-// --- INITIALIZATION ---
+// --- 2. INITIALIZATION ENGINE ---
 function init() {
   renderTracks();
   setupDebugToggle();
-  setupBugCounter();
   setupScrollEffects();
+  setupBugCounter();
+  setupAboutToggle();
 }
 
-// 1. Render Tracks and Projects
+// --- 3. CORE FUNCTIONS ---
+
+// A. RENDER TRACKS: Dynamically builds the project horizontal sections
 function renderTracks() {
   const container = document.getElementById("project-tracks");
+  if (!container) return;
 
   trackData.forEach((track) => {
     const trackSection = document.createElement("div");
@@ -104,8 +157,8 @@ function renderTracks() {
                         </div>
 
                         <div class="card-actions font-mono">
-                            <button class="btn-primary">DEPLOY</button>
-                            <button class="btn-secondary">SOURCE</button>
+                            <button class="btn-primary" onclick="alert('System Deploying...')">DEPLOY</button>
+                            <button class="btn-secondary" onclick="alert('Accessing Source...')">SOURCE</button>
                         </div>
                     </div>
                 `
@@ -122,31 +175,34 @@ function renderTracks() {
   });
 }
 
-// 2. Debug Toggle Logic
+// B. DEBUG TOGGLE: Switches grid, metadata, and copy
 function setupDebugToggle() {
   const btn = document.getElementById("debugToggle");
   const statusText = document.getElementById("debugStatus");
-
-  // Elements we want to swap text for
   const heroSubline = document.getElementById("hero-text");
   const statusTag = document.getElementById("status-text");
 
+  if (!btn) return;
+
   btn.addEventListener("click", () => {
-    // 1. Toggle the class on the body
+    const isCurrentlyOff = !document.body.classList.contains("debug-on");
+
+    // Toggle Body Class
     document.body.classList.toggle("debug-on");
-    const isOn = document.body.classList.contains("debug-on");
 
-    // 2. Update the button appearance
-    statusText.textContent = isOn ? "ON" : "OFF";
-    btn.style.backgroundColor = isOn ? "var(--orange)" : "transparent";
-    btn.style.color = isOn ? "black" : "white";
+    // Update Button UI
+    statusText.textContent = isCurrentlyOff ? "ON" : "OFF";
+    btn.style.backgroundColor = isCurrentlyOff
+      ? "var(--orange)"
+      : "transparent";
+    btn.style.color = isCurrentlyOff ? "black" : "white";
 
-    // 3. THE SWAP: Professional vs Candid Copy
-    if (isOn) {
+    // Swap Copy (Professional vs Candid/Technical)
+    if (isCurrentlyOff) {
       heroSubline.textContent = heroSubline.getAttribute("data-debug");
       statusTag.textContent = statusTag.getAttribute("data-debug");
     } else {
-      // Restore original HTML (including spans for colors)
+      // Restore Original HTML with highlighting
       heroSubline.innerHTML =
         'SIMPLE BUT FUN. <span class="highlight">HUMBLE BUT HIGH-VOLTAGE.</span>';
       statusTag.innerHTML =
@@ -155,7 +211,7 @@ function setupDebugToggle() {
   });
 }
 
-// 3. Scroll & Scanning Logic
+// C. SCROLL EFFECTS: Progress bars and Scan completion notification
 function setupScrollEffects() {
   const scrollContainers = document.querySelectorAll(".track-scroll-container");
 
@@ -165,36 +221,31 @@ function setupScrollEffects() {
       const progressBar = parent.querySelector(".progress-bar");
       const scanLabel = parent.querySelector(".scan-label");
 
-      // Calculate percentage
       const scrollWidth = container.scrollWidth - container.clientWidth;
       const scrollLeft = container.scrollLeft;
       const percent = Math.round((scrollLeft / scrollWidth) * 100);
 
-      // Update UI
       progressBar.style.width = `${percent}%`;
       scanLabel.style.opacity = "1";
       scanLabel.textContent = `SCANNING: ${percent}%`;
 
-      // Notification Trigger
+      // Trigger toast on completion
       if (percent === 100) {
-        showNotification();
+        const note = document.getElementById("scanNote");
+        note.classList.add("show");
+        setTimeout(() => note.classList.remove("show"), 4000);
       }
     });
   });
 }
 
-function showNotification() {
-  const note = document.getElementById("scanNote");
-  note.classList.add("show");
-  setTimeout(() => note.classList.remove("show"), 3000);
-}
-
-// 4. Bug Counter (Maintenance Section)
+// D. BUG COUNTER: Interactive "Repair Shop" Logic
 function setupBugCounter() {
   const bugArea = document.getElementById("bugCounter");
   const display = document.getElementById("clickCount");
 
-  // Load from memory
+  if (!bugArea) return;
+
   let count = parseInt(localStorage.getItem("bugs")) || 42;
   display.textContent = count;
 
@@ -203,11 +254,39 @@ function setupBugCounter() {
     display.textContent = count;
     localStorage.setItem("bugs", count);
 
-    // Simple scale effect on click
-    display.style.transform = "scale(1.1)";
-    setTimeout(() => (display.style.transform = "scale(1)"), 100);
+    // Haptic-style visual feedback
+    display.style.transform = "scale(1.1) rotate(-2deg)";
+    display.style.color = "white";
+    setTimeout(() => {
+      display.style.transform = "scale(1) rotate(0deg)";
+      display.style.color = "var(--orange)";
+    }, 100);
   });
 }
 
-// Run the app
+// E. ABOUT TOGGLE: Switches between Experience and Education panes
+function setupAboutToggle() {
+  const expBtn = document.getElementById("showExperience");
+  const eduBtn = document.getElementById("showEducation");
+  const expView = document.getElementById("experience-view");
+  const eduView = document.getElementById("education-view");
+
+  if (!expBtn || !eduBtn) return;
+
+  expBtn.addEventListener("click", () => {
+    expBtn.classList.add("active");
+    eduBtn.classList.remove("active");
+    expView.classList.add("active");
+    eduView.classList.remove("active");
+  });
+
+  eduBtn.addEventListener("click", () => {
+    eduBtn.classList.add("active");
+    expBtn.classList.remove("active");
+    eduView.classList.add("active");
+    expView.classList.remove("active");
+  });
+}
+
+// --- 4. START SYSTEM ---
 document.addEventListener("DOMContentLoaded", init);
