@@ -504,9 +504,6 @@ body.debug-on .navbar {
   margin-bottom: 0.75rem;
   display: flex;
   align-items: center;
-}
-
-.tech-category li i {
   margin-right: 0.5rem;
   color: var(--white);
   font-size: var(--text-base);
@@ -594,6 +591,17 @@ body.debug-on .navbar {
   display: flex;
   gap: 20px;
   align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.experience-item .v-tag {
+  min-width: 120px;
+  flex-shrink: 0;
+}
+
+.experience-item p {
+  margin: 0;
+  line-height: var(--leading-normal);
 }
 
 .v-tag.font-mono {
