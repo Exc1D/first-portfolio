@@ -22,7 +22,10 @@ async function fetchGitHubCommits() {
     const data = await response.json();
 
     const pushes = data
-      .filter((event) => event.type === "PushEvent" && event.payload.commits?.length > 0)
+      .filter(
+        (event) =>
+          event.type === "PushEvent" && event.payload.commits?.length > 0
+      )
       .slice(0, 3);
 
     if (pushes.length === 0) {
@@ -34,7 +37,7 @@ async function fetchGitHubCommits() {
       .map((push) => {
         const { repo, payload, created_at } = push;
         const repoName = repo.name.split("/")[1];
-        const message = payload.commits[0].message;
+        const { message } = payload.commits[0];
         const date = new Date(created_at).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",
