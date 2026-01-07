@@ -3,231 +3,134 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>David Aviado - Full-Stack Developer</title>
+    <title>Exc1D // Full-Stack Developer</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <!-- Debug Overlay -->
+    <div class="debug-grid"></div>
+
     <nav class="nav">
       <div class="nav-content">
-        <div class="nav-logo">EXXEED</div>
-        <ul class="nav-links">
-          <li><a href="#about">About</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
+        <div class="nav-logo-small">EXC1D</div>
+        <div class="debug-control">
+          <span class="debug-label">SYSTEM_DEBUG:</span>
+          <button id="debugToggle" class="toggle-btn">OFF</button>
+        </div>
       </div>
     </nav>
 
-    <section id="about" class="hero">
-      <div class="container">
-        <div class="hero-content">
-          <div class="status-badge fade-in">
-            <span class="status-dot"></span>
-            <span>Open to opportunities</span>
-          </div>
-          <h1 class="fade-in">Should Beautiful Things be Fun?</h1>
-          <p class="subtitle fade-in">
-            Hi, I'm David! Full-Stack Developer in Training
-          </p>
-          <p class="bio fade-in">
-            Former Philippine Military Academy Cadet who traded my rifle for a
-            keyboard but kept the discipline. I transform boring apps into fun,
-            creative, and beautiful experiences.
-          </p>
-
-          <div class="cta-buttons fade-in">
-            <a href="#contact" class="btn-cta btn-cta-primary">
-              <i class="fas fa-envelope"></i>
-              Get In Touch
-            </a>
-            <a
-              href="https://github.com/Exc1D"
-              target="_blank"
-              class="btn-cta btn-cta-secondary"
-            >
-              <i class="fab fa-github"></i>
-              View GitHub
-            </a>
-          </div>
+    <header class="hero">
+      <div class="hero-container">
+        <div class="glitch-wrapper">
+          <h1 class="main-logo" data-text="EXC1D">EXC1D</h1>
+        </div>
+        <p class="hero-subline">
+          SIMPLE BUT FUN.
+          <span class="orange-text">HUMBLE BUT HIGH-VOLTAGE.</span>
+        </p>
+        <div class="hero-status">
+          <span class="code-font">[ STATUS: LEARNING_AND_FIXING ]</span>
         </div>
       </div>
-    </section>
+    </header>
 
-    <section id="projects">
-      <div class="container">
-        <div class="section-header fade-in">
-          <h2>Featured Projects</h2>
-          <p>Building with passion, one commit at a time</p>
-        </div>
-
-        <div class="project-categories fade-in">
-          <button class="category-btn active" data-category="all">
-            All Projects
-          </button>
-          <button class="category-btn" data-category="personal">
-            Personal
-          </button>
-          <button class="category-btn" data-category="odin">
-            The Odin Project
-          </button>
-          <button class="category-btn" data-category="scrimba">Scrimba</button>
-          <button class="category-btn" data-category="frontend-mentor">
-            Frontend Mentor
-          </button>
-        </div>
-
-        <div class="projects-container">
-          <div class="projects-grid" id="projectsGrid"></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="skills">
-      <div class="container">
-        <div class="section-header fade-in">
-          <h2>Skills & Technologies</h2>
-          <p>Currently mastering the fundamentals</p>
-        </div>
-
-        <div class="skills-grid fade-in">
-          <div class="skill-card">
-            <div class="skill-icon">
-              <i class="fab fa-html5" style="color: #e34f26"></i>
-            </div>
-            <div class="skill-name">HTML5</div>
+    <main>
+      <!-- Project Tracks -->
+      <section class="tracks-section">
+        <div class="track-group" data-label="EXT-01 // CORE_SYSTEMS">
+          <h2 class="track-title">
+            <span class="track-id">EXT-01</span> // CORE_SYSTEMS
+          </h2>
+          <div class="horizontal-scroll" id="personal-track">
+            <!-- Cards injected by JS -->
           </div>
-          <div class="skill-card">
-            <div class="skill-icon">
-              <i class="fab fa-css3-alt" style="color: #1572b6"></i>
-            </div>
-            <div class="skill-name">CSS3</div>
-          </div>
-          <div class="skill-card">
-            <div class="skill-icon">
-              <i class="fab fa-js" style="color: #f7df1e"></i>
-            </div>
-            <div class="skill-name">JavaScript</div>
-          </div>
-          <div class="skill-card">
-            <div class="skill-icon">
-              <i class="fab fa-python" style="color: #3776ab"></i>
-            </div>
-            <div class="skill-name">Python</div>
-          </div>
-          <div class="skill-card">
-            <div class="skill-icon">
-              <i class="fab fa-git-alt" style="color: #f05032"></i>
-            </div>
-            <div class="skill-name">Git</div>
+          <div class="scan-bar-container">
+            <div class="scan-progress"></div>
           </div>
         </div>
-      </div>
-    </section>
 
-    <section id="contact">
-      <div class="container">
-        <div class="contact-content fade-in">
-          <div class="section-header">
-            <h2>Let's Build Something</h2>
-            <p>Always excited to collaborate on interesting projects</p>
-          </div>
-
-          <div class="contact-grid">
-            <a href="mailto:davidaviado.dla@gmail.com" class="contact-card">
-              <i class="fas fa-envelope contact-icon"></i>
-            </a>
-
-            <a
-              href="https://github.com/Exc1D"
-              target="_blank"
-              class="contact-card"
-            >
-              <i class="fab fa-github contact-icon"></i>
-            </a>
-
-            <a
-              href="https://www.linkedin.com/in/david-laurence-aviado-b1aaa8272/"
-              target="_blank"
-              class="contact-card"
-            >
-              <i class="fab fa-linkedin contact-icon"></i>
-            </a>
-
-            <a
-              href="https://discord.com/users/1389180077752975360"
-              target="_blank"
-              class="contact-card"
-            >
-              <i class="fab fa-discord contact-icon"></i>
-            </a>
+        <div class="track-group" data-label="FND-02 // FOUNDATION_PROTOCOLS">
+          <h2 class="track-title">
+            <span class="track-id">FND-02</span> // FOUNDATION_PROTOCOLS
+          </h2>
+          <div class="horizontal-scroll" id="odin-track"></div>
+          <div class="scan-bar-container">
+            <div class="scan-progress"></div>
           </div>
         </div>
-      </div>
-    </section>
 
-    <section class="interactive-section">
-      <div class="container">
-        <div class="section-header fade-in">
-          <h2>Interactive Stats</h2>
-          <p>Some fun metrics from this site</p>
+        <div class="track-group" data-label="INT-03 // INTERACTIVE_LOGS">
+          <h2 class="track-title">
+            <span class="track-id">INT-03</span> // INTERACTIVE_LOGS
+          </h2>
+          <div class="horizontal-scroll" id="scrimba-track"></div>
+          <div class="scan-bar-container">
+            <div class="scan-progress"></div>
+          </div>
         </div>
+      </section>
 
-        <div class="interactive-grid fade-in">
-          <div class="interactive-card interactive-counter" id="clickCounter">
-            <div class="counter-icon">👆</div>
-            <div>
-              <span class="stat-value" id="clickCount">0</span>
-              <span class="stat-label">Clicks on This Button</span>
+      <!-- The Repair Shop -->
+      <section class="repair-shop">
+        <div class="container">
+          <div class="repair-grid">
+            <div class="repair-info">
+              <h2 class="section-title">THE REPAIR SHOP</h2>
+              <p>
+                Documenting the friction of the "Build. Fix. Repeat." cycle.
+              </p>
+              <div class="bug-counter" id="clickCounter">
+                <span class="count-num" id="clickCount">0</span>
+                <span class="count-label">BUGS SQUASHED THIS WEEK</span>
+              </div>
             </div>
-          </div>
-
-          <div class="interactive-card">
-            <div class="counter-icon">⏱️</div>
-            <div>
-              <span class="stat-value" id="liveTimer">00:00:00</span>
-              <span class="stat-label">Time Spent on Site</span>
-            </div>
-          </div>
-
-          <div class="interactive-card">
-            <div class="counter-icon">🌏</div>
-            <div>
-              <span class="stat-value">🇵🇭</span>
-              <span class="stat-label">Based in Philippines</span>
+            <div class="version-history">
+              <div class="history-header">VERSION_LOG.exe</div>
+              <ul class="history-list">
+                <li>
+                  <span class="v-tag">v0.4.2</span> UI Overhaul to "Exc1D"
+                  Blueprint
+                </li>
+                <li>
+                  <span class="v-tag">v0.3.8</span> Refined Horizontal Track
+                  Logic
+                </li>
+                <li>
+                  <span class="v-tag">v0.2.1</span> Initial System Architecture
+                </li>
+              </ul>
             </div>
           </div>
         </div>
-
-        <div class="github-activity fade-in" style="margin-top: 3rem">
-          <div class="activity-header">
-            <span class="activity-title">Recent GitHub Activity</span>
-            <span style="color: var(--success)">●</span>
-          </div>
-          <ul class="commit-list" id="commitList">
-            <li class="commit-item">
-              <div class="spinner"></div>
-              <span class="commit-message">Loading recent commits...</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
+      </section>
+    </main>
 
     <footer class="footer">
-      <div class="container">
-        <div class="footer-content">
-          <p style="margin-bottom: 1rem">
-            Built with HTML, CSS & Vanilla JavaScript
-          </p>
-          <p>© 2026 David Aviado. Designed with discipline and creativity.</p>
+      <div class="container footer-flex">
+        <div class="contact-links">
+          <a href="mailto:davidaviado.dla@gmail.com">EMAIL</a>
+          <a href="https://github.com/Exc1D">GITHUB</a>
+          <a href="#">LINKEDIN</a>
+        </div>
+        <div class="copyright code-font">
+          ©2026_EXC1D_STUDIO. ALL_RIGHTS_RESERVED.
         </div>
       </div>
     </footer>
+
+    <div id="scanNotification" class="notification">
+      SCAN COMPLETE: CREATIVITY DETECTED
+    </div>
 
     <script src="script.js"></script>
   </body>
