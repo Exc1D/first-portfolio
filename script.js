@@ -12,15 +12,17 @@ const GITHUB_USERNAME = "Exc1D";
 async function fetchGitHubCommits() {
   const commitList = document.getElementById("commit-list");
   try {
-    // Fetching recent events (pushes) from your public GitHub profile
     const response = await fetch(
       `https://api.github.com/users/${GITHUB_USERNAME}/events/public`
     );
+
+    if (!response.ok) {
+      throw new Error(`GitHub API error: ${response.status}`);
+    }
     const data = await response.json();
 
-    // Filter for PushEvents and get the first 3
     const pushes = data
-      .filter((event) => event.type === "PushEvent")
+      .filter((event) => event.type === "PushEvent" && event.payload.commits?.length > 0)
       .slice(0, 3);
 
     if (pushes.length === 0) {
