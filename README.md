@@ -1,9 +1,3 @@
-Here is a comprehensive `README.md` file tailored specifically for your project. I have written it to match the "Tech/Cyberpunk" aesthetic of your site while providing clear technical documentation.
-
-You can create a file named `README.md` and paste this content inside.
-
----
-
 # Exc1D // Full-Stack Developer Portfolio
 
 A personal portfolio website featuring a **Cyberpunk / Sci-Fi interface**, Glassmorphism UI elements, and real-time API integrations. Designed to showcase projects with a focus on interactivity, "Nerd Mode" toggles, and dynamic content rendering.
