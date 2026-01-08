@@ -109,11 +109,11 @@ function renderTracks(projects) {
                         </div>
                         <h3 class="project-name">${p.title}</h3>
                         <div class="project-insight font-mono">
-                            <div class="insight-row"><span class="insight-label">>> SPARK:</span> ${
-                              p.spark || p.description
+                            <div class="insight-row"><span class="insight-label">>> WHAT:</span> ${
+                              p.description
                             }</div>
-                            <div class="insight-row"><span class="insight-label">>> FIX:</span> ${
-                              p.fix || "Optimized code structure."
+                            <div class="insight-row"><span class="insight-label">>> SPARK:</span> ${
+                              p.spark
                             }</div>
                         </div>
                         <div class="card-actions font-mono">
