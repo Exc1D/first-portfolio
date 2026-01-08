@@ -1,0 +1,134 @@
+[
+  {
+    "title": "Awesome Grade Calculator",
+    "category": "personal",
+    "file": "eval_system.js",
+    "description": "A gamified project evaluation system with MOBA-style ranking progression.",
+    "spark": "Integrated a dynamic 'Ranking' algorithm based on grade thresholds.",
+    "fix": "Debugged audio overlapping by implementing a sound-manager queue.",
+    "tech": ["HTML", "CSS", "JS"],
+    "github": "https://github.com/Exc1D/day-04-epic-grade-calculator",
+    "demo": "https://exc1d.github.io/awesome-grade-calculator/"
+  },
+  {
+    "title": "PX-to-REM Converter",
+    "category": "personal",
+    "file": "converter.ts",
+    "description": "A polished interactive converter with batch processing.",
+    "spark": "Added clipboard-API integration for instant result copying.",
+    "fix": "Refined the math rounding logic to prevent floating-point sub-pixel errors.",
+    "tech": ["HTML", "CSS", "JS"],
+    "github": "https://github.com/Exc1D/px-to-rem",
+    "demo": "https://exc1d.github.io/px-to-rem/"
+  },
+  {
+    "title": "EXXEED | The Mission Log",
+    "category": "personal",
+    "file": "worker.js",
+    "description": "Serverless blogging platform built on Cloudflare Workers.",
+    "spark": "Deployed a global-latency CMS using KV Storage.",
+    "fix": "Overcame cold-start issues by optimizing worker script size.",
+    "tech": ["Cloudflare", "KV", "JS"],
+    "github": "https://github.com/Exc1D/exxeed-blog",
+    "demo": "https://iexceed.xyz/"
+  },
+  {
+    "title": "Etch-a-Sketch",
+    "category": "odin",
+    "file": "grid_gen.js",
+    "description": "Interactive sketch pad with a great personality.",
+    "spark": "Lots of fun tools to fiddle.",
+    "fix": "Improved performance for 100x100 grids using event delegation.",
+    "tech": ["HTML", "CSS", "JS"],
+    "github": "https://github.com/Exc1D/odin-etch-a-sketch",
+    "demo": "https://exc1d.github.io/odin-etch-a-sketch/"
+  },
+  {
+    "title": "Almost Boring Calculator",
+    "category": "odin",
+    "file": "calc_logic.js",
+    "description": "Fully functional web calculator. Simple but beautiful.",
+    "spark": "Used pure functional programming for all the math operations.",
+    "fix": "Fixed the 'double decimal' bug using a state-check flag.",
+    "tech": ["HTML", "CSS", "JS"],
+    "github": "https://github.com/Exc1D/odin-calculator",
+    "demo": "https://exc1d.github.io/odin-calculator/"
+  },
+  {
+    "title": "Kawaii Rock Paper Scissors",
+    "category": "odin",
+    "file": "game.js",
+    "description": "Web-based mini-game with dynamic scoring and intuitive sound fx.",
+    "spark": "It's cute and fun.",
+    "fix": "Synchronized DOM score updates with transition-end events.",
+    "tech": ["HTML", "CSS", "JS"],
+    "github": "https://github.com/Exc1D/odin-kawaii-rps",
+    "demo": "https://exc1d.github.io/odin-kawaii-rps/"
+  },
+  {
+    "title": "Oldagram",
+    "category": "scrimba",
+    "file": "feed.js",
+    "description": "Instagram clone with dynamic feed rendering.",
+    "spark": "Implemented an 'Instagram-style' double-tap to like feature.",
+    "fix": "Resolved template-literal rendering issues in the map() function.",
+    "tech": ["HTML", "CSS", "JS"],
+    "github": "https://github.com/Exc1D/scrimba-oldagram",
+    "demo": "https://exc1d.github.io/scrimba-oldagram/"
+  },
+  {
+    "title": "Random Passwordinator",
+    "category": "scrimba",
+    "file": "generator.js",
+    "description": "Dr. Doofenshmirtz-inspired password generator.",
+    "spark": "Added a 'strength meter' that changes color based on entropy.",
+    "fix": "Swapped out simple random for crypto.getRandomValues() for security.",
+    "tech": ["HTML", "CSS", "JS"],
+    "github": "https://github.com/Exc1D/Passwordinator",
+    "demo": "https://exc1d.github.io/Passwordinator/"
+  },
+  {
+    "title": "Unit Converter",
+    "category": "scrimba",
+    "file": "convert.js",
+    "description": "Simple web-based converter for length, volume, and mass.",
+    "spark": "Optimized UI layout for a Chrome Extension pop-up window.",
+    "fix": "Consolidated redundant conversion functions into a single reusable object.",
+    "tech": ["HTML", "CSS", "JS"],
+    "github": "https://github.com/Exc1D/Unit-Converter-Solo-project-from-Scrimba-",
+    "demo": "https://exc1d.github.io/Unit-Converter-Solo-project-from-Scrimba-/"
+  },
+  {
+    "title": "Product Preview Page",
+    "category": "frontend-mentor",
+    "file": "style.css",
+    "description": "First take on responsive CSS design featuring a clean layout.",
+    "spark": "Learned the power of clamp() for fluid typography.",
+    "fix": "Solved image-distortion issues using the object-fit property.",
+    "tech": ["HTML", "CSS"],
+    "github": "https://github.com/Exc1D/product-preview",
+    "demo": "https://exc1d.github.io/product-preview/"
+  },
+  {
+    "title": "Age Calculator",
+    "category": "frontend-mentor",
+    "file": "age_logic.js",
+    "description": "Elegant age calculator with fun animations.",
+    "spark": "Check out the spicy remarks about your age.",
+    "fix": "Replaced standard alerts with custom-styled error states.",
+    "tech": ["HTML", "CSS", "JS"],
+    "github": "https://github.com/Exc1D/day-03-age-calculator",
+    "demo": "https://exc1d.github.io/day-03-age-calculator/"
+  },
+  {
+    "title": "Blog Card",
+    "category": "frontend-mentor",
+    "file": "card.css",
+    "description": "Copied a beatuiful template from scratch.",
+    "spark": "Meh it was boring so I added my own hover effects.",
+    "fix": "Corrected accessibility landmarks for better screen-reader support.",
+    "tech": ["HTML", "CSS"],
+    "github": "https://github.com/Exc1D/blog-card",
+    "demo": "https://exc1d.github.io/blog-card/"
+  }
+]
