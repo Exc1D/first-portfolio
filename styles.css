@@ -547,7 +547,7 @@ body.debug-on .navbar {
 
 .toggle-group {
   display: flex;
-  background: #111;
+  background: var(--ink);
   border-radius: 4px;
   flex-wrap: wrap;
   min-width: fit-content;
@@ -742,15 +742,26 @@ body.debug-on .navbar {
 
 .count-number {
   font-size: 90px;
-  color: var(--accent);
+  color: var(--ink);
   font-weight: 800;
   display: block;
   line-height: 1;
+  background: var(--accent);
+  border-radius: 1rem;
+  transition: transform 0.25s;
+}
+
+.count-number:hover {
+  transform: scale(1.05);
+}
+
+.count-number:active {
+  transform: scale(0.95);
 }
 
 .count-label {
   font-size: var(--text-xs);
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--accent);
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
