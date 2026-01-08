@@ -8,7 +8,9 @@ You can create a file named `README.md` and paste this content inside.
 
 A personal portfolio website featuring a **Cyberpunk / Sci-Fi interface**, Glassmorphism UI elements, and real-time API integrations. Designed to showcase projects with a focus on interactivity, "Nerd Mode" toggles, and dynamic content rendering.
 
-**Live Demo:** [Insert Your Link Here]
+![Screenshot](image.png)
+
+**Live Demo:** [https://first-portfolio-virid.vercel.app/]
 
 ## ⚡ Key Features
 
