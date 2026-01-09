@@ -240,7 +240,7 @@ body.debug-on .glitch:hover {
 
 /* --- SHARED COMPONENT: GLASS PANEL --- */
 .navbar,
-.project-card,
+.card,
 .about-container,
 .tech-category,
 .cta-box,
@@ -253,7 +253,7 @@ body.debug-on .glitch:hover {
   transition: all 0.5s var(--spring);
 }
 
-.project-card:hover,
+.card:hover,
 .about-container:hover,
 .tech-category:hover,
 .cta-box:hover {
@@ -263,7 +263,7 @@ body.debug-on .glitch:hover {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
-.project-card::before,
+.card::before,
 .about-container::before,
 .tech-category::before,
 .cta-box::before,
@@ -282,7 +282,7 @@ body.debug-on .glitch:hover {
   pointer-events: none;
 }
 
-body.debug-on .project-card::before,
+body.debug-on .card::before,
 body.debug-on .about-container::before,
 body.debug-on .tech-category::before,
 body.debug-on .cta-box::before,
@@ -291,7 +291,7 @@ body.debug-on .glass-panel::before {
 }
 
 body.debug-on .navbar,
-body.debug-on .project-card,
+body.debug-on .card,
 body.debug-on .about-container,
 body.debug-on .tech-category,
 body.debug-on .cta-box,
@@ -308,10 +308,9 @@ body.debug-on .navbar {
   border: none;
 }
 
-/* --- PROJECT TRACKS --- */
 /* --- TRACK LAYOUT --- */
 .track-section {
-  padding: 40px 5%;
+  padding: 20px;
 }
 
 .track-section h3 {
@@ -429,8 +428,8 @@ body.debug-on .navbar {
 }
 
 .primary-card-btn {
-  background-color: var(--text);
-  color: var(--bg);
+  background-color: var(--white);
+  color: var(--ink);
 }
 
 .card-btn,
@@ -442,28 +441,28 @@ body.debug-on .navbar {
   font-weight: 700;
   font-size: 0.8rem;
   border-radius: 6px;
-  transition: all 0.2s;
+  transition: all 0.2s ease-in-out;
 }
 
 .card-btn {
   background: var(--bg);
-  color: var(--text);
-  border: 3px solid var(--text);
+  color: var(--white);
+  border: 1px solid var(--white);
 }
 
 .primary-card-btn:hover,
 .card-btn:hover,
-.nerd-btn:hover {
+.btn-secondary:hover {
   background: var(--accent);
   transform: scale(1.03);
   font-weight: 700;
-  color: var(--bg);
-  border: 3px solid var(--accent);
+  color: var(--ink);
+  border: 1px solid var(--accent);
 }
 
 .primary-card-btn:active,
 .card-btn:active,
-.nerd-btn:active {
+.btn-secondary:active {
   transform: scale(0.95);
 }
 .progress-container {
@@ -517,11 +516,6 @@ body.debug-on .navbar {
   margin-right: 0.5rem;
   color: var(--white);
   font-size: var(--text-base);
-}
-
-.expertise {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: var(--text-xs);
 }
 
 /* --- ABOUT ME TOGGLE --- */
@@ -684,9 +678,33 @@ body.debug-on .navbar {
   margin-bottom: 1.5rem;
 }
 
-.main-cta {
+.main-cta,
+.btn-secondary {
+  font-size: var(--text-lg);
+  font-weight: 800;
+  padding: 0.5rem 1rem;
   text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.main-cta {
+  background-color: var(--accent);
+  color: var(--ink);
   animation: pulse-yellow 2s infinite;
+}
+
+.main-cta:hover {
+  transform: scale(1.05);
+  animation: none;
+}
+
+.btn-secondary {
+  border: 1px solid var(--white);
+  color: var(--white);
+}
+
+.btn-secondary:hover {
+  transform: scale(1.05);
 }
 
 @keyframes pulse-yellow {
@@ -831,11 +849,6 @@ body.debug-on .navbar {
   color: var(--accent);
 }
 
-.logo a:hover,
-.muted {
-  color: rgba(255, 255, 255, 0.4);
-}
-
 /* --- NOTIFICATION --- */
 .notification {
   position: fixed;
@@ -889,26 +902,10 @@ body.debug-on .navbar {
   transition-delay: 0.2s;
 }
 
-/* Keep the simple fadeIn for tab switching in About Me */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* --- RESPONSIVE --- */
 @media (max-width: 900px) {
   .repair-container {
     grid-template-columns: 1fr;
-  }
-  .project-card {
-    min-width: 300px;
-    padding: 25px;
   }
   .project-name {
     font-size: 32px;
