@@ -164,7 +164,7 @@ function renderTracks(projects) {
         .join("");
 
       const trackSection = `
-      <section class="track-section" aria-labelledby="projects-heading">
+      <section class="track-section reveal" aria-labelledby="projects-heading">
         <h3>${category.replaceAll("-", " ").toUpperCase()}</h3>
         <div class="track">
           ${cardsHTML}
