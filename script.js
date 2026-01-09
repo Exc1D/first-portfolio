@@ -120,63 +120,60 @@ async function init() {
 }
 
 function renderTracks(projects) {
-  const container = document.getElementById("project-tracks");
+  const app = document.getElementById("project-tracks");
 
-  // Group projects by category
-  Object.keys(TRACK_MAP).forEach((cat) => {
-    const catProjects = projects.filter((p) => p.category === cat);
-    if (catProjects.length === 0) return;
+  // Define categories for display and order
+  const categories = [
+    "the-odin-project",
+    "scrimba",
+    "frontend-mentor",
+    "personal",
+  ];
 
-    const trackSection = document.createElement("div");
-    trackSection.className = "track-group reveal";
-    trackSection.innerHTML = `
-            <div class="track-header font-mono">
-                <span class="track-id">${TRACK_MAP[cat].id}</span>
-                <span class="track-divider"></span>
-                <h2 class="track-title">${TRACK_MAP[cat].title}</h2>
-                <div class="scan-label">SCANNING: 0%</div>
+  categories.forEach((category) => {
+    const filtered = projects.filter(
+      (project) => project.category === category
+    );
+    if (filtered.length > 0) {
+      const cardsHTML = filtered
+        .map(
+          (project) => `
+        <article class="card">
+          <img class="card-image" src="${project.image}" alt="Screenshot of ${
+            project.title
+          }">
+          <div class="card-content">
+            <p class="card-title">${project.title}</p>
+            <p class="card-desc">${project.description}</p>
+            <div class="card-tech">
+              ${project.tech
+                .map((tech) => `<span class="tech-tag">${tech}</span>`)
+                .join("")}
             </div>
-            <div class="track-scroll-container">
-                ${catProjects
-                  .map(
-                    (p) => `
-                    <div class="project-card">
-                        <div class="debug-metadata">[FILE_SIZE: ${Math.floor(
-                          Math.random() * 20
-                        )}kb // TYPE: ${p.tech[0]}]</div>
-                        <div class="card-top">
-                            <div class="status-indicator font-mono"><div class="dot"></div><span>${
-                              p.file || "index.html"
-                            }</span></div>
-                            <div class="tech-tags font-mono">${p.tech
-                              .map((t) => `<span class="tag">${t}</span>`)
-                              .join("")}</div>
-                        </div>
-                        <h3 class="project-name">${p.title}</h3>
-                        <div class="project-insight font-mono">
-                            <div class="insight-row"><span class="insight-label">>> WHAT:</span> ${
-                              p.description
-                            }</div>
-                            <div class="insight-row"><span class="insight-label">>> SPARK:</span> ${
-                              p.spark
-                            }</div>
-                        </div>
-                        <div class="card-actions font-mono">
-                            <a href="${
-                              p.demo
-                            }" target="_blank" class="btn-primary">LIVE_DEMO</a>
-                            <a href="${
-                              p.github
-                            }" target="_blank" class="btn-secondary">CODE</a>
-                        </div>
-                    </div>
-                `
-                  )
-                  .join("")}
+            <div class="card-actions">
+              <a href="${
+                project.demo
+              }" class="primary-card-btn" target="_blank">DEMO</a>
+              <a href="${
+                project.github
+              }" class="card-btn" target="_blank">CODE</a>
             </div>
-            <div class="progress-container"><div class="progress-bar"></div></div>
-        `;
-    container.appendChild(trackSection);
+          </div>
+        </article>`
+        )
+        .join("");
+
+      const trackSection = `
+      <section class="track-section" aria-labelledby="projects-heading">
+        <h3>${category.replaceAll("-", " ").toUpperCase()}</h3>
+        <div class="track">
+          ${cardsHTML}
+        </div>
+      </section>
+      `;
+
+      app.innerHTML += trackSection;
+    }
   });
 }
 
