@@ -325,9 +325,8 @@ body.debug-on .navbar {
   display: flex;
   gap: 20px;
   overflow-x: auto;
-  padding-bottom: 20px;
+  padding: 20px 0 20px 0;
   scroll-snap-type: x mandatory;
-  /* Hide scrollbar for cleaner look (optional) */
   scrollbar-width: thin;
   scrollbar-color: var(--accent) transparent;
 }
