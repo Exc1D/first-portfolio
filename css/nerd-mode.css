@@ -89,6 +89,10 @@ body.nerd-mode .glitch:hover {
   100% { transform: translate(0); }
 }
 
+body.nerd-mode .module-id {
+  display: block;
+}
+
 body.nerd-mode .section-title {
   text-transform: uppercase;
 }
@@ -237,4 +241,73 @@ body.nerd-mode .card:hover {
 body.nerd-mode ::-webkit-scrollbar-thumb {
   background: var(--accent);
   border-radius: 0;
+}
+
+/* ===== NERD MODE: HERO TAGS ===== */
+
+body.nerd-mode .hero-tag {
+  border-radius: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+body.nerd-mode .resume-btn {
+  border-radius: 0;
+}
+
+/* ===== NERD MODE: FEATURED SECTION ===== */
+
+body.nerd-mode .featured-card {
+  border-radius: 0;
+}
+
+body.nerd-mode .featured-card-title {
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+body.nerd-mode .case-study-toggle {
+  border-radius: 0;
+  border-color: var(--accent);
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+body.nerd-mode .case-study-panel {
+  border-left: 2px solid var(--accent);
+  padding-left: 12px;
+}
+
+body.nerd-mode .cs-subsection + .cs-subsection {
+  border-top-color: #333;
+}
+
+body.nerd-mode #toggle-all-projects {
+  border-radius: 0;
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+body.nerd-mode #toggle-all-projects:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ===== NERD MODE: CONTACT FORM ===== */
+
+body.nerd-mode .contact-form input,
+body.nerd-mode .contact-form textarea {
+  border-radius: 0;
+  border-color: #333;
+}
+
+body.nerd-mode .contact-form input::placeholder,
+body.nerd-mode .contact-form textarea::placeholder {
+  color: rgba(220, 20, 60, 0.4);
+}
+
+body.nerd-mode .contact-form input:focus,
+body.nerd-mode .contact-form textarea:focus {
+  border-color: var(--accent);
 }

@@ -2,29 +2,47 @@
   {
     "title": "Awesome Grade Calculator",
     "category": "personal",
+    "featured": true,
     "description": "A gamified project evaluation system with MOBA-style ranking progression.",
     "tech": ["HTML", "CSS", "JS"],
     "image": "assets/awesome-grade.png",
     "github": "https://github.com/Exc1D/day-04-epic-grade-calculator",
-    "demo": "https://exc1d.github.io/awesome-grade-calculator/"
+    "demo": "https://exc1d.github.io/awesome-grade-calculator/",
+    "caseStudy": {
+      "problem": "Grade tracking tools are boring and students disengage quickly. I wanted to make checking scores feel more like leveling up in a game.",
+      "approach": "Mapped letter grades to MOBA-style rank tiers (Bronze → Challenger). Built a clean input form with real-time rank display and animated rank-up transitions using vanilla JS and CSS animations.",
+      "learned": "That gamification is really just good UX — feedback loops, clear progress, and emotional payoff. Also learned to keep DOM updates efficient by only touching changed elements."
+    }
   },
   {
     "title": "PX-to-REM Converter",
     "category": "personal",
+    "featured": true,
     "description": "A polished interactive converter with batch processing.",
     "tech": ["HTML", "CSS", "JS"],
     "image": "assets/px-to-rem.png",
     "github": "https://github.com/Exc1D/px-to-rem",
-    "demo": "https://exc1d.github.io/px-to-rem/"
+    "demo": "https://exc1d.github.io/px-to-rem/",
+    "caseStudy": {
+      "problem": "Manually converting px to rem while writing CSS is tedious and error-prone. Existing tools online are cluttered with ads or require too many clicks.",
+      "approach": "Built a single-focus tool: paste a list of px values, get rem values instantly. Supports custom base font size and batch conversion in one text area.",
+      "learned": "The value of building for yourself first. When the user is also the developer, you naturally cut every unnecessary feature and focus on speed."
+    }
   },
   {
     "title": "EXXEED | The Mission Log",
     "category": "personal",
+    "featured": true,
     "description": "Serverless blogging platform built on Cloudflare Workers.",
     "tech": ["Cloudflare", "KV", "JS"],
     "image": "assets/exxeed-blog.png",
     "github": "https://github.com/Exc1D/exxeed-blog",
-    "demo": "https://iexceed.xyz/"
+    "demo": "https://iexceed.xyz/",
+    "caseStudy": {
+      "problem": "I wanted a personal blog with zero hosting cost, no CMS overhead, and full ownership of the stack — something that runs at the edge globally.",
+      "approach": "Built entirely on Cloudflare Workers with KV storage for posts. No database, no server — just edge functions and key-value pairs. Custom admin UI for writing and publishing.",
+      "learned": "Serverless architecture forces you to think differently about state, latency, and data shape. KV's eventual consistency made me rethink how I structure writes vs. reads."
+    }
   },
   {
     "title": "Etch-a-Sketch",
@@ -56,11 +74,17 @@
   {
     "title": "Oldagram",
     "category": "scrimba",
+    "featured": true,
     "description": "Instagram clone with dynamic feed rendering.",
     "tech": ["HTML", "CSS", "JS"],
     "image": "assets/oldagram.png",
     "github": "https://github.com/Exc1D/scrimba-oldagram",
-    "demo": "https://exc1d.github.io/scrimba-oldagram/"
+    "demo": "https://exc1d.github.io/scrimba-oldagram/",
+    "caseStudy": {
+      "problem": "The Scrimba challenge was to replicate Instagram's core feed UI from a static mockup — a great test of translating design to code precisely.",
+      "approach": "Rendered a dynamic feed from a JS data array, matching the mockup's layout with CSS Flexbox. Added like-toggle interactivity and a hover detail panel.",
+      "learned": "How to go from a design spec to a working component without a framework. Reinforced that good HTML structure makes CSS 10x easier to write."
+    }
   },
   {
     "title": "Random Passwordinator",

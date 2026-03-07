@@ -3,7 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Exc1D // Dev Lab</title>
+    <title>David Aviado · Frontend Developer</title>
+    <meta name="description" content="Frontend developer based in the Philippines. Building web apps with HTML, CSS, JavaScript, and React. Open to internships." />
+    <meta property="og:title" content="David Aviado · Frontend Developer" />
+    <meta property="og:description" content="Portfolio of David Aviado — frontend developer open to internships." />
+    <meta property="og:image" content="/assets/og-preview.png" />
+    <meta property="og:url" content="https://first-portfolio-exc1d.vercel.app" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="David Aviado · Frontend Developer" />
+    <meta name="twitter:description" content="Portfolio of David Aviado — frontend developer open to internships." />
+    <meta name="twitter:image" content="/assets/og-preview.png" />
     <link rel="stylesheet" href="css/main.css" />
   </head>
   <body>
@@ -41,11 +51,31 @@
         <div class="status-tag font-mono" id="status-text">
           Based in the <span class="highlight">Philippines</span>
         </div>
+        <div class="hero-tags font-mono" id="hero-tags">
+          <span class="hero-tag" data-nerd="STACK: FRONTEND">Frontend Developer</span>
+          <span class="hero-tag hero-tag-available" data-nerd="STATUS: SEEKING_INTERNSHIP">Open to Internships</span>
+          <span class="hero-tag" data-nerd="LOCATION: PH">Based in the Philippines</span>
+        </div>
+        <div class="hero-cta-row">
+          <button class="btn-secondary resume-btn" disabled title="Resume coming soon">Download Resume</button>
+        </div>
       </div>
     </header>
 
     <main>
-      <section id="project-tracks" class="tracks-section reveal"></section>
+      <section id="featured-work" class="featured-section reveal">
+        <div class="featured-header">
+          <h2 class="module-id font-mono" id="featured-module-id">Module_04 // Featured_Work</h2>
+          <h3 class="section-title" id="featured-title">Featured Work</h3>
+        </div>
+        <div class="featured-grid"></div>
+        <div class="all-projects-header">
+          <h3 class="all-projects-title font-mono" data-nerd="ALL_PROJECTS //">All Projects</h3>
+          <button id="toggle-all-projects" class="btn-secondary font-mono">Show All Projects</button>
+        </div>
+      </section>
+
+      <section id="project-tracks" class="tracks-section reveal" hidden></section>
 
       <div class="outer-container">
         <section class="tech-stack-section reveal">
@@ -54,10 +84,9 @@
             <h3 class="section-title">Tech Stack</h3>
             <div class="tech-grid">
               <div class="tech-category">
-                <h4 class="font-mono category-label">FRONTEND_CORE</h4>
+                <h4 class="font-mono category-label" data-nerd="FRONTEND_CORE">Frontend</h4>
                 <ul class="font-mono">
                   <li>
-                    <span class="status-light"></span>
                     <i class="fab fa-html5"></i>HTML
                     <span class="expertise">(Expert)</span>
                   </li>
@@ -66,65 +95,56 @@
                     <span class="expertise">(Expert)</span>
                   </li>
                   <li>
-                    <span class="status-light"></span>
                     <i class="fab fa-js-square"></i>JavaScript
                     <span class="expertise">(Good enough)</span>
                   </li>
                   <li>
-                    <span class="status-light"></span>
                     <i class="fab fa-react"></i>React
                     <span class="expertise">(Learning)</span>
                   </li>
                   <li>
-                    <span class="status-light"></span>
                     <i class="fab fa-css3-alt"></i> Tailwind CSS
                     <span class="expertise">(Learning)</span>
                   </li>
                   <li>
-                    <span class="status-light"></span> Responsive Design
+                    Responsive Design
                     <span class="expertise">(Good enough)</span>
                   </li>
                 </ul>
               </div>
               <div class="tech-category">
-                <h4 class="font-mono category-label">BACKEND</h4>
+                <h4 class="font-mono category-label" data-nerd="BACKEND">Backend</h4>
                 <ul class="font-mono">
                   <li>
-                    <span class="status-light"></span>
                     <i class="fab fa-node-js"></i> Node.js
                     <span class="expertise">(Learning)</span>
                   </li>
                   <li>
-                    <span class="status-light"></span>
                     <i class="fas fa-server"></i> Express.js
                     <span class="expertise">(Learning)</span>
                   </li>
                 </ul>
               </div>
               <div class="tech-category">
-                <h4 class="font-mono category-label">DATABASE</h4>
+                <h4 class="font-mono category-label" data-nerd="DATABASE">Database</h4>
                 <ul class="font-mono">
                   <li>
-                    <span class="status-light"></span>
                     <i class="fas fa-database"></i> PostgreSQL
                     <span class="expertise">(Learning)</span>
                   </li>
                   <li>
-                    <span class="status-light"></span>
                     <i class="fas fa-leaf"></i> MongoDB
                     <span class="expertise">(Learning)</span>
                   </li>
                 </ul>
               </div>
               <div class="tech-category">
-                <h4 class="font-mono category-label">TOOLS</h4>
+                <h4 class="font-mono category-label" data-nerd="TOOLS">Tools</h4>
                 <ul class="font-mono">
                   <li>
-                    <span class="status-light"></span>
                     <i class="fab fa-cloudflare"></i> Cloudflare Workers
                   </li>
                   <li>
-                    <span class="status-light"></span>
                     <i class="fab fa-git-alt"></i>
                     <i class="fab fa-github"></i> Git / GitHub
                   </li>
@@ -139,11 +159,11 @@
             <div class="about-header">
               <h2 class="module-id font-mono">Module_06 // Identity</h2>
               <div class="toggle-group font-mono">
-                <button id="showExperience" class="toggle-btn active">
-                  EXPERIENCE_LOG
+                <button id="showExperience" class="toggle-btn active" data-nerd="EXPERIENCE_LOG">
+                  Experience
                 </button>
-                <button id="showEducation" class="toggle-btn">
-                  EDUCATION_DATA
+                <button id="showEducation" class="toggle-btn" data-nerd="EDUCATION_DATA">
+                  Education
                 </button>
               </div>
             </div>
@@ -177,7 +197,7 @@
                 <div class="education-layout">
                   <!-- Academic Section -->
                   <div class="edu-column">
-                    <h4 class="font-mono category-label">// ACADEMIC_TRACK</h4>
+                    <h4 class="font-mono category-label" data-nerd="// ACADEMIC_TRACK">Academic</h4>
                     <div class="edu-list">
                       <div class="edu-item">
                         <span class="v-tag font-mono">2024 - PRES</span>
@@ -219,9 +239,7 @@
 
                   <!-- Certifications/Online Section -->
                   <div class="edu-column">
-                    <h4 class="font-mono category-label">
-                      // SPECIALIZED_PROTOCOLS
-                    </h4>
+                    <h4 class="font-mono category-label" data-nerd="// SPECIALIZED_PROTOCOLS">Certifications</h4>
                     <div class="edu-list">
                       <div class="edu-item">
                         <span class="v-tag font-mono">2025 - PRES</span>
@@ -262,6 +280,13 @@
         <section class="cta-section reveal">
           <div class="cta-box">
             <h2 class="font-mono cta-title">Want to Work Together?</h2>
+            <form id="contact-form" action="https://formspree.io/f/FORM_ID" method="POST" class="contact-form">
+              <input type="text" name="name" placeholder="Your name" required />
+              <input type="email" name="email" placeholder="Your email" required />
+              <textarea name="message" rows="4" placeholder="Your message" required></textarea>
+              <button type="submit" class="btn-primary main-cta contact-submit font-mono">Send Message</button>
+            </form>
+            <p id="contact-feedback" class="contact-feedback font-mono" aria-live="polite"></p>
             <div class="cta-actions font-mono">
               <a
                 href="mailto:davidaviado.dla@gmail.com"
@@ -292,7 +317,7 @@
 
               <div id="bugCounter" class="bug-counter">
                 <span id="clickCount" class="count-number font-mono">42</span>
-                <span class="count-label font-mono">HEY! CLICK_ME</span>
+                <span class="count-label font-mono" data-nerd="HEY! CLICK_ME">Click me</span>
               </div>
             </div>
 
@@ -300,7 +325,7 @@
             <div class="repair-logs">
               <!-- GitHub Commit Feed -->
               <div class="log-box">
-                <div class="log-header font-mono">GITHUB_LIVE_FEED.api</div>
+                <div class="log-header font-mono" data-nerd="GITHUB_LIVE_FEED.api">GitHub Activity</div>
                 <ul id="commit-list" class="log-list font-mono">
                   <li class="loading-text">INITIALIZING_FEED...</li>
                 </ul>
@@ -308,7 +333,7 @@
 
               <!-- Version Log -->
               <div class="log-box">
-                <div class="log-header font-mono">VERSION_LOG.exe</div>
+                <div class="log-header font-mono" data-nerd="VERSION_LOG.exe">Version History</div>
                 <ul class="log-list font-mono">
                   <li>
                     <span class="v-tag">v3.0.0</span> Dual Mode: Elegant +
