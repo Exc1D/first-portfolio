@@ -1,6 +1,6 @@
 # Exc1D // Full-Stack Developer Portfolio
 
-A personal portfolio website featuring a **Cyberpunk / Sci-Fi interface**, Glassmorphism UI elements, and real-time API integrations. Designed to showcase projects with a focus on interactivity, "Nerd Mode" toggles, and dynamic content rendering.
+A personal portfolio website and **playground** for mini-projects built during my learning journey. Features a dual-mode design: clean **Elegant** mode by default, and a **Nerd Mode** toggle that unleashes a full Cyberpunk / Sci-Fi interface with glitch effects, scanlines, and a red accent.
 
 ![Screenshot](image.png)
 
@@ -42,36 +42,27 @@ cd your-repo-name
 
 ```
 
-### 2. Configure Project Data
+### 2. Add a New Project
 
-The project expects a `projects.json` file in the root directory. Create this file and populate it using the structure below:
+Open `projects.json` and add a new entry to the array. That's it — the site renders it automatically.
 
 ```json
 [
   {
+    "title": "My New Project",
     "category": "personal",
-    "title": "Project Name",
-    "description": "Brief description of functionality.",
-    "spark": "The motivation behind the project.",
+    "description": "One sentence about what it does.",
     "tech": ["HTML", "CSS", "JS"],
-    "file": "index.html",
+    "image": "assets/my-new-project.png",
     "demo": "https://your-live-demo.com",
     "github": "https://github.com/your/repo"
-  },
-  {
-    "category": "odin",
-    "title": "Odin Project Assignment",
-    "description": "...",
-    "spark": "...",
-    "tech": ["React", "Node"],
-    "file": "App.jsx",
-    "demo": "...",
-    "github": "..."
   }
 ]
 ```
 
-_Valid categories:_ `personal`, `odin`, `scrimba`, `frontend-mentor`.
+**Valid categories:** `personal`, `the-odin-project`, `scrimba`, `frontend-mentor`
+
+> To add a new category, add a new entry to `TRACK_MAP` in `js/config.js`.
 
 ### 3. Run Locally
 
@@ -83,46 +74,47 @@ If you use VS Code, install the **Live Server** extension.
 
 ## ⚙️ Configuration
 
-### GitHub API Integration
+All configuration lives in **`js/config.js`** — this is the only file you need to touch for common changes:
 
-To display your own commits, open `script.js` and modify the username constant at the top:
-
-```javascript
-// script.js
-const GITHUB_USERNAME = "YourUsername"; // Change "Exc1D" to your handle
-```
-
-### Track Categories
-
-To add new project categories, modify the `TRACK_MAP` object in `script.js`:
-
-```javascript
-const TRACK_MAP = {
-  personal: { id: "EXT-01", title: "PERSONAL_PROJECTS" },
-  // Add new categories here
-  newCat: { id: "NEW-05", title: "NEW_CATEGORY" },
-};
-```
+| What to change | Where |
+|---|---|
+| GitHub username (live feed) | `js/config.js` → top of file (hardcoded in `fetchGitHubCommits`) |
+| Add a new project category | `js/config.js` → `TRACK_MAP` |
+| Add a tech badge color | `js/config.js` → `TECH_COLORS` |
+| Nerd mode system tags | `js/config.js` → `SYSTEM_TAGS_CONFIG` |
 
 ## 📂 Project Structure
 
 ```text
 /
-├── index.html       # Main application structure
-├── styles.css       # Core styling, variables, and animations
-├── script.js        # Logic for API, JSON rendering, and UI interaction
-├── projects.json    # (Required) Data file for project cards
-└── assets/          # (Optional) Images or icons
-
+├── index.html          # Markup — edit for bio, experience, tech stack
+├── projects.json       # ← ADD PROJECTS HERE (one object per project)
+├── assets/             # Project screenshots
+│
+├── js/
+│   ├── config.js       # ← ALL CONFIG (categories, colors, text, tags)
+│   └── main.js         # App logic (rendering, GitHub API, UI interactions)
+│
+└── css/
+    ├── main.css        # Import hub — lists all CSS files in load order
+    ├── variables.css   # Design tokens (:root CSS variables)
+    ├── base.css        # Reset, body, utility classes, keyframe animations
+    ├── components.css  # All UI components (navbar, cards, sections, footer)
+    ├── nerd-mode.css   # All Nerd Mode overrides and effects
+    └── responsive.css  # Media queries (900px, 768px, 480px)
 ```
 
 ## 🎨 Design System
 
-- **Primary Ink:** `#080808` (Dark Background)
-- **System Accent:** `#f4e04d` (Cyberpunk Yellow)
-- **Typography:**
-- _Headings/Body:_ Inter
-- _Code/Data:_ JetBrains Mono
+**Elegant Mode (default)**
+- Background: `#ffffff` / Surface: `#f5f5f7`
+- Accent: `#0071e3` (Apple Blue)
+- Font: Inter
+
+**Nerd Mode**
+- Background: `#000000` / Surface: `#0a0a0a`
+- Accent: `#dc143c` (Crimson)
+- Fonts: Syne (display) + JetBrains Mono (body)
 
 ## 📄 License
 
