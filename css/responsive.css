@@ -1,0 +1,166 @@
+/* === RESPONSIVE === */
+
+@media (max-width: 900px) {
+  .repair-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 0 20px;
+  }
+
+  .hero {
+    padding: 0 6%;
+  }
+
+  :root {
+    --title-size: clamp(2.5rem, 8vw, 4rem);
+  }
+
+  .hero-subline {
+    font-size: var(--text-xs);
+  }
+
+  .about-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .toggle-group {
+    width: 100%;
+  }
+
+  .toggle-btn {
+    flex: 1;
+    padding: 12px 15px;
+    font-size: var(--text-xs);
+    min-width: auto;
+  }
+
+  .about-container {
+    padding: 30px 20px;
+  }
+
+  .pane-title {
+    font-size: var(--text-xl);
+  }
+
+  .experience-item {
+    gap: 15px;
+  }
+
+  .education-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .edu-item {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .tech-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-title {
+    font-size: var(--text-2xl);
+  }
+
+  .section-title {
+    font-size: var(--text-2xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-container {
+    padding: 0 15px;
+    height: 50px;
+  }
+
+  .ticker {
+    top: 50px;
+  }
+
+  .logo a {
+    font-size: var(--text-base);
+  }
+
+  .debug-btn {
+    padding: 4px 10px;
+    font-size: 0.65rem;
+  }
+
+  .hero {
+    padding: 0 5%;
+  }
+
+  :root {
+    --title-size: clamp(2rem, 10vw, 3.5rem);
+  }
+
+  .about-section {
+    padding: 60px 5%;
+  }
+
+  .about-container {
+    padding: 20px 15px;
+  }
+
+  .toggle-group {
+    flex-direction: column;
+    border-radius: 0;
+  }
+
+  .toggle-btn {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .toggle-btn:last-child {
+    border-bottom: none;
+  }
+
+  .pane-title {
+    font-size: var(--text-lg);
+  }
+
+  .module-id {
+    font-size: var(--text-xs);
+    margin-bottom: 1rem;
+  }
+
+  .tech-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .experience-item {
+    gap: 12px;
+  }
+
+  .education-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .edu-item {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .cta-section {
+    padding: 80px 5%;
+  }
+
+  .cta-box {
+    padding: 40px 20px;
+  }
+
+  .cta-title {
+    font-size: var(--text-xl);
+  }
+
+  .count-number {
+    font-size: 60px;
+  }
+}

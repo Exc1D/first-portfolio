@@ -11,7 +11,7 @@ body {
   font-size: var(--text-base);
   line-height: var(--leading-normal);
   overflow-x: hidden;
-  transition: background-color  ease, color 0.8s0.8s ease;
+  transition: background-color 0.8s ease, color 0.8s ease;
 }
 
 .outer-container {
