@@ -161,6 +161,19 @@ function setHeroText(heroSub, statusT, config) {
   statusT.appendChild(span);
 }
 
+function applyNerdLabels() {
+  document.querySelectorAll("[data-nerd]").forEach((el) => {
+    if (!el.dataset.elegant) el.dataset.elegant = el.textContent.trim();
+    el.textContent = el.dataset.nerd;
+  });
+}
+
+function resetNerdLabels() {
+  document.querySelectorAll("[data-nerd]").forEach((el) => {
+    if (el.dataset.elegant) el.textContent = el.dataset.elegant;
+  });
+}
+
 function setupNerdModeToggle() {
   const btn = document.getElementById("debugToggle");
   const heroSub = document.getElementById("hero-text");
@@ -185,6 +198,7 @@ function setupNerdModeToggle() {
 
         note.textContent = "Thanks for visiting \u2014 scroll down to explore.";
 
+        resetNerdLabels();
         removeSystemTags();
         teardownTextScramble();
       });
@@ -195,6 +209,7 @@ function setupNerdModeToggle() {
         isNerdMode = true;
 
         setHeroText(heroSub, statusT, NERD_TEXT);
+        applyNerdLabels();
 
         note.textContent = "SCAN_COMPLETE: HIGH_POTENTIAL_DETECTED";
 
@@ -291,6 +306,151 @@ async function fetchGitHubCommits() {
       '<li class="loading-text">Unable to load GitHub status.</li>';
     console.error(error);
   }
+}
+
+function setupCaseStudyToggles() {
+  document.querySelectorAll(".case-study-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const panel = btn.nextElementSibling;
+      const isOpen = panel.classList.contains("is-open");
+      panel.classList.toggle("is-open", !isOpen);
+      btn.setAttribute("aria-expanded", String(!isOpen));
+      panel.setAttribute("aria-hidden", String(isOpen));
+      btn.querySelector(".cs-arrow").textContent = isOpen ? "\u25BC" : "\u25B2";
+    });
+  });
+}
+
+function renderFeaturedProjects(projects) {
+  const grid = document.querySelector(".featured-grid");
+  if (!grid) return;
+
+  const featured = projects.filter((p) => p.featured);
+
+  featured.forEach((project) => {
+    const article = document.createElement("article");
+    article.className = "featured-card";
+
+    const imageWrap = document.createElement("div");
+    imageWrap.className = "featured-card-image-wrap";
+    const img = document.createElement("img");
+    img.className = "featured-card-image";
+    img.src = project.image;
+    img.alt = "Screenshot of " + project.title;
+    img.loading = "lazy";
+    imageWrap.appendChild(img);
+
+    const body = document.createElement("div");
+    body.className = "featured-card-body";
+
+    const titleEl = document.createElement("p");
+    titleEl.className = "card-title featured-card-title";
+    titleEl.textContent = project.title;
+
+    const descEl = document.createElement("p");
+    descEl.className = "card-desc featured-card-desc";
+    descEl.textContent = project.description;
+
+    const techDiv = document.createElement("div");
+    techDiv.className = "card-tech";
+    project.tech.forEach((t) => {
+      const span = document.createElement("span");
+      span.className = "tech-tag";
+      span.textContent = t;
+      const c = TECH_COLORS[t];
+      if (c) {
+        span.style.setProperty("--tech-color", c.color);
+        span.style.setProperty("--tech-text-color", c.text);
+      }
+      techDiv.appendChild(span);
+    });
+
+    const actions = document.createElement("div");
+    actions.className = "card-actions";
+    const demoLink = document.createElement("a");
+    demoLink.href = project.demo;
+    demoLink.className = "primary-card-btn";
+    demoLink.target = "_blank";
+    demoLink.rel = "noopener";
+    demoLink.textContent = "DEMO";
+    const codeLink = document.createElement("a");
+    codeLink.href = project.github;
+    codeLink.className = "card-btn";
+    codeLink.target = "_blank";
+    codeLink.rel = "noopener";
+    codeLink.textContent = "CODE";
+    actions.appendChild(demoLink);
+    actions.appendChild(codeLink);
+
+    body.appendChild(titleEl);
+    body.appendChild(descEl);
+    body.appendChild(techDiv);
+    body.appendChild(actions);
+
+    if (project.caseStudy) {
+      const toggleBtn = document.createElement("button");
+      toggleBtn.className = "case-study-toggle font-mono";
+      toggleBtn.setAttribute("aria-expanded", "false");
+      const labelSpan = document.createElement("span");
+      labelSpan.className = "cs-label";
+      labelSpan.textContent = "Case Study";
+      labelSpan.dataset.nerd = "CASE_STUDY";
+      const arrowSpan = document.createElement("span");
+      arrowSpan.className = "cs-arrow";
+      arrowSpan.textContent = "\u25BC";
+      toggleBtn.appendChild(labelSpan);
+      toggleBtn.appendChild(document.createTextNode(" "));
+      toggleBtn.appendChild(arrowSpan);
+
+      const panel = document.createElement("div");
+      panel.className = "case-study-panel";
+      panel.setAttribute("aria-hidden", "true");
+
+      [
+        { key: "problem", label: "PROBLEM" },
+        { key: "approach", label: "APPROACH" },
+        { key: "learned", label: "LEARNED" },
+      ].forEach(({ key, label }) => {
+        const sub = document.createElement("div");
+        sub.className = "cs-subsection";
+        const heading = document.createElement("p");
+        heading.className = "cs-heading font-mono";
+        heading.textContent = label;
+        const text = document.createElement("p");
+        text.className = "cs-text";
+        text.textContent = project.caseStudy[key];
+        sub.appendChild(heading);
+        sub.appendChild(text);
+        panel.appendChild(sub);
+      });
+
+      body.appendChild(toggleBtn);
+      body.appendChild(panel);
+    }
+
+    article.appendChild(imageWrap);
+    article.appendChild(body);
+    grid.appendChild(article);
+  });
+
+  setupCaseStudyToggles();
+}
+
+function setupAllProjectsToggle() {
+  const btn = document.getElementById("toggle-all-projects");
+  const tracks = document.getElementById("project-tracks");
+  if (!btn || !tracks) return;
+
+  btn.addEventListener("click", () => {
+    const isHidden = tracks.hasAttribute("hidden");
+    if (isHidden) {
+      tracks.removeAttribute("hidden");
+      btn.textContent = "Hide All Projects";
+    } else {
+      tracks.setAttribute("hidden", "");
+      btn.textContent = "Show All Projects";
+    }
+  });
 }
 
 function renderTracks(projects) {
@@ -411,12 +571,50 @@ function setupAboutToggle() {
   });
 }
 
+function initContactForm() {
+  const form = document.getElementById("contact-form");
+  const feedback = document.getElementById("contact-feedback");
+  if (!form || !feedback) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const submitBtn = form.querySelector("[type='submit']");
+    submitBtn.disabled = true;
+    submitBtn.textContent = "SENDING...";
+
+    try {
+      const data = new FormData(form);
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+
+      if (response.ok) {
+        feedback.textContent = "Message sent! I'll get back to you soon.";
+        feedback.className = "contact-feedback contact-feedback--success font-mono";
+        form.reset();
+      } else {
+        throw new Error("Server error");
+      }
+    } catch {
+      feedback.textContent = "Something went wrong. Try emailing me directly.";
+      feedback.className = "contact-feedback contact-feedback--error font-mono";
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send Message";
+    }
+  });
+}
+
 async function init() {
   try {
     const response = await fetch("projects.json");
     const projects = await response.json();
 
+    renderFeaturedProjects(projects);
     renderTracks(projects);
+    setupAllProjectsToggle();
     setupNerdModeToggle();
     setupScrollEffects();
     setupBugCounter();
@@ -424,6 +622,7 @@ async function init() {
     setupScrollReveal();
     setupNotification();
     fetchGitHubCommits();
+    initContactForm();
   } catch (err) {
     console.error("System Initialization Failed:", err);
   }
