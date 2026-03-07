@@ -49,6 +49,24 @@ const ASCII_ART =
   " ███████╗██╔╝ ██╗╚██████╗ ██║██████╔╝\n" +
   " ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝╚═════╝ ";
 
+// --- TECH BRAND COLORS ---
+const TECH_COLORS = {
+  'HTML':        { color: '#E34F26', text: '#fff' },
+  'CSS':         { color: '#1572B6', text: '#fff' },
+  'JS':          { color: '#F7DF1E', text: '#000' },
+  'JavaScript':  { color: '#F7DF1E', text: '#000' },
+  'React':       { color: '#61DAFB', text: '#000' },
+  'Tailwind CSS':{ color: '#06B6D4', text: '#fff' },
+  'Node.js':     { color: '#339933', text: '#fff' },
+  'Express.js':  { color: '#3c3c3c', text: '#fff' },
+  'PostgreSQL':  { color: '#4169E1', text: '#fff' },
+  'MongoDB':     { color: '#47A248', text: '#fff' },
+  'Cloudflare':  { color: '#F38020', text: '#fff' },
+  'KV':          { color: '#F38020', text: '#fff' },
+  'Git':         { color: '#F05032', text: '#fff' },
+  'GitHub':      { color: '#181717', text: '#fff' },
+};
+
 // --- STATE ---
 let scrambleListeners = [];
 let isNerdMode = false;
@@ -418,7 +436,7 @@ function renderTracks(projects) {
             <p class="card-title">${project.title}</p>
             <p class="card-desc">${project.description}</p>
             <div class="card-tech">
-              ${project.tech.map((t) => `<span class="tech-tag">${t}</span>`).join("")}
+              ${project.tech.map((t) => { const c = TECH_COLORS[t]; const s = c ? ` style="--tech-color:${c.color};--tech-text-color:${c.text}"` : ''; return `<span class="tech-tag"${s}>${t}</span>`; }).join("")}
             </div>
             <div class="card-actions">
               <a href="${project.demo}" class="primary-card-btn" target="_blank" rel="noopener">DEMO</a>
