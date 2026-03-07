@@ -64,6 +64,16 @@
     grid-template-columns: 1fr;
   }
 
+  .track-scroll-container {
+    gap: 20px;
+    padding-right: 20px;
+  }
+
+  .track-header {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
   .cta-title {
     font-size: var(--text-2xl);
   }
@@ -129,6 +139,25 @@
   .module-id {
     font-size: var(--text-xs);
     margin-bottom: 1rem;
+  }
+
+  .track-group {
+    padding-left: 5%;
+    margin-bottom: 80px;
+  }
+
+  .track-header {
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .scan-label {
+    margin-right: 0;
+  }
+
+  .track-scroll-container {
+    gap: 20px;
+    padding-right: 20px;
   }
 
   .tech-grid {

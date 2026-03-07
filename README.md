@@ -47,15 +47,17 @@ cd your-repo-name
 Open `projects.json` and add a new entry to the array. That's it — the site renders it automatically.
 
 ```json
-{
-  "title": "My New Project",
-  "category": "personal",
-  "description": "One sentence about what it does.",
-  "tech": ["HTML", "CSS", "JS"],
-  "image": "assets/my-new-project.png",
-  "demo": "https://your-live-demo.com",
-  "github": "https://github.com/your/repo"
-}
+[
+  {
+    "title": "My New Project",
+    "category": "personal",
+    "description": "One sentence about what it does.",
+    "tech": ["HTML", "CSS", "JS"],
+    "image": "assets/my-new-project.png",
+    "demo": "https://your-live-demo.com",
+    "github": "https://github.com/your/repo"
+  }
+]
 ```
 
 **Valid categories:** `personal`, `the-odin-project`, `scrimba`, `frontend-mentor`
