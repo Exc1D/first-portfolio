@@ -6,13 +6,311 @@ const TRACK_MAP = {
   "frontend-mentor": { id: "UXX-04", title: "FRONTEND_MENTOR" },
 };
 
-// --- GITHUB CONFIG ---
+// --- HERO TEXT CONFIGS ---
+const ELEGANT_TEXT = {
+  heroPrefix: "Developer \u2014 Building beautiful things, one line at a time.",
+  heroHighlight: null,
+  statusPrefix: "Based in the ",
+  statusHighlight: "Philippines",
+};
 
+const NERD_TEXT = {
+  heroPrefix: "DEV LAB \u2014 ",
+  heroHighlight: "BUILDING, BREAKING, LEARNING.",
+  statusPrefix: "LOCATION: ",
+  statusHighlight: "PHILIPPINES",
+};
+
+const NERD_TEXT_DEBUG = {
+  heroPrefix: "SYSTEM_READY: ",
+  heroHighlight: "INITIATING_NERD_MODE.",
+  statusPrefix: "STATUS: ",
+  statusHighlight: "SEARCHING_FOR_COFFEE_&_BUGS",
+};
+
+// --- SYSTEM TAGS CONFIG ---
+const SYSTEM_TAGS_CONFIG = [
+  { selector: ".track-section:nth-of-type(1)", text: "[STABLE]" },
+  { selector: ".track-section:nth-of-type(2)", text: "[WIP]" },
+  { selector: ".track-section:nth-of-type(3)", text: "[EXPERIMENTAL]" },
+  { selector: ".track-section:nth-of-type(4)", text: "[v0.3]" },
+  { selector: ".tech-stack-section", text: "[NEEDS_COFFEE]" },
+  { selector: ".about-container", text: "[WORKS_ON_MY_MACHINE]" },
+  { selector: ".cta-box", text: "[SEND_HELP]" },
+  { selector: "#maintenance", text: "[BETA]" },
+];
+
+// --- CONSOLE ASCII ART ---
+const ASCII_ART =
+  " ███████╗██╗  ██╗ ██████╗ ██╗██████╗ \n" +
+  " ██╔════╝╚██╗██╔╝██╔════╝███║██╔══██╗\n" +
+  " █████╗   ╚███╔╝ ██║     ╚██║██║  ██║\n" +
+  " ██╔══╝   ██╔██╗ ██║      ██║██║  ██║\n" +
+  " ███████╗██╔╝ ██╗╚██████╗ ██║██████╔╝\n" +
+  " ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝╚═════╝ ";
+
+// --- STATE ---
+let scrambleListeners = [];
+let isNerdMode = false;
+
+// ============================================================
+// TEXT SCRAMBLE
+// ============================================================
+function scrambleText(element) {
+  const original =
+    element.getAttribute("data-original") || element.textContent;
+  if (!element.getAttribute("data-original")) {
+    element.setAttribute("data-original", original);
+  }
+
+  const chars = "!<>-_\\/[]{}=+*^?#@~|ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let frame = 0;
+  const totalFrames = original.length * 3;
+
+  // Cancel any in-progress scramble
+  if (element._scrambleInterval) {
+    clearInterval(element._scrambleInterval);
+  }
+
+  element._scrambleInterval = setInterval(() => {
+    element.textContent = original
+      .split("")
+      .map((char, i) => {
+        if (char === " ") return " ";
+        if (frame / 3 > i) return original[i];
+        return chars[Math.floor(Math.random() * chars.length)];
+      })
+      .join("");
+
+    frame++;
+    if (frame >= totalFrames) {
+      element.textContent = original;
+      clearInterval(element._scrambleInterval);
+      element._scrambleInterval = null;
+    }
+  }, 25);
+}
+
+function setupTextScramble() {
+  const headings = document.querySelectorAll(
+    ".section-title, .track-section h3, .pane-title, .cta-title, .repair-info .section-title"
+  );
+  headings.forEach((el) => {
+    const handler = () => scrambleText(el);
+    el.addEventListener("mouseenter", handler);
+    el.style.cursor = "default";
+    scrambleListeners.push({ el, handler });
+  });
+}
+
+function teardownTextScramble() {
+  scrambleListeners.forEach(({ el, handler }) => {
+    el.removeEventListener("mouseenter", handler);
+    // Restore original text if scramble was in progress
+    if (el._scrambleInterval) {
+      clearInterval(el._scrambleInterval);
+      el._scrambleInterval = null;
+    }
+    const original = el.getAttribute("data-original");
+    if (original) el.textContent = original;
+  });
+  scrambleListeners = [];
+}
+
+// ============================================================
+// GLITCH TRANSITION (elegant → nerd)
+// ============================================================
+function glitchTransition(callback) {
+  const overlay = document.createElement("div");
+  overlay.className = "glitch-overlay";
+
+  // Random horizontal tear bars
+  for (let i = 0; i < 7; i++) {
+    const bar = document.createElement("div");
+    bar.className = "glitch-bar";
+    bar.style.top = `${5 + Math.random() * 88}%`;
+    bar.style.height = `${1 + Math.random() * 5}%`;
+    bar.style.animationDelay = `${Math.random() * 0.18}s`;
+    bar.style.opacity = `${0.2 + Math.random() * 0.5}`;
+    overlay.appendChild(bar);
+  }
+
+  document.body.appendChild(overlay);
+
+  // Swap theme at peak of the flash
+  setTimeout(() => {
+    if (callback) callback();
+  }, 160);
+
+  // Clean up overlay
+  setTimeout(() => {
+    overlay.remove();
+  }, 620);
+}
+
+// ============================================================
+// DISSOLVE TRANSITION (nerd → elegant)
+// ============================================================
+function dissolveTransition(callback) {
+  const overlay = document.createElement("div");
+  overlay.className = "dissolve-overlay";
+  document.body.appendChild(overlay);
+
+  if (callback) callback();
+
+  setTimeout(() => overlay.remove(), 1100);
+}
+
+// ============================================================
+// SYSTEM TAGS
+// ============================================================
+function injectSystemTags() {
+  SYSTEM_TAGS_CONFIG.forEach(({ selector, text }) => {
+    const el = document.querySelector(selector);
+    if (!el) return;
+    // Ensure relative positioning for absolute tag placement
+    const pos = getComputedStyle(el).position;
+    if (pos === "static") el.style.position = "relative";
+
+    const tag = document.createElement("span");
+    tag.className = "system-tag";
+    tag.textContent = text;
+    el.appendChild(tag);
+  });
+}
+
+function removeSystemTags() {
+  document.querySelectorAll(".system-tag").forEach((tag) => tag.remove());
+}
+
+// ============================================================
+// CONSOLE EASTER EGGS
+// ============================================================
+function printConsoleEasterEggs() {
+  console.clear();
+  console.log(
+    "%c" + ASCII_ART,
+    "color: #dc143c; font-family: monospace; font-size: 10px; line-height: 1.4;"
+  );
+  console.log(
+    "%c NERD_MODE: ACTIVATED ",
+    "background: #dc143c; color: #fff; font-size: 14px; padding: 4px 10px; font-weight: bold; font-family: monospace;"
+  );
+  console.log(
+    "%c You found the dev console. You are one of us. ",
+    "color: #dc143c; font-style: italic; font-family: monospace;"
+  );
+  console.log(
+    "%c Try clicking the bug counter. A lot. ",
+    "color: #666; font-family: monospace;"
+  );
+  console.log(
+    "%c ─────────────────────────────────────── ",
+    "color: #333;"
+  );
+  console.log(
+    "%c github.com/Exc1D  //  davidaviado.dla@gmail.com ",
+    "color: #888; font-family: monospace; font-size: 11px;"
+  );
+}
+
+// ============================================================
+// SET HERO TEXT
+// ============================================================
+function setHeroText(heroSub, statusT, config) {
+  heroSub.textContent = "";
+  heroSub.append(config.heroPrefix);
+
+  if (config.heroHighlight) {
+    const span = document.createElement("span");
+    span.className = "highlight";
+    span.textContent = config.heroHighlight;
+    heroSub.appendChild(span);
+  }
+
+  statusT.textContent = "";
+  statusT.append(config.statusPrefix);
+
+  const span = document.createElement("span");
+  span.className = "highlight";
+  span.textContent = config.statusHighlight;
+  statusT.appendChild(span);
+}
+
+// ============================================================
+// NERD MODE TOGGLE
+// ============================================================
+function setupNerdModeToggle() {
+  const btn = document.getElementById("debugToggle");
+  const heroSub = document.getElementById("hero-text");
+  const statusT = document.getElementById("status-text");
+  const note = document.getElementById("scanNote");
+
+  btn.addEventListener("click", () => {
+    if (isNerdMode) {
+      // --- PEACEFUL EXIT: nerd → elegant ---
+      dissolveTransition(() => {
+        document.body.classList.remove("nerd-mode");
+        document.getElementById("debugStatus").textContent = "OFF";
+        isNerdMode = false;
+
+        // Restore hero text
+        heroSub.textContent =
+          "Developer \u2014 Building beautiful things, one line at a time.";
+        statusT.textContent = "";
+        statusT.append("Based in the ");
+        const span = document.createElement("span");
+        span.className = "highlight";
+        span.textContent = "Philippines";
+        statusT.appendChild(span);
+
+        // Restore notification
+        note.textContent = "Thanks for visiting \u2014 scroll down to explore.";
+
+        // Remove nerd features
+        removeSystemTags();
+        teardownTextScramble();
+      });
+    } else {
+      // --- VIOLENT ENTRY: elegant → nerd ---
+      glitchTransition(() => {
+        document.body.classList.add("nerd-mode");
+        document.getElementById("debugStatus").textContent = "ON";
+        isNerdMode = true;
+
+        // Swap hero text
+        setHeroText(heroSub, statusT, NERD_TEXT);
+
+        // Swap notification
+        note.textContent = "SCAN_COMPLETE: HIGH_POTENTIAL_DETECTED";
+
+        // Activate nerd features
+        injectSystemTags();
+        setupTextScramble();
+        printConsoleEasterEggs();
+      });
+    }
+  });
+}
+
+// ============================================================
+// NOTIFICATION
+// ============================================================
+function setupNotification() {
+  const note = document.getElementById("scanNote");
+  setTimeout(() => {
+    note.classList.add("show");
+    setTimeout(() => note.classList.remove("show"), 4000);
+  }, 800);
+}
+
+// ============================================================
+// GITHUB COMMITS
+// ============================================================
 async function fetchGitHubCommits() {
   const username = "Exc1D";
   const statusElement = document.getElementById("commit-list");
 
-  // helper to turn an ISO date into "x minutes/hours/days ago"
   const timeAgo = (isoString) => {
     const now = new Date();
     const then = new Date(isoString);
@@ -23,44 +321,38 @@ async function fetchGitHubCommits() {
     const diffDays = Math.floor(diffHrs / 24);
 
     if (diffSec < 60) return "just now";
-    if (diffMin < 60) return `${diffMin} minute${diffMin === 1 ? "" : "s"} ago`;
-    if (diffHrs < 24) return `${diffHrs} hour${diffHrs === 1 ? "" : "s"} ago`;
-    return `${diffDays} day${diffDays === 1 ? "" : "s"} ago`;
+    if (diffMin < 60) return `${diffMin}m ago`;
+    if (diffHrs < 24) return `${diffHrs}h ago`;
+    return `${diffDays}d ago`;
   };
 
   try {
-    // Fetch github events
     const response = await fetch(
-      "https://api.github.com/users/Exc1D/events/public"
+      `https://api.github.com/users/${username}/events/public`
     );
 
-    if (!response.ok) {
-      throw new Error("Github API Error");
-    }
-    // Parse json
-    const events = await response.json();
+    if (!response.ok) throw new Error("GitHub API Error");
 
-    // get multiple recent push events, e.g. top 3
+    const events = await response.json();
     const recentPushes = events
       .filter((event) => event.type === "PushEvent")
       .slice(0, 3);
 
     if (recentPushes.length === 0) {
-      statusElement.textContent = `No recent pushes for ${username}`;
+      statusElement.innerHTML =
+        '<li class="loading-text">No recent activity found.</li>';
       return;
     }
 
-    // NEW: Fetch commit details for each push so we get the real commit message
     const pushesWithCommits = await Promise.all(
       recentPushes.map(async (event) => {
         const repoName = event.repo.name;
-        const commitSha = event.payload.head; // commit SHA from the event
+        const commitSha = event.payload.head;
 
         try {
           const commitResponse = await fetch(
             `https://api.github.com/repos/${repoName}/commits/${commitSha}`
           );
-
           if (commitResponse.ok) {
             const commitData = await commitResponse.json();
             return {
@@ -73,7 +365,6 @@ async function fetchGitHubCommits() {
           console.error("Failed to fetch commit:", err);
         }
 
-        // Fallback if fetch fails
         return {
           repoName,
           message: "No commit message available",
@@ -82,47 +373,25 @@ async function fetchGitHubCommits() {
       })
     );
 
-    // Build a small list of recent pushes with real commit messages
-    const itemsHtml = pushesWithCommits
-      .map((push) => {
-        const relTime = timeAgo(push.date);
-        return `<li>Push to <strong>${push.repoName}</strong>: "${push.message}" (${relTime})</li>`;
-      })
+    statusElement.innerHTML = pushesWithCommits
+      .map(
+        (push) =>
+          `<li><span class="commit-date">${timeAgo(push.date)}</span>Push to <strong>${push.repoName}</strong>: "${push.message}"</li>`
+      )
       .join("");
-
-    statusElement.innerHTML = `
-      <p>Recent GitHub activity:</p>
-      <ul>
-        ${itemsHtml}
-      </ul>
-    `;
   } catch (error) {
-    statusElement.textContent = "Unable to load GitHub status";
+    statusElement.innerHTML =
+      '<li class="loading-text">Unable to load GitHub status.</li>';
     console.error(error);
   }
 }
 
-// --- CORE APP ---
-async function init() {
-  try {
-    const response = await fetch("projects.json");
-    const projects = await response.json();
-    renderTracks(projects);
-    setupDebugToggle();
-    setupScrollEffects();
-    setupBugCounter();
-    setupAboutToggle();
-    fetchGitHubCommits();
-    setupScrollReveal();
-  } catch (err) {
-    console.error("System Initialization Failed:", err);
-  }
-}
-
+// ============================================================
+// RENDER TRACKS
+// ============================================================
 function renderTracks(projects) {
   const app = document.getElementById("project-tracks");
 
-  // Define categories for display and order
   const categories = [
     "the-odin-project",
     "scrimba",
@@ -131,132 +400,105 @@ function renderTracks(projects) {
   ];
 
   categories.forEach((category) => {
-    const filtered = projects.filter(
-      (project) => project.category === category
-    );
-    if (filtered.length > 0) {
-      const cardsHTML = filtered
-        .map(
-          (project) => `
+    const filtered = projects.filter((p) => p.category === category);
+    if (filtered.length === 0) return;
+
+    // Title case for elegant mode; CSS handles uppercase in nerd mode
+    const displayName = category
+      .split("-")
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
+
+    const cardsHTML = filtered
+      .map(
+        (project) => `
         <article class="card">
-          <img class="card-image" src="${project.image}" alt="Screenshot of ${
-            project.title
-          }">
+          <img class="card-image" src="${project.image}" alt="Screenshot of ${project.title}" loading="lazy">
           <div class="card-content">
             <p class="card-title">${project.title}</p>
             <p class="card-desc">${project.description}</p>
             <div class="card-tech">
-              ${project.tech
-                .map((tech) => `<span class="tech-tag">${tech}</span>`)
-                .join("")}
+              ${project.tech.map((t) => `<span class="tech-tag">${t}</span>`).join("")}
             </div>
             <div class="card-actions">
-              <a href="${
-                project.demo
-              }" class="primary-card-btn" target="_blank">DEMO</a>
-              <a href="${
-                project.github
-              }" class="card-btn" target="_blank">CODE</a>
+              <a href="${project.demo}" class="primary-card-btn" target="_blank" rel="noopener">DEMO</a>
+              <a href="${project.github}" class="card-btn" target="_blank" rel="noopener">CODE</a>
             </div>
           </div>
         </article>`
-        )
-        .join("");
+      )
+      .join("");
 
-      const trackSection = `
-      <section class="track-section reveal" aria-labelledby="projects-heading">
-        <h3>${category.replaceAll("-", " ").toUpperCase()}</h3>
-        <div class="track">
-          ${cardsHTML}
-        </div>
-      </section>
-      `;
-
-      app.innerHTML += trackSection;
-    }
+    app.innerHTML += `
+      <section class="track-section reveal" aria-labelledby="track-${category}">
+        <h3 id="track-${category}">${displayName}</h3>
+        <div class="track">${cardsHTML}</div>
+      </section>`;
   });
 }
 
-function setupDebugToggle() {
-  const btn = document.getElementById("debugToggle");
-  const heroSub = document.getElementById("hero-text");
-  const statusT = document.getElementById("status-text");
-
-  btn.addEventListener("click", () => {
-    document.body.classList.toggle("debug-on");
-    const isOn = document.body.classList.contains("debug-on");
-    document.getElementById("debugStatus").textContent = isOn ? "ON" : "OFF";
-
-    if (isOn) {
-      heroSub.innerHTML =
-        'SYSTEM_READY: <span class="highlight">INITIATING_NERD_MODE.</span>';
-      statusT.innerHTML =
-        '[ STATUS: <span class="orange-text">SEARCHING_FOR_COFFEE_&_BUGS</span> ]';
-    } else {
-      heroSub.innerHTML =
-        'WEB DEVELOPER IN TRAINING. <span class="highlight">MAKE THINGS SIMPLE BUT FUN</span>';
-      statusT.innerHTML =
-        '[ LOCATION: <span class="orange-text">PHILIPPINES</span> ]';
-    }
-  });
-}
-
+// ============================================================
+// SCROLL EFFECTS (track progress bars)
+// ============================================================
 function setupScrollEffects() {
   document.addEventListener(
     "scroll",
     () => {
-      const containers = document.querySelectorAll(".track-scroll-container");
+      const containers = document.querySelectorAll(".track");
       containers.forEach((container) => {
         const scrollWidth = container.scrollWidth - container.clientWidth;
+        if (scrollWidth <= 0) return;
         const percent =
           Math.round((container.scrollLeft / scrollWidth) * 100) || 0;
         const parent = container.parentElement;
-        parent.querySelector(".progress-bar").style.width = `${percent}%`;
-        parent.querySelector(
-          ".scan-label"
-        ).textContent = `SCANNING: ${percent}%`;
-        parent.querySelector(".scan-label").style.opacity = "1";
+        const bar = parent.querySelector(".progress-bar");
+        if (bar) bar.style.width = `${percent}%`;
       });
     },
     true
   );
 }
 
-// --- SCROLL REVEAL ENGINE ---
+// ============================================================
+// SCROLL REVEAL
+// ============================================================
 function setupScrollReveal() {
-  const observerOptions = {
-    threshold: 0.15, // Section must be 15% visible to trigger
-  };
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12 }
+  );
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
-        // Once visible, stop observing to save system resources
-        observer.unobserve(entry.target);
-      }
-    });
-  }, observerOptions);
-
-  // Apply to all elements with the 'reveal' class
-  const revealElements = document.querySelectorAll(".reveal");
-  revealElements.forEach((el) => observer.observe(el));
+  document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
 }
 
+// ============================================================
+// BUG COUNTER
+// ============================================================
 function setupBugCounter() {
   const area = document.getElementById("bugCounter");
   const display = document.getElementById("clickCount");
   let count = parseInt(localStorage.getItem("bugs")) || 42;
   display.textContent = count;
+
   area.addEventListener("click", () => {
     count++;
     display.textContent = count;
     localStorage.setItem("bugs", count);
     display.style.transform = "scale(1.2)";
-    setTimeout(() => (display.style.transform = "scale(1)"), 100);
+    setTimeout(() => (display.style.transform = "scale(1)"), 150);
   });
 }
 
+// ============================================================
+// ABOUT TOGGLE
+// ============================================================
 function setupAboutToggle() {
   const expBtn = document.getElementById("showExperience");
   const eduBtn = document.getElementById("showEducation");
@@ -269,12 +511,34 @@ function setupAboutToggle() {
     expView.classList.add("active");
     eduView.classList.remove("active");
   });
+
   eduBtn.addEventListener("click", () => {
     eduBtn.classList.add("active");
     expBtn.classList.remove("active");
     eduView.classList.add("active");
     expView.classList.remove("active");
   });
+}
+
+// ============================================================
+// INIT
+// ============================================================
+async function init() {
+  try {
+    const response = await fetch("projects.json");
+    const projects = await response.json();
+
+    renderTracks(projects);
+    setupNerdModeToggle();
+    setupScrollEffects();
+    setupBugCounter();
+    setupAboutToggle();
+    setupScrollReveal();
+    setupNotification();
+    fetchGitHubCommits();
+  } catch (err) {
+    console.error("System Initialization Failed:", err);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", init);
