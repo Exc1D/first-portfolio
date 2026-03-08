@@ -261,8 +261,10 @@ async function fetchGitHubCommits() {
       .slice(0, 3);
 
     if (recentPushes.length === 0) {
-      statusElement.innerHTML =
-        '<li class="loading-text">No recent activity found.</li>';
+      const emptyLi = document.createElement("li");
+      emptyLi.className = "loading-text";
+      emptyLi.textContent = "No recent activity found.";
+      statusElement.replaceChildren(emptyLi);
       return;
     }
 
@@ -310,8 +312,10 @@ async function fetchGitHubCommits() {
     });
     statusElement.replaceChildren(...items);
   } catch (error) {
-    statusElement.innerHTML =
-      '<li class="loading-text">Unable to load GitHub status.</li>';
+    const errorLi = document.createElement("li");
+    errorLi.className = "loading-text";
+    errorLi.textContent = "Unable to load GitHub status.";
+    statusElement.replaceChildren(errorLi);
     console.error(error);
   }
 }
