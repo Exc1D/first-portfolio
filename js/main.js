@@ -295,12 +295,20 @@ async function fetchGitHubCommits() {
       })
     );
 
-    statusElement.innerHTML = pushesWithCommits
-      .map(
-        (push) =>
-          `<li><span class="commit-date">${timeAgo(push.date)}</span>Push to <strong>${push.repoName}</strong>: "${push.message}"</li>`
-      )
-      .join("");
+    const items = pushesWithCommits.map((push) => {
+      const li = document.createElement("li");
+      const dateSpan = document.createElement("span");
+      dateSpan.className = "commit-date";
+      dateSpan.textContent = timeAgo(push.date);
+      const repoStrong = document.createElement("strong");
+      repoStrong.textContent = push.repoName;
+      li.appendChild(dateSpan);
+      li.appendChild(document.createTextNode("Push to "));
+      li.appendChild(repoStrong);
+      li.appendChild(document.createTextNode(`: "${push.message}"`));
+      return li;
+    });
+    statusElement.replaceChildren(...items);
   } catch (error) {
     statusElement.innerHTML =
       '<li class="loading-text">Unable to load GitHub status.</li>';
