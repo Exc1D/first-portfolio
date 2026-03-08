@@ -261,8 +261,10 @@ async function fetchGitHubCommits() {
       .slice(0, 3);
 
     if (recentPushes.length === 0) {
-      statusElement.innerHTML =
-        '<li class="loading-text">No recent activity found.</li>';
+      const emptyLi = document.createElement("li");
+      emptyLi.className = "loading-text";
+      emptyLi.textContent = "No recent activity found.";
+      statusElement.replaceChildren(emptyLi);
       return;
     }
 
@@ -295,15 +297,25 @@ async function fetchGitHubCommits() {
       })
     );
 
-    statusElement.innerHTML = pushesWithCommits
-      .map(
-        (push) =>
-          `<li><span class="commit-date">${timeAgo(push.date)}</span>Push to <strong>${push.repoName}</strong>: "${push.message}"</li>`
-      )
-      .join("");
+    const items = pushesWithCommits.map((push) => {
+      const li = document.createElement("li");
+      const dateSpan = document.createElement("span");
+      dateSpan.className = "commit-date";
+      dateSpan.textContent = timeAgo(push.date);
+      const repoStrong = document.createElement("strong");
+      repoStrong.textContent = push.repoName;
+      li.appendChild(dateSpan);
+      li.appendChild(document.createTextNode("Push to "));
+      li.appendChild(repoStrong);
+      li.appendChild(document.createTextNode(`: "${push.message}"`));
+      return li;
+    });
+    statusElement.replaceChildren(...items);
   } catch (error) {
-    statusElement.innerHTML =
-      '<li class="loading-text">Unable to load GitHub status.</li>';
+    const errorLi = document.createElement("li");
+    errorLi.className = "loading-text";
+    errorLi.textContent = "Unable to load GitHub status.";
+    statusElement.replaceChildren(errorLi);
     console.error(error);
   }
 }
