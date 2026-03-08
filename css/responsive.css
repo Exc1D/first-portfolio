@@ -19,6 +19,10 @@
     --title-size: clamp(2.5rem, 8vw, 4rem);
   }
 
+  body.nerd-mode {
+    --title-size: clamp(3rem, 10vw, 6rem);
+  }
+
   .hero-subline {
     font-size: var(--text-xs);
   }
@@ -120,6 +124,10 @@
 
   :root {
     --title-size: clamp(2rem, 10vw, 3.5rem);
+  }
+
+  body.nerd-mode {
+    --title-size: clamp(2.5rem, 10vw, 4rem);
   }
 
   .about-section {
