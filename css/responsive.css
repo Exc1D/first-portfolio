@@ -2,7 +2,7 @@
 
 @media (max-width: 900px) {
   .repair-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -199,6 +199,10 @@
 
   .cta-title {
     font-size: var(--text-xl);
+  }
+
+  .repair-shop {
+    padding: 60px 5%;
   }
 
   .count-number {

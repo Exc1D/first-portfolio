@@ -920,6 +920,9 @@
   gap: 12px;
   line-height: var(--leading-normal);
   color: var(--text-muted);
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
 }
 
 .log-list li:last-child {
