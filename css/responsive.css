@@ -2,7 +2,7 @@
 
 @media (max-width: 900px) {
   .repair-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -17,6 +17,10 @@
 
   :root {
     --title-size: clamp(2.5rem, 8vw, 4rem);
+  }
+
+  body.nerd-mode {
+    --title-size: clamp(3rem, 10vw, 6rem);
   }
 
   .hero-subline {
@@ -122,6 +126,10 @@
     --title-size: clamp(2rem, 10vw, 3.5rem);
   }
 
+  body.nerd-mode {
+    --title-size: clamp(2.5rem, 10vw, 4rem);
+  }
+
   .about-section {
     padding: 60px 5%;
   }
@@ -201,6 +209,10 @@
     font-size: var(--text-xl);
   }
 
+  .repair-shop {
+    padding: 60px 5%;
+  }
+
   .count-number {
     font-size: 60px;
   }
@@ -217,6 +229,23 @@
 
   .hero-tag {
     font-size: 0.65rem;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .footer-links a {
+    margin-left: 0;
   }
 
   .contact-form input,

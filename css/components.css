@@ -32,8 +32,8 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
   z-index: 9999;
   background-image:
@@ -49,6 +49,7 @@
   inset: 0;
   z-index: 100000;
   pointer-events: none;
+  overflow: hidden;
   background: #fff;
   animation: glitch-flash 0.5s ease-out forwards;
 }
@@ -171,6 +172,10 @@
   padding: 0 10%;
   position: relative;
   transition: all 0.8s ease;
+}
+
+.hero-content {
+  width: 100%;
 }
 
 .main-title {
@@ -915,6 +920,9 @@
   gap: 12px;
   line-height: var(--leading-normal);
   color: var(--text-muted);
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
 }
 
 .log-list li:last-child {
@@ -1010,6 +1018,7 @@
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 1.25rem;
+  justify-content: var(--hero-tags-justify, center);
 }
 
 .hero-tag {
@@ -1017,18 +1026,22 @@
   font-size: var(--text-xs);
   letter-spacing: 0.08em;
   color: var(--text-muted);
-  border: var(--border-w) solid var(--border);
-  border-radius: var(--radius);
+  background: var(--bg-surface);
+  border: none;
+  border-radius: 100px;
   padding: 4px 14px;
-  transition: all 0.3s ease;
+  cursor: default;
+  transition: color 0.8s ease, background-color 0.8s ease;
 }
 
 .hero-tag-available {
   color: var(--accent);
-  border-color: var(--accent);
+  background: rgba(0, 113, 227, 0.1);
 }
 
 .hero-cta-row {
+  display: flex;
+  justify-content: var(--hero-tags-justify, center);
   margin-top: 1.5rem;
 }
 

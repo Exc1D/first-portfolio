@@ -20,6 +20,7 @@ body.nerd-mode {
   --speed-fast: 0.15s;
   --hero-align: flex-start;
   --hero-text-align: left;
+  --hero-tags-justify: flex-start;
   --title-transform: uppercase;
   --title-weight: 800;
   --title-size: clamp(4rem, 10vw, 9rem);
@@ -246,9 +247,16 @@ body.nerd-mode ::-webkit-scrollbar-thumb {
 /* ===== NERD MODE: HERO TAGS ===== */
 
 body.nerd-mode .hero-tag {
+  background: transparent;
+  border: var(--border-w) solid var(--border);
   border-radius: 0;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+}
+
+body.nerd-mode .hero-tag-available {
+  background: transparent;
+  border-color: var(--accent);
 }
 
 body.nerd-mode .resume-btn {

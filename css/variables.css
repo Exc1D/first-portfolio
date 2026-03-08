@@ -21,6 +21,7 @@
   --speed-fast: 0.3s;
   --hero-align: center;
   --hero-text-align: center;
+  --hero-tags-justify: center;
   --title-transform: none;
   --title-weight: 600;
   --title-size: clamp(3rem, 6vw, 5.5rem);
